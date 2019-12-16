@@ -1,0 +1,325 @@
+# C- Compilation for intermediate code
+
+***************************************
+
+1: (function, circular_queue, _, _)
+2: (get param, amount, _, _)
+3: (param list, 1, _, _)
+4: (set param, 90, _, _)
+5: (call, output, 1, T6)
+6: (return, _, _, _)
+7: (function, reset_queue, _, _)
+8: (label, L1, _, _)
+9: (less than, i, 10, T7)
+10: (jump if false, T7, L2, _)
+11: (array address, PROCESS_QUEUE, i, T8)
+12: (assign, T8, 0, _)
+13: (addition, i, 1, T9)
+14: (assign, i, T9, _)
+15: (goto, L1, _, _)
+16: (label, L2, _, _)
+17: (param list, 1, _, _)
+18: (set param, 87, _, _)
+19: (call, output, 1, T10)
+20: (return, _, _, _)
+21: (function, reset_pcs, _, _)
+22: (label, L3, _, _)
+23: (less than, i, 10, T11)
+24: (jump if false, T11, L4, _)
+25: (array address, PROC_PCS, i, T12)
+26: (assign, T12, 0, _)
+27: (addition, i, 1, T13)
+28: (assign, i, T13, _)
+29: (goto, L3, _, _)
+30: (label, L4, _, _)
+31: (param list, 1, _, _)
+32: (set param, 47, _, _)
+33: (call, output, 1, T14)
+34: (return, _, _, _)
+35: (function, process_handling, _, _)
+36: (param list, 1, _, _)
+37: (set param, 2, _, _)
+38: (call, lcd, 1, T15)
+39: (param list, 0, _, _)
+40: (call, input, 0, T16)
+41: (assign, amount, T16, _)
+42: (param list, 1, _, _)
+43: (set param, amount, _, _)
+44: (call, output, 1, T17)
+45: (assign, inqueue, 0, _)
+46: (param list, 1, _, _)
+47: (set param, 3, _, _)
+48: (call, lcd, 1, T18)
+49: (label, L5, _, _)
+50: (less than, inqueue, amount, T19)
+51: (jump if false, T19, L6, _)
+52: (param list, 0, _, _)
+53: (call, input, 0, T20)
+54: (assign, proc_ID, T20, _)
+55: (param list, 1, _, _)
+56: (set param, proc_ID, _, _)
+57: (call, output, 1, T21)
+58: (array address, PROCESS_QUEUE, inqueue, T22)
+59: (assign, T22, proc_ID, _)
+60: (array address, STATE_PROC, inqueue, T23)
+61: (assign, T23, 0, _)
+62: (addition, inqueue, 1, T24)
+63: (assign, inqueue, T24, _)
+64: (goto, L5, _, _)
+65: (label, L6, _, _)
+66: (param list, 1, _, _)
+67: (set param, amount, _, _)
+68: (call, circular_queue, 1, T25)
+69: (param list, 0, _, _)
+70: (call, reset_queue, 0, T26)
+71: (param list, 0, _, _)
+72: (call, reset_pcs, 0, T27)
+73: (return, _, _, _)
+74: (function, bash, _, _)
+75: (param list, 1, _, _)
+76: (set param, 1, _, _)
+77: (call, lcd, 1, T28)
+78: (param list, 0, _, _)
+79: (call, input, 0, T29)
+80: (assign, choice, T29, _)
+81: (param list, 1, _, _)
+82: (set param, choice, _, _)
+83: (call, output, 1, T30)
+84: (equal, choice, 1, T31)
+85: (jump if false, T31, L7, _)
+86: (param list, 0, _, _)
+87: (call, process_handling, 0, T32)
+88: (label, L7, _, _)
+89: (return, _, _, _)
+90: (function, init_os, _, _)
+91: (assign, i, 0, _)
+92: (assign, MAX_PROCESS, 10, _)
+93: (assign, MEM_SIZE, 2096, _)
+94: (array address, FILE_MAX_SIZES, 1, T33)
+95: (assign, FILE_MAX_SIZES, 0, 1)
+96: (array address, FILE_MAX_SIZES, 2, T34)
+97: (assign, FILE_MAX_SIZES, 0, 2)
+98: (array address, FILE_MAX_SIZES, 3, T35)
+99: (assign, FILE_MAX_SIZES, 0, 3)
+100: (label, L8, _, _)
+101: (less than, i, 10, T36)
+102: (jump if false, T36, L9, _)
+103: (array address, PROCESS_QUEUE, i, T37)
+104: (assign, T37, 0, _)
+105: (array address, STATE_PROC, i, T38)
+106: (assign, T38, 0, _)
+107: (array address, PROC_PCS, i, T39)
+108: (assign, T39, 0, _)
+109: (array address, FILE_ID, i, T40)
+110: (assign, T40, i, _)
+111: (addition, i, 1, T41)
+112: (assign, i, T41, _)
+113: (goto, L8, _, _)
+114: (label, L9, _, _)
+115: (return, _, _, _)
+116: (function, main, _, _)
+117: (param list, 1, _, _)
+118: (set param, 0, _, _)
+119: (call, lcd, 1, T42)
+120: (param list, 0, _, _)
+121: (call, input, 0, T43)
+122: (assign, BASH_STOP, T43, _)
+123: (label, L10, _, _)
+124: (less than, 1, 2, T44)
+125: (jump if false, T44, L11, _)
+126: (param list, 0, _, _)
+127: (call, bash, 0, T45)
+128: (goto, L10, _, _)
+129: (label, L11, _, _)
+
+////////////Codigo Objeto////////////
+
+circular_queue:
+    0:	addi	$sp, $sp, 3
+        1:	sw	$a0, 0($sp)
+        2:	li	$a0, 90
+        3:	out	$a0
+        4:	jr	$ra
+    
+reset_queue:
+    5:	addi	$sp, $sp, 3
+    .L1	
+    6:	lw	$s0, 0($sp)
+        7:	li	$t0, 10
+        8:	lt	$t1, $s0, $t0
+        9:	beq	$t1, $rzero, L2
+        10:	la	$s1, 2($gp)
+        11:	add	$t2, $s1, $s0
+        12:	li	$t3, 0
+        13:	sw	$t3, 0($t2)
+        14:	addi	$t4, $s0, 1
+        15:	sw	$t4, 0($sp)
+        16:	lw	$s0, 0($sp)
+        17:	j	L1
+    .L2	
+    18:	li	$a0, 87
+        19:	out	$a0
+        20:	jr	$ra
+    
+reset_pcs:
+    21:	addi	$sp, $sp, 3
+    .L3	
+    22:	lw	$s0, 0($sp)
+        23:	li	$t0, 10
+        24:	lt	$t1, $s0, $t0
+        25:	beq	$t1, $rzero, L4
+        26:	la	$s1, 32($gp)
+        27:	add	$t2, $s1, $s0
+        28:	li	$t3, 0
+        29:	sw	$t3, 0($t2)
+        30:	addi	$t4, $s0, 1
+        31:	sw	$t4, 0($sp)
+        32:	lw	$s0, 0($sp)
+        33:	j	L3
+    .L4	
+    34:	li	$a0, 47
+        35:	out	$a0
+        36:	jr	$ra
+    
+process_handling:
+    37:	addi	$sp, $sp, 5
+        38:	li	$a0, 2
+        39:	lcd	$a0
+        40:	nop	
+        41:	in	$t0
+        42:	sw	$t0, -2($sp)
+        43:	lw	$s0, -2($sp)
+        44:	mov	$a0, $s0
+        45:	out	$a0
+        46:	li	$t1, 0
+        47:	sw	$t1, -1($sp)
+        48:	li	$a0, 3
+        49:	lcd	$a0
+    .L5	
+    50:	lw	$s0, -1($sp)
+        51:	lw	$s1, -2($sp)
+        52:	lt	$t2, $s0, $s1
+        53:	beq	$t2, $rzero, L6
+        54:	nop	
+        55:	in	$t3
+        56:	sw	$t3, 0($sp)
+        57:	lw	$s2, 0($sp)
+        58:	mov	$a0, $s2
+        59:	out	$a0
+        60:	la	$s3, 2($gp)
+        61:	add	$t4, $s3, $s0
+        62:	sw	$s2, 0($t4)
+        63:	la	$s4, 42($gp)
+        64:	add	$t5, $s4, $s0
+        65:	li	$t6, 0
+        66:	sw	$t6, 0($t5)
+        67:	addi	$t7, $s0, 1
+        68:	sw	$t7, -1($sp)
+        69:	lw	$s0, -1($sp)
+        70:	j	L5
+    .L6	
+    71:	lw	$s0, -2($sp)
+        72:	mov	$a0, $s0
+        73:	sw	$ra, -3($sp)
+        74:	jal	circular_queue
+        75:	subi	$sp, $sp, 3
+        76:	lw	$ra, -3($sp)
+        77:	mov	$s0, $v0
+        78:	sw	$ra, -3($sp)
+        79:	jal	reset_queue
+        80:	subi	$sp, $sp, 3
+        81:	lw	$ra, -3($sp)
+        82:	mov	$s0, $v0
+        83:	sw	$ra, -3($sp)
+        84:	jal	reset_pcs
+        85:	subi	$sp, $sp, 3
+        86:	lw	$ra, -3($sp)
+        87:	mov	$s0, $v0
+        88:	jr	$ra
+    
+bash:
+    89:	addi	$sp, $sp, 3
+        90:	li	$a0, 1
+        91:	lcd	$a0
+        92:	nop	
+        93:	in	$t0
+        94:	sw	$t0, 0($sp)
+        95:	lw	$s0, 0($sp)
+        96:	mov	$a0, $s0
+        97:	out	$a0
+        98:	li	$t1, 1
+        99:	eq	$t2, $s0, $t1
+        100:	beq	$t2, $rzero, L7
+        101:	sw	$ra, -1($sp)
+        102:	jal	process_handling
+        103:	subi	$sp, $sp, 5
+        104:	lw	$ra, -1($sp)
+        105:	mov	$s0, $v0
+    .L7	
+    106:	jr	$ra
+    
+init_os:
+    107:	addi	$sp, $sp, 3
+        108:	li	$t0, 0
+        109:	sw	$t0, 0($sp)
+        110:	li	$t1, 10
+        111:	sw	$t1, 0($gp)
+        112:	li	$t2, 2096
+        113:	sw	$t2, 1($gp)
+        114:	la	$s0, 22($gp)
+        115:	li	$t3, 0
+        116:	sw	$t3, 1($s0)
+        117:	li	$t4, 0
+        118:	sw	$t4, 2($s0)
+        119:	li	$t5, 0
+        120:	sw	$t5, 3($s0)
+    .L8	
+    121:	lw	$s0, 0($sp)
+        122:	li	$t6, 10
+        123:	lt	$t7, $s0, $t6
+        124:	beq	$t7, $rzero, L9
+        125:	la	$s1, 2($gp)
+        126:	add	$t8, $s1, $s0
+        127:	li	$t9, 0
+        128:	sw	$t9, 0($t8)
+        129:	la	$s2, 42($gp)
+        130:	add	$t0, $s2, $s0
+        131:	li	$t1, 0
+        132:	sw	$t1, 0($t0)
+        133:	la	$s3, 32($gp)
+        134:	add	$t2, $s3, $s0
+        135:	li	$t3, 0
+        136:	sw	$t3, 0($t2)
+        137:	la	$s4, 12($gp)
+        138:	add	$t4, $s4, $s0
+        139:	sw	$s0, 0($t4)
+        140:	addi	$t5, $s0, 1
+        141:	sw	$t5, 0($sp)
+        142:	lw	$s0, 0($sp)
+        143:	j	L8
+    .L9	
+    144:	jr	$ra
+    
+main:
+    145:	addi	$sp, $gp, 1
+        146:	addi	$sp, $sp, 54
+        147:	li	$a0, 0
+        148:	lcd	$a0
+        149:	nop	
+        150:	in	$t0
+        151:	sw	$t0, 52($gp)
+    .L10	
+    152:	li	$t1, 1
+        153:	li	$t2, 2
+        154:	lt	$t3, $t1, $t2
+        155:	beq	$t3, $rzero, L11
+        156:	sw	$ra, 0($sp)
+        157:	jal	bash
+        158:	subi	$sp, $sp, 3
+        159:	lw	$ra, 0($sp)
+        160:	mov	$s0, $v0
+        161:	j	L10
+    .L11	
+    162:	subi	$sp, $sp, 1
+        163:	hlt	
+    

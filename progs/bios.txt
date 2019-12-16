@@ -1,0 +1,81 @@
+# C- Compilation for intermediate code
+
+***************************************
+
+1: (function, main, _, _)
+2: (assign, index, 0, _)
+3: (param list, 1, _, _)
+4: (set param, index, _, _)
+5: (call, lhd, 1, T1)
+6: (assign, instruction, T1, _)
+7: (label, L1, _, _)
+8: (not equal, index, 256, T2)
+9: (jump if false, T2, L2, _)
+10: (param list, 2, _, _)
+11: (set param, instruction, _, _)
+12: (set param, index, _, _)
+13: (call, smem, 2, T3)
+14: (addition, index, 1, T4)
+15: (assign, index, T4, _)
+16: (param list, 1, _, _)
+17: (set param, index, _, _)
+18: (call, lhd, 1, T5)
+19: (assign, instruction, T5, _)
+20: (goto, L1, _, _)
+21: (label, L2, _, _)
+22: (param list, 2, _, _)
+23: (set param, instruction, _, _)
+24: (set param, index, _, _)
+25: (call, smem, 2, T6)
+26: (param list, 1, _, _)
+27: (set param, 8, _, _)
+28: (call, lcd, 1, T7)
+29: (param list, 1, _, _)
+30: (set param, index, _, _)
+31: (call, output, 1, T8)
+32: (param list, 1, _, _)
+33: (set param, 99, _, _)
+34: (call, output, 1, T9)
+
+////////////Codigo Objeto////////////
+
+main:
+    0:	addi	$sp, $sp, 3
+        1:	li	$t0, 0
+        2:	sw	$t0, -1($sp)
+        3:	lw	$s0, -1($sp)
+        4:	mov	$a0, $s0
+        5:	lhd	$t1, $a0
+        6:	sw	$t1, 0($sp)
+    .L1	
+    7:	lw	$s0, -1($sp)
+        8:	li	$t2, 256
+        9:	neq	$t3, $s0, $t2
+        10:	beq	$t3, $rzero, L2
+        11:	lw	$s1, 0($sp)
+        12:	mov	$a0, $s1
+        13:	mov	$a1, $s0
+        14:	smem	$a0, $a1
+        15:	addi	$t4, $s0, 1
+        16:	sw	$t4, -1($sp)
+        17:	lw	$s0, -1($sp)
+        18:	mov	$a0, $s0
+        19:	lhd	$t5, $a0
+        20:	sw	$t5, 0($sp)
+        21:	lw	$s1, 0($sp)
+        22:	j	L1
+    .L2	
+    23:	lw	$s0, 0($sp)
+        24:	mov	$a0, $s0
+        25:	lw	$s1, -1($sp)
+        26:	mov	$a1, $s1
+        27:	smem	$a0, $a1
+        28:	li	$a0, 8
+        29:	lcd	$a0
+        30:	mov	$a0, $s1
+        31:	out	$a0
+        32:	li	$a0, 99
+        33:	out	$a0
+        34:	subi	$sp, $sp, 3
+        35:	hlt	
+    

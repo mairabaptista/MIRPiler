@@ -1,0 +1,9 @@
+Para criar nova syscall:
+    - adicionar em cminus.y
+    - adicionar em globals.h 
+    - adicionar em util.c 
+        * copySysKind
+        * toOpcode
+        * toBinaryOpcode
+    - adicionar em target.h
+    - adicionar em target.c

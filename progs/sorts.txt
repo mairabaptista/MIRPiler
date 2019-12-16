@@ -1,0 +1,217 @@
+# C- Compilation for intermediate code
+
+***************************************
+
+1: (function, minloc, _, _)
+2: (get param, a, _, _)
+3: (get param, low, _, _)
+4: (get param, high, _, _)
+5: (assign, k, low, _)
+6: (array value, a, low, T2)
+7: (assign, x, T2, _)
+8: (addition, low, 1, T3)
+9: (assign, i, T3, _)
+10: (label, L1, _, _)
+11: (less than, i, high, T4)
+12: (jump if false, T4, L3, _)
+13: (array value, a, i, T5)
+14: (less than, T5, x, T6)
+15: (jump if false, T6, L2, _)
+16: (array value, a, i, T7)
+17: (assign, x, T7, _)
+18: (assign, k, i, _)
+19: (label, L2, _, _)
+20: (addition, i, 1, T8)
+21: (assign, i, T8, _)
+22: (goto, L1, _, _)
+23: (label, L3, _, _)
+24: (return, k, _, _)
+25: (function, sort, _, _)
+26: (get param, a, _, _)
+27: (get param, low, _, _)
+28: (get param, high, _, _)
+29: (assign, i, low, _)
+30: (label, L4, _, _)
+31: (subtraction, high, 1, T9)
+32: (less than, i, T9, T10)
+33: (jump if false, T10, L5, _)
+34: (param list, 3, _, _)
+35: (set param, a, _, _)
+36: (set param, i, _, _)
+37: (set param, high, _, _)
+38: (call, minloc, 3, T11)
+39: (assign, k, T11, _)
+40: (array value, a, k, T12)
+41: (assign, t, T12, _)
+42: (array value, a, i, T13)
+43: (array address, a, k, T14)
+44: (assign, T14, T13, _)
+45: (array address, a, i, T15)
+46: (assign, T15, t, _)
+47: (addition, i, 1, T16)
+48: (assign, i, T16, _)
+49: (goto, L4, _, _)
+50: (label, L5, _, _)
+51: (return, _, _, _)
+52: (function, main, _, _)
+53: (assign, i, 0, _)
+54: (label, L6, _, _)
+55: (less than, i, 10, T17)
+56: (jump if false, T17, L7, _)
+57: (param list, 0, _, _)
+58: (call, input, 0, T18)
+59: (array address, vet, i, T19)
+60: (assign, T19, T18, _)
+61: (addition, i, 1, T20)
+62: (assign, i, T20, _)
+63: (goto, L6, _, _)
+64: (label, L7, _, _)
+65: (param list, 3, _, _)
+66: (set param, vet, _, _)
+67: (set param, 0, _, _)
+68: (set param, 10, _, _)
+69: (call, sort, 3, T21)
+70: (assign, i, 0, _)
+71: (label, L8, _, _)
+72: (less than, i, 10, T22)
+73: (jump if false, T22, L9, _)
+74: (param list, 1, _, _)
+75: (array value, vet, i, T23)
+76: (set param, T23, _, _)
+77: (call, output, 1, T24)
+78: (addition, i, 1, T25)
+79: (assign, i, T25, _)
+80: (goto, L8, _, _)
+81: (label, L9, _, _)
+
+////////////Codigo Objeto////////////
+
+minloc:
+    0:	addi	$sp, $sp, 8
+    1:	sw	$a0, -5($sp)
+    2:	sw	$a1, -4($sp)
+    3:	sw	$a2, -3($sp)
+    4:	lw	$s0, -4($sp)
+    5:	sw	$s0, 0($sp)
+    6:	lw	$s1, -5($sp)
+    7:	add	$t0, $s1, $s0
+    8:	lw	$t0, 0($t0)
+    9:	sw	$t0, -1($sp)
+    10:	addi	$t1, $s0, 1
+    11:	sw	$t1, -2($sp)
+.L1	
+    12:	lw	$s0, -2($sp)
+    13:	lw	$s1, -3($sp)
+    14:	lt	$t2, $s0, $s1
+    15:	bneq	$t2, $rzero, L3
+    16:	lw	$s2, -5($sp)
+    17:	add	$t3, $s2, $s0
+    18:	lw	$t3, 0($t3)
+    19:	lw	$s3, -1($sp)
+    20:	lt	$t4, $t3, $s3
+    21:	bneq	$t4, $rzero, L2
+    22:	add	$t5, $s2, $s0
+    23:	lw	$t5, 0($t5)
+    24:	sw	$t5, -1($sp)
+    25:	lw	$s3, -1($sp)
+    26:	sw	$s0, 0($sp)
+.L2	
+    27:	lw	$s0, -2($sp)
+    28:	addi	$t6, $s0, 1
+    29:	sw	$t6, -2($sp)
+    30:	lw	$s0, -2($sp)
+    31:	j	L1
+.L3	
+    32:	lw	$s0, 0($sp)
+    33:	mov	$v0, $s0
+    34:	jr	$ra
+
+sort:
+    35:	addi	$sp, $sp, 8
+    36:	sw	$a0, -5($sp)
+    37:	sw	$a1, -4($sp)
+    38:	sw	$a2, -3($sp)
+    39:	lw	$s0, -4($sp)
+    40:	sw	$s0, -2($sp)
+.L4	
+    41:	lw	$s0, -3($sp)
+    42:	subi	$t0, $s0, 1
+    43:	lw	$s1, -2($sp)
+    44:	lt	$t1, $s1, $t0
+    45:	bneq	$t1, $rzero, L5
+    46:	la	$a0, -5($sp)
+    47:	mov	$a1, $s1
+    48:	mov	$a2, $s0
+    49:	sw	$ra, -6($sp)
+    50:	jal	minloc
+    51:	subi	$sp, $sp, 8
+    52:	lw	$ra, -6($sp)
+    53:	mov	$s0, $v0
+    54:	sw	$s0, -1($sp)
+    55:	lw	$s1, -5($sp)
+    56:	lw	$s2, -1($sp)
+    57:	add	$t2, $s1, $s2
+    58:	lw	$t2, 0($t2)
+    59:	sw	$t2, 0($sp)
+    60:	lw	$s3, -2($sp)
+    61:	add	$t3, $s1, $s3
+    62:	lw	$t3, 0($t3)
+    63:	add	$t4, $s1, $s2
+    64:	sw	$t3, 0($t4)
+    65:	add	$t5, $s1, $s3
+    66:	lw	$s4, 0($sp)
+    67:	sw	$s4, 0($t5)
+    68:	addi	$t6, $s3, 1
+    69:	sw	$t6, -2($sp)
+    70:	lw	$s3, -2($sp)
+    71:	j	L4
+.L5	
+    72:	jr	$ra
+
+main:
+    73:	addi	$sp, $gp, 10
+    74:	addi	$sp, $sp, 12
+    75:	li	$t0, 0
+    76:	sw	$t0, 0($sp)
+.L6	
+    77:	lw	$s0, 0($sp)
+    78:	li	$t1, 10
+    79:	lt	$t2, $s0, $t1
+    80:	bneq	$t2, $rzero, L7
+    81:	nop	
+    82:	in	$t3
+    83:	la	$s1, -9($gp)
+    84:	add	$t4, $s1, $s0
+    85:	sw	$t3, 0($t4)
+    86:	addi	$t5, $s0, 1
+    87:	sw	$t5, 0($sp)
+    88:	lw	$s0, 0($sp)
+    89:	j	L6
+.L7	
+    90:	la	$a0, -9($gp)
+    91:	li	$a1, 0
+    92:	li	$a2, 10
+    93:	sw	$ra, -1($sp)
+    94:	jal	sort
+    95:	subi	$sp, $sp, 8
+    96:	lw	$ra, -1($sp)
+    97:	mov	$s0, $v0
+    98:	li	$t6, 0
+    99:	sw	$t6, 0($sp)
+.L8	
+    100:	lw	$s0, 0($sp)
+    101:	li	$t7, 10
+    102:	lt	$t8, $s0, $t7
+    103:	bneq	$t8, $rzero, L9
+    104:	la	$s1, -9($gp)
+    105:	add	$t9, $s1, $s0
+    106:	lw	$t9, 0($t9)
+    107:	mov	$a0, $t9
+    108:	out	$a0
+    109:	addi	$t0, $s0, 1
+    110:	sw	$t0, 0($sp)
+    111:	lw	$s0, 0($sp)
+    112:	j	L8
+.L9	
+    113:	subi	$sp, $sp, 2
+    114:	hlt	

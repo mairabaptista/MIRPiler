@@ -1,0 +1,873 @@
+/****************************************************/
+/* File: cgen.c                                     */
+/* The code generator implementation                */
+/* for the TINY compiler                            */
+/* (generates code for the TM machine)              */
+/* Compiler Construction: Principles and Practice   */
+/* Kenneth C. Louden                                */
+/****************************************************/
+
+#include "globals.h"
+#include "symtab.h"
+#include "cgen.h"
+#include "util.h"
+
+/* number of arguments
+ * of current function call to be inserted
+ * in the intermediate code instruction list
+ */
+ParamStack paramHead = NULL;
+
+//Head of quadruple list
+Quadruple head = NULL;
+
+//top of location stack
+LocationStack locationHead = NULL;
+
+Operand operandoAtual;
+
+InstructionKind instrucaoAtual;
+
+///when to return array address
+Quadruple ultimaQuadrupla;
+
+static int temporario = 1;
+static int label = 1;
+static int linha = 0;
+static char tempString[20];
+
+/* Protótipo para o gerador de código interno recursivo */
+static void cGen (TreeNode * tree);
+
+static char * createTemporaryOperandName() {
+    char * temp = (char *) malloc(5);
+    sprintf(temp, "T%d", temporario);
+    ++temporario;
+    return temp;
+}
+
+/* Procedure genStmt generates code at a statement node */
+static void genStmt(TreeNode * tree) {
+    
+    Quadruple * q;
+
+    Quadruple quadIf = (Quadruple) malloc(sizeof(struct Quad));
+    Quadruple quadEndIf = (Quadruple) malloc(sizeof(struct Quad));
+    Quadruple quadEndIf2 = (Quadruple) malloc(sizeof(struct Quad));
+    Quadruple quadElse = (Quadruple) malloc(sizeof(struct Quad));
+    Quadruple quadIteration = (Quadruple) malloc(sizeof(struct Quad));
+    Quadruple quadIteration2 = (Quadruple) malloc(sizeof(struct Quad));
+    Quadruple quadIteration3 = (Quadruple) malloc(sizeof(struct Quad));
+    Quadruple quadIteration4 = (Quadruple) malloc(sizeof(struct Quad));
+    Quadruple quadReturn = (Quadruple) malloc(sizeof(struct Quad));
+
+    Operand op1, op2, op3;
+    TreeNode * p1, * p2, * p3;
+    p1 = tree->child[0];
+    p2 = tree->child[1];
+    p3 = tree->child[2];
+
+    switch (tree->kind.stmt) {
+        case Integer:
+            cGen(p1);
+            break; 
+
+        case Void:
+            cGen(p1);
+            break; 
+
+        case If:
+            //IF OPAREN expression CPAREN statement 
+            //generates expression
+            cGen(p1);
+            //sets as first operand
+            op1 = operandoAtual;
+            instrucaoAtual = JPF;
+
+            //new quadruple entry
+            quadIf->instruction = JPF;
+            quadIf->op1 = op1;
+            quadIf->op2 = NULL;
+            quadIf->op3 = NULL;
+            quadIf->linha = ++linha;
+            quadIf->next = NULL;
+            q = insertQuad(quadIf);
+
+            //saves location to the end of if block
+            LocationStack locale = (LocationStack) malloc(sizeof(struct Location));
+            locale->quad = q;
+            locale->next = NULL;
+            if(locationHead == NULL){
+                locationHead = locale;
+                locationHead->next = NULL;
+            }
+            else{
+                locale->next = locationHead;
+                locationHead = locale;
+            }
+
+            //generates statement
+            cGen(p2);
+            //set second operand
+            op2 = (Operand) malloc(sizeof(struct operand));
+            op2->kind = String;
+
+            //create label
+            char *auxlabel = (char *) malloc(5);
+            auxlabel = itoa(label, auxlabel, 10);
+            char * L = (char *) malloc(strlen(auxlabel) + 1);
+            strcpy(L, "L");
+            strcat(L, auxlabel);
+            op2->contents.variable.name = L;
+            label++;
+            
+            op2->contents.variable.scope = tree->kind.decl.scope;
+
+            //updates locaion
+            Quadruple aux = *locationHead->quad;
+            aux->op2 = op2;
+            *locationHead->quad = aux;
+
+            //frees location stack
+            if(locationHead != NULL){
+                LocationStack aux = locationHead;
+                locationHead = locationHead->next;
+                free(aux);
+                aux = NULL;
+            }
+
+            if(p3 != NULL) { 
+                //if not null, we have else
+                //we then need a goto to the end of the if block
+                //new qaudruple entry
+                quadElse->instruction = GOTO;
+                quadElse->op1 = NULL;
+                quadElse->op2 = NULL;
+                quadElse->op3 = NULL;
+                quadElse->linha = ++linha;
+                quadElse->next = NULL;
+                q = insertQuad(quadElse);
+
+                //saves location to the ed of if block
+                LocationStack locale = (LocationStack) malloc(sizeof(struct Location));
+                locale->quad = q;
+                locale->next = NULL;
+                if(locationHead == NULL){
+                    locationHead = locale;
+                    locationHead->next = NULL;
+                }
+                else{
+                    locale->next = locationHead;
+                    locationHead = locale;
+                }
+            }
+
+            //labels the end of if block
+            quadEndIf->instruction = LBL;
+            quadEndIf->op1 = op2;
+            quadEndIf->op2 = NULL;
+            quadEndIf->op3 = NULL;
+            quadEndIf->linha = ++linha;
+            quadEndIf->next = NULL;
+            insertQuad(quadEndIf);
+
+            cGen(p3);
+
+            if(p3 != NULL) { //IF OPAREN expression CPAREN statement ELSE statement
+                op1 = (Operand) malloc(sizeof(struct operand));
+                op1->kind = String;
+                //create label
+                char *auxlabel2 = (char *) malloc(5);
+                auxlabel2 = itoa(label, auxlabel2, 10);
+                char * L2 = (char *) malloc(strlen(auxlabel2) + 1);
+                strcpy(L2, "L");
+                strcat(L2, auxlabel2);
+                op1->contents.variable.name = L2;
+                label++;
+
+                op1->contents.variable.scope = tree->kind.decl.scope;
+                //updates location
+                Quadruple aux = *locationHead->quad;
+                aux->op1 = op1;
+                *locationHead->quad = aux;
+                //frees location
+                if(locationHead != NULL){
+                    LocationStack aux = locationHead;
+                    locationHead = locationHead->next;
+                    free(aux);
+                    aux = NULL;
+                }
+
+                //labels the end of else block
+                quadEndIf2->instruction = LBL;
+                quadEndIf2->op1 = op1;
+                quadEndIf2->op2 = NULL;
+                quadEndIf2->op3 = NULL;
+                quadEndIf2->linha = ++linha;
+                quadEndIf2->next = NULL;
+                insertQuad(quadEndIf2);
+            }
+            break; 
+
+        case Iteration: //WHILE OPAREN expression CPAREN statement 
+            op1 = (Operand) malloc(sizeof(struct operand));
+            op1->kind = String;
+            //create label
+            char *auxlabel3 = (char *) malloc(5);
+            auxlabel3 = itoa(label, auxlabel3, 10);
+            char * L3 = (char *) malloc(strlen(auxlabel3) + 1);
+            strcpy(L3, "L");
+            strcat(L3, auxlabel3);
+            op1->contents.variable.name = L3;
+            label++;
+            
+            op1->contents.variable.scope = tree->kind.decl.scope;
+
+            //sets a label to the beginning of the while block        
+            quadIteration->instruction = LBL;
+            quadIteration->op1 = op1;
+            quadIteration->op2 = NULL;
+            quadIteration->op3 = NULL;
+            quadIteration->linha = ++linha;
+            quadIteration->next = NULL;
+            insertQuad(quadIteration);
+
+            //generates expression
+            cGen(p1);
+            // set as first operand 
+            op2 = operandoAtual;            
+            instrucaoAtual = JPF;
+            
+            //new quadruple entry
+            quadIteration2->instruction = JPF;
+            quadIteration2->op1 = op2;
+            quadIteration2->op2 = NULL;
+            quadIteration2->op3 = NULL;
+            quadIteration2->linha = ++linha;
+            quadIteration2->next = NULL;
+            q = insertQuad(quadIteration2);
+
+            //saves location to update the label that represents end of while
+            LocationStack locale2 = (LocationStack) malloc(sizeof(struct Location));
+            locale2->quad = q;
+            locale2->next = NULL;
+            if(locationHead == NULL){
+                locationHead = locale2;
+                locationHead->next = NULL;
+            }
+            else{
+                locale->next = locationHead;
+                locationHead = locale2;
+            }
+
+            //generates statement
+            cGen(p2);
+            
+            instrucaoAtual = GOTO;
+            //we need a goto to go back to the beginning of the while
+            quadIteration3->instruction = GOTO;
+            quadIteration3->op1 = op1;
+            quadIteration3->op2 = NULL;
+            quadIteration3->op3 = NULL;
+            quadIteration3->linha = ++linha;
+            quadIteration3->next = NULL;
+            insertQuad(quadIteration3);
+
+            op3 = (Operand) malloc(sizeof(struct operand));
+            op3->kind = String;
+            //create label
+            char *auxlabel4 = (char *) malloc(5);
+            auxlabel4 = itoa(label, auxlabel4, 10);
+            char * L4 = (char *) malloc(strlen(auxlabel4) + 1);
+            strcpy(L4, "L");
+            strcat(L4, auxlabel4);
+            op3->contents.variable.name = L4;
+            label++;
+
+            op3->contents.variable.scope = tree->kind.decl.scope;
+            //we create a label to jump to if while condition is false
+            quadIteration4->instruction = LBL;
+            quadIteration4->op1 = op3;
+            quadIteration4->op2 = NULL;
+            quadIteration4->op3 = NULL;
+            quadIteration4->linha = ++linha;
+            quadIteration4->next = NULL;
+            insertQuad(quadIteration4);
+
+            //updates location
+            Quadruple aux2 = *locationHead->quad;
+            aux2->op2 = op3;
+            *locationHead->quad = aux2;
+            
+            //frees location         
+            if(locationHead != NULL){
+                LocationStack aux2 = locationHead;
+                locationHead = locationHead->next;
+                free(aux2);
+                aux2 = NULL;
+            }
+            break; 
+
+        case Return: // RETURN SEMI | RETURN expression SEMI
+            //generates expression
+            cGen(p1);
+            if(p1) {
+                //sets as first operand
+                op1 = operandoAtual;
+            } else {
+                op1 = NULL;
+            }
+            
+            instrucaoAtual = RTN;
+            //new quadruple representation
+            quadReturn->instruction = RTN;
+            quadReturn->op1 = op1;
+            quadReturn->op2 = NULL;
+            quadReturn->op3 = NULL;
+            quadReturn->linha = ++linha;
+            quadReturn->next = NULL;
+            insertQuad(quadReturn);
+            break; 
+
+        case Compound: //OCURLY local_declarations statement_list CCURLY
+            //no need to add intermediate code here
+            if(p1) { 
+                //generates local_declarations
+                cGen(p1);
+            }
+            else if(p2) { 
+                //generates statement_list
+                cGen(p2);
+            }
+            break; 
+    }
+} /* genStmt */
+
+/* Procedure genExp generates code at an expression node */
+static void genExp(TreeNode * tree) {
+    TreeNode * p1, * p2;
+    Operand op1, op2, op3;
+
+    p1 = tree->child[0];
+    p2 = tree->child[1];
+
+    Quadruple quadAssign = (Quadruple) malloc(sizeof(struct Quad));
+    Quadruple quadRelop = (Quadruple) malloc(sizeof(struct Quad));
+    Quadruple quadArtith = (Quadruple) malloc(sizeof(struct Quad));
+
+    switch (tree->kind.exp) {
+        case Assign:    //var assigment_operator expression
+            //generates expression
+            cGen(p2);
+            //sets as second operand
+            op2 = operandoAtual;
+            //generats var
+            cGen(p1);
+            //sets as first oprand
+            op1 = operandoAtual;
+            op3 = NULL;
+
+            //if we`re assigning an array, we store the variable`s memory position
+            if(p1->nodekind == Decl && p1->kind.decl.declkind == Array) {
+                ultimaQuadrupla->instruction = VEC_ADDR;
+                //if index is a number, add offset as third operand
+                if(ultimaQuadrupla->op2->kind == IntConst) {
+                    op3 = (Operand) malloc(sizeof(struct operand));
+                    op3->kind = IntConst;
+                    op3->contents.val = ultimaQuadrupla->op2->contents.val;
+                    op1 = ultimaQuadrupla->op1;
+                }
+            }
+            
+            instrucaoAtual = ASN;
+            //new quadruple entry
+            quadAssign->instruction = ASN;
+            quadAssign->op1 = op1;
+            quadAssign->op2 = op2;
+            quadAssign->op3 = op3;
+            quadAssign->linha = ++linha;
+            quadAssign->next = NULL;
+            insertQuad(quadAssign);
+            break; 
+
+        case Relop: //additive_expression relop additive_expression
+            //generates additive_expression
+            cGen(p1);
+            //sets as first operand
+            op1 = operandoAtual;
+            //generates additive_expression
+            cGen(p2);
+            //sets as first operand
+            op2 = operandoAtual;
+            switch (tree->op) { //chooses instrucion type
+                case EQ:
+                    instrucaoAtual = EQUAL;
+                    break;
+                case NEQ:
+                    instrucaoAtual = NE;
+                    break;
+                case LT:
+                    instrucaoAtual = LST;
+                    break;
+                case LE:
+                    instrucaoAtual = LET;
+                    break;
+                case GT:
+                    instrucaoAtual = GRT;
+                    break;
+                case GE:
+                    instrucaoAtual = GET;
+                    break;
+            }
+            //wee need a temporary for this operation
+            operandoAtual = (Operand) malloc(sizeof(struct operand));
+            operandoAtual->kind = String;
+            operandoAtual->contents.variable.scope = NULL;
+            operandoAtual->contents.variable.name = createTemporaryOperandName();
+
+            //new quadruple entry
+            quadRelop->instruction = instrucaoAtual;
+            quadRelop->op1 = op1;
+            quadRelop->op2 = op2;
+            quadRelop->op3 = operandoAtual;
+            quadRelop->linha = ++linha;
+            quadRelop->next = NULL;
+            insertQuad(quadRelop);
+            break; 
+
+        case Arith: //additive_expression addop term
+            //generates additive_expression
+            cGen(p1);
+            //sets as first operand
+            op1 = operandoAtual;
+            //generates term
+            cGen(p2);
+            //sets as second operand
+            op2 = operandoAtual;
+            switch (tree->op) { //chooses instruction type
+                case PLUS:
+                    instrucaoAtual = ADD;
+                    break;
+                case MINUS:
+                    instrucaoAtual = SUB;
+                    break;
+                case MULT:
+                    instrucaoAtual = TIMES;
+                    break;
+                case DIV:
+                    instrucaoAtual = OVER;
+                    break;
+            }
+            //we need a temporary for this operaion
+            operandoAtual = (Operand) malloc(sizeof(struct operand));
+            operandoAtual->kind = String;
+            operandoAtual->contents.variable.scope = NULL;
+            operandoAtual->contents.variable.name = createTemporaryOperandName();
+            //new quadruple entry
+            quadArtith->instruction = instrucaoAtual;
+            quadArtith->op1 = op1;
+            quadArtith->op2 = op2;
+            quadArtith->op3 = operandoAtual;
+            quadArtith->linha = ++linha;
+            quadArtith->next = NULL;
+            insertQuad(quadArtith);
+            break; 
+    }
+} /* genExp */
+
+static void genVar(TreeNode * tree) {
+    Quadruple q;
+    TreeNode * p1, * p2;
+    Operand op1, op2, op3;
+
+    Quadruple * m;
+
+    p1 = tree->child[0];
+    p2 = tree->child[1];
+
+    Quadruple quadArray = (Quadruple) malloc(sizeof(struct Quad));
+    Quadruple quadFunction = (Quadruple) malloc(sizeof(struct Quad));
+    Quadruple quadParam = (Quadruple) malloc(sizeof(struct Quad));
+    Quadruple quadCall = (Quadruple) malloc(sizeof(struct Quad));
+    Quadruple quadCall2 = (Quadruple) malloc(sizeof(struct Quad));
+    Quadruple quadCall3 = (Quadruple) malloc(sizeof(struct Quad));
+
+    int qtdParams, offset, display = -1;
+    switch (tree->kind.decl.declkind) {
+        case Const: //NUM
+            operandoAtual = (Operand) malloc(sizeof(struct operand));
+            operandoAtual->kind = IntConst;
+            operandoAtual->contents.val = tree->kind.decl.value;
+            break; 
+
+        case Id: //ID
+            operandoAtual = (Operand) malloc(sizeof(struct operand));
+            operandoAtual->kind = String;
+            operandoAtual->contents.variable.name = tree->kind.decl.name;
+            operandoAtual->contents.variable.scope = tree->kind.decl.scope;
+            break; 
+
+        case Array:
+            p1 = tree->child[0];
+            //currentoperand is now array if, sets as op1
+            operandoAtual = (Operand) malloc(sizeof(struct operand));
+            operandoAtual->kind = String;
+            operandoAtual->contents.variable.name = tree->kind.decl.name;
+            operandoAtual->contents.variable.scope = tree->kind.decl.scope;
+            op1 = operandoAtual;
+            //generates array position
+            cGen(p1);
+            //array index
+            op2 = operandoAtual;
+
+            instrucaoAtual = VEC;
+            //we need a temporary for this operation
+            op3 = (Operand) malloc(sizeof(struct operand));
+            op3->kind = String;
+            op3->contents.variable.scope = NULL;
+            op3->contents.variable.name = createTemporaryOperandName();
+
+            operandoAtual = op3;
+            //if we are accessing and not declaring, add a new quadruple entry
+            if(tree->kind.decl.access == Access) {
+                //stores last instruction so we can access array address
+                quadArray->instruction = VEC;
+                quadArray->op1 = op1;
+                quadArray->op2 = op2;
+                quadArray->op3 = op3;
+                quadArray->linha = ++linha;
+                quadArray->next = NULL;
+                ultimaQuadrupla = quadArray;
+                insertQuad(ultimaQuadrupla);
+            }
+            break; 
+
+        case Function:
+            //checks if we have a return, if not, we had one
+            verificaFimInstrucaoAnterior();
+            op1 = (Operand) malloc(sizeof(struct operand));
+            op1->kind = String;
+            op1->contents.variable.name = tree->kind.decl.name;
+            op1->contents.variable.scope = tree->kind.decl.scope;
+            //new table entry
+            quadFunction->instruction = FUNC;
+            quadFunction->op1 = op1;
+            quadFunction->op2 = NULL;
+            quadFunction->op3 = NULL;
+            quadFunction->linha = ++linha;
+            quadFunction->next = NULL;
+            insertQuad(quadFunction);
+
+            //we create as many quadruple entries as there are parameters
+            p1 = tree->child[0];
+            while(p1 != NULL) {
+                op2 = (Operand) malloc(sizeof(struct operand));
+                op2->kind = String;
+                op2->contents.variable.name = p1->child[0]->kind.decl.name;
+                op2->contents.variable.scope = p1->child[0]->kind.decl.scope;
+                insertQuad(createQuad(GET_PARAM, op2, NULL, NULL));
+                //quadParam->instruction = GET_PARAM;
+                //quadParam->op1 = op2;
+                //quadParam->op2 = NULL;
+                //quadParam->op3 = NULL;
+                //quadParam->linha = ++linha;
+                //quadParam->next = NULL;
+                //insertQuad(quadParam);
+
+                p1 = p1->sibling;
+            }
+
+            //generates compound statement
+            p2 = tree->child[1];
+            cGen(p2);
+            break;
+
+        case Call: //var OPAREN args CPAREN
+            p1 = tree->child[0]; //args
+            //sets as first operand
+            op1 = (Operand) malloc(sizeof(struct operand));
+            op1->kind = String;
+            op1->contents.variable.name = tree->kind.decl.name;
+            op1->contents.variable.scope = tree->kind.decl.scope;
+            //we need the quantity of parameters
+            qtdParams = getQuantidadeParametros(tree);
+            pushParam(&qtdParams);
+            //sets second operand
+            op2 = (Operand) malloc(sizeof(struct operand));
+            if(qtdParams > 0) {
+                op2->kind = IntConst;
+                op2->contents.val = qtdParams;
+            } else {
+                op2->kind = IntConst;
+                op2->contents.val = 0;
+            }
+            //new quadruple entry
+            instrucaoAtual = PARAM_LIST;
+            op3 = (Operand) malloc(sizeof(struct operand));
+            op3->kind = IntConst;
+            op3->contents.val = getQuantidadeParametros(tree);
+
+            quadCall->instruction = PARAM_LIST;
+            quadCall->op1 = op3;
+            quadCall->op2 = NULL;
+            quadCall->op3 = NULL;
+            quadCall->linha = ++linha;
+            quadCall->next = NULL;
+            insertQuad(quadCall);
+            //we add as many new quadruple entries as there are parameters
+            while(p1 != NULL) {
+                cGen(p1);
+                instrucaoAtual = SET_PARAM;
+                insertQuad(createQuad(instrucaoAtual, operandoAtual, NULL, NULL));
+                //quadCall2->instruction = SET_PARAM;
+                //quadCall2->op1 = operandoAtual;
+                //quadCall2->op2 = NULL;
+                //quadCall2->op3 = NULL;
+                //quadCall2->linha = ++linha;
+                //quadCall2->next = NULL;
+                //insertQuad(quadCall2);
+                /* Decrementa qtdParams */
+                --qtdParams;
+                /* Se for um chamado de OUTPUT, verifica o display de exibição */
+                if(!strcmp(tree->kind.decl.name, "output") && p1->sibling == NULL) {
+                    display = p1->kind.decl.value;
+                }
+                p1 = p1->sibling;
+            }
+            popParam();
+            instrucaoAtual = CALL;
+            /* Armazena possível offset para manipulação da memória reservada de índice de programas */
+            if (op1->kind == IntConst) {
+                offset = operandoAtual->contents.val;
+            }
+            /* Atualiza o operando atual */
+            //operandoAtual = createTemporaryOperand();
+            operandoAtual = (Operand) malloc(sizeof(struct operand));
+            operandoAtual->kind = String;
+            operandoAtual->contents.variable.scope = NULL;
+            operandoAtual->contents.variable.name = createTemporaryOperandName();
+            /* Cria e insere uma nova representação em código intermediário */
+            //q = createQuad(instrucaoAtual, op1, op2, operandoAtual);
+            /*if(display != -1) {
+                q->display = display;
+            }*/
+            quadCall3->instruction = CALL;
+            quadCall3->op1 = op1;
+            quadCall3->op2 = op2;
+            quadCall3->op3 = operandoAtual;
+            quadCall3->linha = ++linha;
+            quadCall3->next = NULL;
+            insertQuad(quadCall3);
+            //insertQuad(q);
+            break;
+    }
+}
+
+
+
+/* Procedimento cGen gera o código recursivamente
+ * pela árvore sintática
+ */
+static void cGen(TreeNode * tree) {
+    if (tree != NULL) {
+        switch (tree->nodekind) {
+            case Stmt:
+                genStmt(tree);
+                break;
+            case Exp:
+                genExp(tree);
+                break;
+            case Decl:
+                genVar(tree);
+                break;
+            default:
+                break;
+        }
+        /* Se a quantidade de parâmetros for maior que 0, cGen() será chamado automaticamente */
+        if(paramHead == NULL) {
+            cGen(tree->sibling);
+        } else {
+            if(paramHead->count == 0) {
+                cGen(tree->sibling);
+            }
+        }
+    }
+}
+
+void verificaFimInstrucaoAnterior(void) {
+    if(head != NULL) {
+        Quadruple temp = head;
+        while(temp->next != NULL) {
+            temp = temp->next;
+        }
+        /* Insere um return forçadamente caso não haja no código de alto nível */
+        if(temp->instruction != RTN) {
+            Quadruple quadFim = (Quadruple) malloc(sizeof(struct Quad));
+            quadFim->instruction = RTN;
+            quadFim->op1 = NULL;
+            quadFim->op2 = NULL;
+            quadFim->op3 = NULL;
+            quadFim->linha = ++linha;
+            quadFim->next = NULL;
+            insertQuad(quadFim);
+            //insertQuad(createQuad(RTN, NULL, NULL, NULL));
+        }
+    }
+}
+
+
+
+/**********************************************/
+/* the primary function of the code generator */
+/**********************************************/
+/* Procedure codeGen generates code to a code
+ * file by traversal of the syntax tree. The
+ * second parameter (codefile) is the file name
+ * of the code file, and is used to print the
+ * file name as a comment in the code file
+ */
+void codeGen(TreeNode * syntaxTree, char * codefile/*, CodeInfo codeInfo*/) {
+    char * s = (char *) malloc(strlen(codefile) + 7);
+    strcpy(s,"File: ");
+    strcat(s,codefile);
+    fprintf(code, "# C- Compilation for intermediate code\n" );
+    fprintf(code, "#%s\n", s);
+    //emitComment("C- Compilation for intermediate code", 0);
+    //emitComment(s, 0);
+    cGen(syntaxTree);
+    /* finish */
+    fprintf(code, "# The end\n" );
+    //emitComment("The end", 0);
+
+    /*if (codeInfo.codeType != PROGRAMA) {
+        // Se for código do Kernel ou Bios, adiciona o HALT no fim do código
+        insertQuad(createQuad(HALT, NULL, NULL, NULL));
+    } else {
+        // Se for código de um Programa comum, adiciona o SYSCALL no fim do código
+        insertQuad(createQuad(SYSCALL, NULL, NULL, NULL));
+    }  */  
+    fprintf(code, "\n***************************************" );
+    fprintf(code, "\n********** Intermediate Code **********" );
+    fprintf(code, "\n***************************************\n" );
+    //emitCode("\n***************************************\n");
+    //emitCode("\n********** Intermediate Code **********\n");
+    //emitCode("\n***************************************\n");
+    printIntermediateCode();
+}
+
+void printIntermediateCode() {
+    Quadruple q = head;
+    char quad[100];
+
+    while(q != NULL) {
+        sprintf(quad, "%d: (", q->linha);
+        //sprintf(quad, "(");
+        strcat(quad, copyInstruction(q->instruction));
+
+        if(q->op1 == NULL) {
+            strcat(quad, ", _");
+        } else if(q->op1->kind == String) {
+            strcat(quad, ", ");
+            strcat(quad, q->op1->contents.variable.name);
+        } else {
+            sprintf(tempString, ", %d", q->op1->contents.val);
+            strcat(quad,tempString);
+        }
+
+        if(q->op2 == NULL) {
+            strcat(quad, ", _");
+        } else if(q->op2->kind == String) {
+            strcat(quad, ", ");
+            strcat(quad, q->op2->contents.variable.name);
+        } else {
+            sprintf(tempString, ", %d", q->op2->contents.val);
+            strcat(quad,tempString);
+        }
+
+        if(q->op3 == NULL) {
+            strcat(quad, ", _)");
+        } else if(q->op3->kind == String) {
+            strcat(quad, ", ");
+            strcat(quad, q->op3->contents.variable.name);
+            strcat(quad, ")");
+        } else {
+            sprintf(tempString, ", %d", q->op3->contents.val);
+            strcat(quad,tempString);
+            strcat(quad, ")");
+        }
+        //emitCode(quad);
+        fprintf(code, "%s\n", quad);
+        q = q->next;
+    }
+}
+
+Quadruple createQuad(InstructionKind instruction, Operand op1, Operand op2, Operand op3) {
+    Quadruple q = (Quadruple) malloc(sizeof(struct Quad));
+    q->instruction = instruction;
+    q->op1 = op1;
+    q->op2 = op2;
+    q->op3 = op3;
+    q->linha = ++linha;
+    q->next = NULL;
+    return q;
+}
+
+void pushParam(int * count) {
+    ParamStack ps = (ParamStack) malloc(sizeof(struct Param));
+    ps->count = count;
+    ps->next = NULL;
+    if(paramHead == NULL) {
+        paramHead = ps;
+    } else {
+        ps->next = paramHead;
+        paramHead = ps;
+    }
+}
+
+void popParam(void) {
+    if(paramHead != NULL) {
+        ParamStack ps = paramHead;
+        paramHead = paramHead->next;
+        free(ps);
+        ps = NULL;
+    }
+}
+
+
+
+Quadruple * insertQuad(Quadruple q) {
+    Quadruple p = head;
+    Quadruple *ptr = (Quadruple *) malloc(sizeof(struct Quad));
+    *ptr = q;
+    if(p == NULL) {
+        head = *ptr;
+        head->next = NULL;
+        //ptr = &head;
+    } else {
+        //Quadruple temp = head;
+        while(p->next != NULL) {
+            p = p->next;
+        }
+        p->next = *ptr;
+        p->next->next = NULL;
+        //ptr = &temp->next;
+    }
+    return ptr;
+}
+
+Quadruple getCodigoIntermediario(void) {
+    return head;
+}
+
+int getQuantidadeParametros(TreeNode * functionNode) {
+    int qtd = 0;
+    TreeNode * temp = functionNode->child[0];
+    if(temp != NULL) {
+        ++qtd;
+        while(temp->sibling != NULL) {
+            temp = temp->sibling;
+            ++qtd;
+        }
+    }
+    return qtd;
+}

@@ -1,0 +1,27 @@
+# C- Compilation for intermediate code
+
+***************************************
+
+1: (function, main, _, _)
+2: (assign, a, 5, _)
+3: (addition, a, 80, T1)
+4: (assign, c, T1, _)
+5: (param list, 1, _, _)
+6: (set param, c, _, _)
+7: (call, output, 1, T2)
+
+////////////Codigo Objeto////////////
+
+main:
+    0:	addi	$sp, $sp, 4
+        1:	li	$t0, 5
+        2:	sw	$t0, -2($sp)
+        3:	lw	$s0, -2($sp)
+        4:	addi	$t1, $s0, 80
+        5:	sw	$t1, 0($sp)
+        6:	lw	$s1, 0($sp)
+        7:	mov	$a0, $s1
+        8:	out	$a0
+        9:	subi	$sp, $sp, 4
+        10:	hlt	
+    

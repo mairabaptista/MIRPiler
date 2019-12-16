@@ -1,0 +1,16 @@
+% Modificacoes processador
+    - modulo mantedor de processos
+    - banco de 64 posicoes
+        * 32 para SO, 32 para processo
+        * fazer maquina de estados que muda o sinal de shift do banco
+            chshft = 00 -> rshift = 0 && wshift = 0 -> os regsitradores pertencem ao SO
+            chshft = 01 -> rshift = 0 && wshift = 1 -> os registradores vao do SO para o processo
+            chshft = 11 -> rshift = 1 && wshift = 0 -> os registradores vao do processo para o SO
+            chshft = 11 -> rshift = 1 && wshift = 1 -> os regsitradores pertencem ao processo
+    - pc com biparticao
+    - controlador de interrupcao
+
+% Modifcacoes compilador
+    - criar modo de SO e processo 
+    - criar novas funcoes de sistema extras
+
