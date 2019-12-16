@@ -66,7 +66,7 @@ typedef enum {Integer, Void, If, Iteration, Return, Compound} StmtKind;
 typedef enum {Assign, Relop, Arith} ExpKind;
 typedef enum {Id, Array, Const, Function, Call} DeclKind;
 typedef enum {Input, Output, LoadDisk, StoreDisk, LoadMem, StoreMem,
-              LCD,StoreMemProc} SysKind; //reserved for syscalls
+              LCD, StoreMemProc, ChangeWrt, ChangeRd} SysKind; //reserved for syscalls
 typedef enum {Declaration, Access} AccessKind;
 typedef enum {Locals, Param, Globals, FunMem} MemKind;
 

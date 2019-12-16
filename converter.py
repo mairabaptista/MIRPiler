@@ -12,7 +12,7 @@ instruction_types = {
     'hlt':'I', 'nop':'I',
     # daqui pra baixo tudo eh do so
     'lhd': 'I', 'shd':'I', 'lmem': 'I', 'smem':'I',
-    'lcd': 'I'
+    'lcd': 'I', 'chwrt':'I', 'chrd':'I'
 }
 
 register_bank = {
@@ -315,7 +315,6 @@ def type_I_instruction(instruction):
         bin_inst = f'32\'b{opcode}_{register_bank[rs]}_{register_bank[rd]}_{spare};'
         comment = f' // smem: mem[{rd}] = {rs}'
         out = bin_inst + comment
-
     elif name == 'lcd': #out    $a0
         opcode = '110110'
         sparereg = '00000'
@@ -323,6 +322,20 @@ def type_I_instruction(instruction):
         rs = instruction[2]
         bin_inst = f'32\'b{opcode}_{sparereg}_{register_bank[rs]}_{spare};'
         comment = f' // lcd ({rs})'
+        out = bin_inst + comment
+    elif name == 'chwrt': #chwrt 
+        opcode = '111000'
+        sparereg = '00000'
+        spare = '0000000000000000'
+        bin_inst = f'32\'b{opcode}_{sparereg}_{sparereg}_{spare};'
+        comment = f' // chrt'
+        out = bin_inst + comment
+    elif name == 'chrd': #chrd
+        opcode = '111001'
+        sparereg = '00000'
+        spare = '0000000000000000'
+        bin_inst = f'32\'b{opcode}_{sparereg}_{sparereg}_{spare};'
+        comment = f' // chrd'
         out = bin_inst + comment
     return out
 

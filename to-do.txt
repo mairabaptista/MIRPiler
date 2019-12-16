@@ -14,3 +14,11 @@
     - criar modo de SO e processo 
     - criar novas funcoes de sistema extras
 
+
+
+--------------------------------------------
+- adcionar instrucao de chwrt - no compilador
+- adcionar instrucao de chwrt - no processador
+- adcionar instrucao de chrd - no compilador
+- adcionar instrucao de chrd - no processador
+

@@ -54,6 +54,8 @@ program         : declarationList {
                     insertNewNode(createSysCall(VoidType, StoreMem));     //store on memory (use on bios)
                     insertNewNode(createSysCall(VoidType, StoreMemProc));     //store on memory (use on bios)
                     insertNewNode(createSysCall(VoidType, LCD));      //write lcd
+                    insertNewNode(createSysCall(VoidType, ChangeWrt));      //change write shift
+                    insertNewNode(createSysCall(VoidType, ChangeRd));      //change read shift
 
                     TreeNode *node = savedTree;
                     while(node->sibling != NULL){

@@ -625,9 +625,15 @@ void generateTargetCall(Quadruple q){
 	else if(!strcmp(q->op1->contents.variable.name, "smemproc")) { //store on memory (proc)
         printCode(insertTargInstruction(createTargInstruction(_SW_MEM_PROC, TYPE_I, getArgumentReg(0), getArgumentReg(1), NULL)));
 	}
-	else if(!strcmp(q->op1->contents.variable.name, "lcd")) {
+	else if(!strcmp(q->op1->contents.variable.name, "lcd")) { //outputs something to lcd
 		//printCode(insertTargInstruction(createTargInstruction(_LCD, TYPE_I, getTemporaryReg(), rt, NULL)));
         printCode(insertTargInstruction(createTargInstruction(_LCD, TYPE_I, getArgumentReg(0), NULL, NULL)));
+	}
+	else if(!strcmp(q->op1->contents.variable.name, "chwrt")) { //changes the write shift, takes no argument
+        printCode(insertTargInstruction(createTargInstruction(_CH_WRT, TYPE_I, NULL, NULL, NULL)));
+	}
+	else if(!strcmp(q->op1->contents.variable.name, "chrd")) { //changes the read shift, takes no argument
+        printCode(insertTargInstruction(createTargInstruction(_CH_RD, TYPE_I, NULL, NULL, NULL)));
 	}
 	else if(strcmp(scopezers->name, "main") == 0){
 		removeSavedOperands();

@@ -221,6 +221,12 @@ char *copySysKind(SysKind sys){
         case StoreMemProc: 
             return "smemproc";
         break;
+        case ChangeWrt: 
+            return "chwrt";
+        break;
+        case ChangeRd: 
+            return "chrd";
+        break;
     }
 }
 
@@ -520,6 +526,12 @@ const char * toOpcode(Opcode op){
         case _SW_MEM_PROC:
             return "smemproc";
         break;
+        case _CH_WRT:
+            return "chwrt";
+        break;
+        case _CH_RD:
+            return "chrd";
+        break;
     }
     
 }
@@ -731,6 +743,12 @@ const char * toBinaryOpcode(Opcode op){
         break;
         case _SW_MEM_PROC:
             return "110111";
+        break;
+        case _CH_WRT:
+            return "111000";
+        break;
+        case _CH_RD:
+            return "111001";
         break;
 
     }
