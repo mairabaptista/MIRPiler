@@ -540,7 +540,7 @@ const char * toRegName(RegisterName rn){
         case $rzero:
             return "$rzero";
         break;
-        case $v0:
+        case $v0: //
             return "$v0";
         break;
         case $v1:

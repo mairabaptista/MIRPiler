@@ -66,7 +66,7 @@ typedef enum {Integer, Void, If, Iteration, Return, Compound} StmtKind;
 typedef enum {Assign, Relop, Arith} ExpKind;
 typedef enum {Id, Array, Const, Function, Call} DeclKind;
 typedef enum {Input, Output, LoadDisk, StoreDisk, LoadMem, StoreMem,
-              LCD, StoreMemProc, ChangeWrt, ChangeRd} SysKind; //reserved for syscalls
+              LCD, StoreMemProc, ChangeWrt, ChangeRd, Syscall} SysKind; //reserved for syscalls
 typedef enum {Declaration, Access} AccessKind;
 typedef enum {Locals, Param, Globals, FunMem} MemKind;
 
@@ -74,7 +74,7 @@ typedef enum {Locals, Param, Globals, FunMem} MemKind;
 typedef enum exp {VoidType, IntegerType} ExpType;
 
 /* Used to select the type of code generation */
-//typedef enum {PROGRAMA, BIOS, KERNEL} CodeType;
+typedef enum {PROGRAMA, KERNEL} CodeType;
 
 #define MAXCHILDREN 3
 

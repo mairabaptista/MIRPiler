@@ -32,6 +32,11 @@
 #define INDENT indent+=4
 #define UNINDENT indent-=4
 
+#define PROGRAMA 1
+#define KERNEL 0
+
+CodeType codeInfo;
+
 //object instruction list head
 Object objectHead = NULL;
 
@@ -605,9 +610,17 @@ void generateTargetCall(Quadruple q){
 	if(strcmp(q->op1->contents.variable.name, "input") == 0){ //input
 		printCode(insertTargInstruction(createTargInstruction(_NOP, TYPE_I, NULL, NULL, NULL)));
 		//ObjectiveOperand reg = getTemporaryReg(q->op3);
+		if(codeInfo == PROGRAMA){
+			printCode(insertTargInstruction(createTargInstruction(_SYS_IN, TYPE_I, NULL, NULL, NULL)));
+		}
 		printCode(insertTargInstruction(createTargInstruction(_IN, TYPE_I, getTemporaryReg(q->op3), NULL, NULL)));
+		
 	}
 	else if(strcmp(q->op1->contents.variable.name, "output") == 0){ //output
+		printCode(insertTargInstruction(createTargInstruction(_NOP, TYPE_I, NULL, NULL, NULL)));
+		if(codeInfo == PROGRAMA){
+			printCode(insertTargInstruction(createTargInstruction(_SYS_OUT, TYPE_I, NULL, NULL, NULL)));
+		}
 		printCode(insertTargInstruction(createTargInstruction(_OUT, TYPE_I, getArgumentReg(0), NULL, NULL)));
 	}
 	else if(!strcmp(q->op1->contents.variable.name, "lhd")) { //load from disk

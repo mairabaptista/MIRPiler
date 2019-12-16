@@ -12,6 +12,9 @@
 #include "cgen.h"
 #include "util.h"
 
+#define PROGRAMA 1
+#define KERNEL 0
+
 //Head of quadruple list
 Quadruple head = NULL;
 
@@ -708,8 +711,12 @@ void checkEndOfFunction(void) {
  * of the code file, and is used to print the
  * file name as a comment in the code file
  */
-void codeGen(TreeNode * syntaxTree, char * codefile) {
+void codeGen(TreeNode * syntaxTree, char * codefile/*, int codeInfo*/) {
     char * s = (char *) malloc(strlen(codefile) + 7);
+
+    Quadruple quads = (Quadruple) malloc(sizeof(struct Quad));
+
+
     strcpy(s,"File: ");
     strcat(s,codefile);
     fprintf(code, "# C- Compilation for intermediate code\n" );
@@ -721,12 +728,26 @@ void codeGen(TreeNode * syntaxTree, char * codefile) {
     //fprintf(code, "\n***************************************" );
     //fprintf(code, "\n********** Intermediate Code **********" );
     //fprintf(code, "\n***************************************\n\n" );
-
-
-    /******
-    //se for codigo de kernel ou bios, colocar halt no final
-    //se nao colocar syscall()
-    ******/
+    /*
+    if(codeInfo == PROGRAMA){ //se eh programa
+        quads->instruction = SYSCALL;
+        quads->op1 = NULL;
+        quads->op2 = NULL;
+        quads->op3 = NULL;
+        quads->line = ++line;
+        quads->next = NULL;
+        insertQuad(quads);
+    }
+    else{ //se eh kernel/bios
+        quads->instruction = HALT;
+        quads->op1 = NULL;
+        quads->op2 = NULL;
+        quads->op3 = NULL;
+        quads->line = ++line;
+        quads->next = NULL;
+        insertQuad(quads);
+    }*/
+    
 
     printIntermediateCode();
 }
