@@ -37,7 +37,7 @@ static int line = 0;
 static char tempString[20];
 
 
-static void cGen (TreeNode * tree);
+static void cGen (TreeNode * tree, CodeType codeInfo);
 
 static char * createTemporaryOperandName() {
     char * temp = (char *) malloc(5);
@@ -47,7 +47,7 @@ static char * createTemporaryOperandName() {
 }
 
 /* Procedure genStmt generates code at a statement node */
-static void genStmt(TreeNode * tree) {
+static void genStmt(TreeNode * tree, CodeType codeInfo) {
     
     Quadruple * q;
 
@@ -70,7 +70,7 @@ static void genStmt(TreeNode * tree) {
     switch (tree->kind.stmt) {
         case If:  //IF OPAREN expression CPAREN statement 
             //generates expression
-            cGen(p1);
+            cGen(p1, codeInfo);
             //sets as first operand
             op1 = currentOperand;
 
@@ -96,7 +96,7 @@ static void genStmt(TreeNode * tree) {
                 locationHead = locale;
             }
             //generates statement
-            cGen(p2);
+            cGen(p2, codeInfo);
             //set second operand
             op2 = (Operand) malloc(sizeof(struct operand));
             op2->kind = String;
@@ -159,7 +159,7 @@ static void genStmt(TreeNode * tree) {
             quadEndIf->next = NULL;
             insertQuad(quadEndIf);
 
-            cGen(p3);
+            cGen(p3, codeInfo);
 
             if(p3 != NULL) { //IF OPAREN expression CPAREN statement ELSE statement
                 op1 = (Operand) malloc(sizeof(struct operand));
@@ -220,7 +220,7 @@ static void genStmt(TreeNode * tree) {
             insertQuad(quadIteration);
 
             //generates expression
-            cGen(p1);
+            cGen(p1, codeInfo);
             // set as first operand 
             op2 = currentOperand;
 
@@ -248,7 +248,7 @@ static void genStmt(TreeNode * tree) {
             }
 
             //generates statement
-            cGen(p2);
+            cGen(p2, codeInfo);
             currentInstruction = GOTO;
             //we need a goto to go back to the beginning of the while
             quadIteration3->instruction = GOTO;
@@ -296,7 +296,7 @@ static void genStmt(TreeNode * tree) {
 
         case Return:  // RETURN SEMI | RETURN expression SEMI
             //generates expression
-            cGen(p1);
+            cGen(p1, codeInfo);
             if(p1) {
                 //sets as first operand
                 op1 = currentOperand;
@@ -318,26 +318,26 @@ static void genStmt(TreeNode * tree) {
             case Compound: //OCURLY local_declarations statement_list CCURLY
             if(p1) { 
                 //generates local_declarations
-                cGen(p1);
+                cGen(p1, codeInfo);
             }
             if(p2) { 
                 //generates statement_list
-                cGen(p2);
+                cGen(p2, codeInfo);
             }
             break; 
 
             case Integer:
-            cGen(p1);
+            cGen(p1, codeInfo);
             break; 
 
         case Void:
-            cGen(p1);
+            cGen(p1, codeInfo);
             break; 
     }
 } /* genStmt */
 
 /* Procedure genExp generates code at an expression node */
-static void genExp(TreeNode * tree) {
+static void genExp(TreeNode * tree, CodeType codeInfo) {
     TreeNode * p1, * p2;
     Operand op1, op2, op3;
 
@@ -351,11 +351,11 @@ static void genExp(TreeNode * tree) {
     switch (tree->kind.exp) {
         case Assign: //var assigment_operator expression
             //generates expression
-            cGen(p2);
+            cGen(p2, codeInfo);
             //sets as second operand
             op2 = currentOperand;
             //generats var
-            cGen(p1);
+            cGen(p1, codeInfo);
             //sets as first oprand
             op1 = currentOperand;
             op3 = NULL;
@@ -386,11 +386,11 @@ static void genExp(TreeNode * tree) {
 
         case Relop: //additive_expression relop additive_expression
             //generates additive_expression
-            cGen(p1);
+            cGen(p1, codeInfo);
             //sets as first operand
             op1 = currentOperand;
             //generates additive_expression
-            cGen(p2);
+            cGen(p2, codeInfo);
             //sets as second operand
             op2 = currentOperand;
             switch (tree->op) { //chooses instrucion type
@@ -431,11 +431,11 @@ static void genExp(TreeNode * tree) {
 
         case Arith:
             //generates additive_expression
-            cGen(p1);
+            cGen(p1, codeInfo);
             //sets as first operand
             op1 = currentOperand;
             //generates term
-            cGen(p2);
+            cGen(p2, codeInfo);
             //sets as second operand
             op2 = currentOperand;
             switch (tree->op) {    //chooses instruction type
@@ -469,7 +469,7 @@ static void genExp(TreeNode * tree) {
     }
 } /* genExp */
 
-static void genVar(TreeNode * tree) {
+static void genVar(TreeNode * tree, CodeType codeInfo) {
     Quadruple q;
     TreeNode * p1, * p2;
     Operand op1, op2, op3;
@@ -487,6 +487,10 @@ static void genVar(TreeNode * tree) {
     int qtdParams = -1;
     int offset = -1;
     int display = -1;
+
+    /*if((strcmp(tree->kind.decl.name, "input") == 0) && (codeInfo == PROGRAMA)){
+        //
+    }*/
 
     switch (tree->kind.decl.declkind) {
         case Const: //NUM
@@ -510,7 +514,7 @@ static void genVar(TreeNode * tree) {
             currentOperand->contents.variable.scope = tree->kind.decl.scope;
             op1 = currentOperand;
             //generates array position
-            cGen(p1);
+            cGen(p1, codeInfo);
             //array index
             op2 = currentOperand;
             
@@ -573,10 +577,12 @@ static void genVar(TreeNode * tree) {
 
             ///generates compound statement
             p2 = tree->child[1];
-            cGen(p2);
+            cGen(p2, codeInfo);
             break;
 
         case Call: //var OPAREN args CPAREN
+            
+            
             p1 = tree->child[0]; //args
             //sets as first operand
             op1 = (Operand) malloc(sizeof(struct operand));
@@ -610,7 +616,7 @@ static void genVar(TreeNode * tree) {
             insertQuad(quadCall);
             //we add as many new quadruple entries as there are parameters
             while(p1 != NULL) {
-                cGen(p1);
+                cGen(p1, codeInfo);
                 currentInstruction = SET_PARAM;
                 //new quadruple representation
                 insertQuad(createQuad(currentInstruction, currentOperand, NULL, NULL));
@@ -629,7 +635,8 @@ static void genVar(TreeNode * tree) {
                 p1 = p1->sibling;
             }
             popParam();
-            currentInstruction = CALL;            
+            currentInstruction = CALL;
+                       
             
             //we need a temporary for this operation
             currentOperand = (Operand) malloc(sizeof(struct operand));
@@ -654,17 +661,17 @@ static void genVar(TreeNode * tree) {
 
 
 
-static void cGen(TreeNode * tree) {
+static void cGen(TreeNode * tree, CodeType codeInfo) {
     if (tree != NULL) {
         switch (tree->nodekind) {
             case Stmt:
-                genStmt(tree);
+                genStmt(tree, codeInfo);
                 break;
             case Exp:
-                genExp(tree);
+                genExp(tree, codeInfo);
                 break;
             case Decl:
-                genVar(tree);
+                genVar(tree, codeInfo);
                 break;
             default:
                 break;
@@ -672,10 +679,10 @@ static void cGen(TreeNode * tree) {
         //this is for function call
         //if there are more the 0 parameters, cgen is called back automatically
         if(paramHead == NULL) {
-            cGen(tree->sibling);
+            cGen(tree->sibling, codeInfo);
         } else {
             if(paramHead->count == 0) {
-                cGen(tree->sibling);
+                cGen(tree->sibling, codeInfo);
             }
         }
     }
@@ -711,7 +718,7 @@ void checkEndOfFunction(void) {
  * of the code file, and is used to print the
  * file name as a comment in the code file
  */
-void codeGen(TreeNode * syntaxTree, char * codefile/*, int codeInfo*/) {
+void codeGen(TreeNode * syntaxTree, char * codefile, CodeType codeInfo) {
     char * s = (char *) malloc(strlen(codefile) + 7);
 
     Quadruple quads = (Quadruple) malloc(sizeof(struct Quad));
@@ -721,15 +728,15 @@ void codeGen(TreeNode * syntaxTree, char * codefile/*, int codeInfo*/) {
     strcat(s,codefile);
     fprintf(code, "# C- Compilation for intermediate code\n" );
     //fprintf(code, "#%s\n", s);
-    cGen(syntaxTree);
+    cGen(syntaxTree, codeInfo);
 
     //fprintf(code, "# The end\n" );
     fprintf(code, "\n***************************************\n\n" );
     //fprintf(code, "\n***************************************" );
     //fprintf(code, "\n********** Intermediate Code **********" );
     //fprintf(code, "\n***************************************\n\n" );
-    /*
-    if(codeInfo == PROGRAMA){ //se eh programa
+    
+    /*if(codeInfo == PROGRAMA){ //se eh programa
         quads->instruction = SYSCALL;
         quads->op1 = NULL;
         quads->op2 = NULL;

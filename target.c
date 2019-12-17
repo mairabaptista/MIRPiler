@@ -169,6 +169,18 @@ ObjectiveOperand getArgumentReg(int i){
 	}
 }
 
+
+ObjectiveOperand getSyscallReg(int i){
+	//we have four function parameter registers, $aX
+	ObjectiveOperand ops = (ObjectiveOperand) malloc(sizeof(struct objectiveOperand));
+	int pos;
+	ops->addrKind = REGI;
+	ops->addressing.regis = regNames[2];
+	Regis reg = registers[2];
+	reg.objectiveOp = ops;
+	return reg.objectiveOp;
+}
+
 ObjectiveOperand getTemporaryReg(Operand op){
 	//if we have used all available registers, cycle back to zero
 	if(scopezers->temporaryRegCounter > 9){
@@ -216,6 +228,7 @@ ObjectiveOperand getOperandRegName(Operand op){
 				rt = getSPLocation(op);
 			}
 			printCode(insertTargInstruction(createTargInstruction(_LW, TYPE_I, rs, rt, NULL)));
+			//printCode(insertTargInstruction(createTargInstruction(_LW, TYPE_I, getSyscallReg(0), rt, NULL))); test to check where is v1
 			rs->offset = rt->addressing.indexed.offset;
 			rs->regName = rt->addressing.indexed.regis;
 		}
@@ -583,6 +596,7 @@ void generateTargetAssignment(Quadruple q){
 		}
 		else{ //regular variable
 			ObjectiveOperand opers = getSPLocation(q->op1);
+			//printCode(insertTargInstruction(createTargInstruction(_SW, TYPE_I, getSyscallReg(0), opers, NULL))); V1 IS HERE
 			printCode(insertTargInstruction(createTargInstruction(_SW, TYPE_I, reg, opers, NULL)));
 			updateRegContent(opers);
 		}
@@ -602,27 +616,31 @@ void generateTargetReturn(Quadruple q){
 	//}
 }
 
-void generateTargetCall(Quadruple q){
+void generateTargetCall(Quadruple q, CodeType codeInfo){
 	int memBlockSize;
 	int memBlockSizeCurrentScope;
 	//verify if input or output
 	//if input we need instructions that complement it (nop)
-	if(strcmp(q->op1->contents.variable.name, "input") == 0){ //input
+	if((strcmp(q->op1->contents.variable.name, "input") == 0) && (codeInfo == KERNEL)){ //input
 		printCode(insertTargInstruction(createTargInstruction(_NOP, TYPE_I, NULL, NULL, NULL)));
 		//ObjectiveOperand reg = getTemporaryReg(q->op3);
-		if(codeInfo == PROGRAMA){
-			printCode(insertTargInstruction(createTargInstruction(_SYS_IN, TYPE_I, NULL, NULL, NULL)));
-		}
-		printCode(insertTargInstruction(createTargInstruction(_IN, TYPE_I, getTemporaryReg(q->op3), NULL, NULL)));
-		
+		printCode(insertTargInstruction(createTargInstruction(_IN, TYPE_I, getTemporaryReg(q->op3), NULL, NULL)));		
 	}
-	else if(strcmp(q->op1->contents.variable.name, "output") == 0){ //output
+	else if((strcmp(q->op1->contents.variable.name, "input") == 0) && (codeInfo == PROGRAMA)){ //input from a process
 		printCode(insertTargInstruction(createTargInstruction(_NOP, TYPE_I, NULL, NULL, NULL)));
-		if(codeInfo == PROGRAMA){
-			printCode(insertTargInstruction(createTargInstruction(_SYS_OUT, TYPE_I, NULL, NULL, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_SYS_IN, TYPE_I, NULL, NULL, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_NOP, TYPE_I, NULL, NULL, NULL)));
 		}
+
+	else if((strcmp(q->op1->contents.variable.name, "output") == 0) && (codeInfo == KERNEL)){ //output
+		printCode(insertTargInstruction(createTargInstruction(_NOP, TYPE_I, NULL, NULL, NULL)));
 		printCode(insertTargInstruction(createTargInstruction(_OUT, TYPE_I, getArgumentReg(0), NULL, NULL)));
 	}
+	else if((strcmp(q->op1->contents.variable.name, "output") == 0) && (codeInfo == PROGRAMA)){ //output from a process
+		printCode(insertTargInstruction(createTargInstruction(_NOP, TYPE_I, NULL, NULL, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_SYS_OUT, TYPE_I, NULL, NULL, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_NOP, TYPE_I, NULL, NULL, NULL)));
+		}
 	else if(!strcmp(q->op1->contents.variable.name, "lhd")) { //load from disk
         printCode(insertTargInstruction(createTargInstruction(_LW_HD, TYPE_I, getTemporaryReg(q->op3), getArgumentReg(0), NULL)));
     } 
@@ -682,8 +700,9 @@ void generateTargetCall(Quadruple q){
 	}
 
 }
- void generateTargetSetParam(Quadruple q){
+ void generateTargetSetParam(Quadruple q, CodeType codeInfo){
  	ObjectiveOperand reg;
+	ObjectiveOperand sysreg;
  	BucketList buck = NULL;
  	//if we have a variable then we must get corresponding bucket list
  	if(q->op1->kind == String && q->op1->contents.variable.scope != NULL){
@@ -721,8 +740,12 @@ void generateTargetCall(Quadruple q){
  			}
  			else { //variable
  				reg = getOperandRegName(q->op1);
- 				if(getArgumentReg(scopezers->argumentRegCounter)->addressing.regis != reg->addressing.regis){
+				sysreg = getSyscallReg(0);
+ 				if((getArgumentReg(scopezers->argumentRegCounter)->addressing.regis != reg->addressing.regis) && (codeInfo == KERNEL)){
  					printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, argument, reg, NULL)));
+ 				}
+				else if((getArgumentReg(scopezers->argumentRegCounter)->addressing.regis != reg->addressing.regis) && (codeInfo == PROGRAMA)){
+ 					printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, sysreg, reg, NULL)));
  				}
  			}
  		}
@@ -822,7 +845,7 @@ void generateTargetArrayAddress(Quadruple q){
 	}
 }
 
-void geraCodigoObjeto(Quadruple q){
+void geraCodigoObjeto(Quadruple q, CodeType codeInfo){
 	INDENT;
 	emitCode("\n////////////Codigo Objeto////////////");
 	
@@ -891,16 +914,15 @@ void geraCodigoObjeto(Quadruple q){
     			generateTargetGetParam(q);
     			break;
     		case SET_PARAM:
-    			generateTargetSetParam(q);
+    			generateTargetSetParam(q, codeInfo);
     			break;
     		case CALL:
-    			generateTargetCall(q);
+    			generateTargetCall(q, codeInfo);
     			scopezers->argumentRegCounter = 0;
     			break;
     		case PARAM_LIST:
     			scopezers->argumentRegCounter = 0;
     			break;
-
 			//jumps
     		case JFALSE:
     			generateBranch(q);
@@ -909,23 +931,39 @@ void geraCodigoObjeto(Quadruple q){
     			//simple jump
     			printCode(insertTargInstruction(createTargInstruction(_J, TYPE_J, getLabel(q->op1->contents.variable.name), NULL, NULL)));
     			break;
-
 			//labels
     		case LBL: 
     			generateTargetLabel(q);
     			removeSavedOperands();
     			break;
-
 			//halt
-			case HALT:
+			/*case HALT:
 				printCode(insertTargInstruction(createTargInstruction(_HALT, TYPE_I, NULL, NULL, NULL)));
 				break;
+			//syscall
+			
+			case SYSCALL:
+				printf("eita");
+				printCode(insertTargInstruction(createTargInstruction(_SYS_END, TYPE_I, NULL, NULL, NULL)));
+				break;*/
 		}
 		q = q->next;
 	}
+	if(codeInfo == PROGRAMA){
+		
+		popStackPointer(scopezers->memBlockSize + 1);
+		printCode(insertTargInstruction(createTargInstruction(_SYS_END, TYPE_I, NULL, NULL, NULL)));
+	}
+	else if (codeInfo == KERNEL){
+		
+		popStackPointer(scopezers->memBlockSize + 1); //was it supposed to be 2?
+		printCode(insertTargInstruction(createTargInstruction(_HALT, TYPE_I, NULL, NULL, NULL)));
+	}
+	/* antes soh tinha a popstackpointer e o dedicado de halt
 	popStackPointer(scopezers->memBlockSize + 1); //was it supposed to be 2?
 	printCode(insertTargInstruction(createTargInstruction(_HALT, TYPE_I, NULL, NULL, NULL)));
-}
+	*/
+}	
 
 void printCode(Object instruction){
 	char aux[20];

@@ -66,13 +66,17 @@ int Error = FALSE;
 int codigoIntermediarioGerarado = FALSE;
 int codigoObjetoGerado = FALSE;
 
+// ./compiler arquivo modo
+
+CodeType codeInfo;
+
 int main(int argc, char * argv[]) {
     TreeNode * syntaxTree;
     char pgm[120];
     /*if (argc == 1) {
         mostrarErroArgumentos(argv[0]);
     }*/
-    if(argc != 2){
+    if(argc != 3){
         fprintf(stderr, "Usage: %s <filename> \n", argv[0]);
         exit(1);
     }
@@ -84,6 +88,9 @@ int main(int argc, char * argv[]) {
         fprintf(stderr,"File %s not found\n",pgm);
         exit(1);
     }
+    codeInfo = atoi(argv[2]);
+
+
 
     //CodeInfo codeInfo = interpretar(argc, argv);    
     listing = stdout; /* send listing to screen */
@@ -117,7 +124,7 @@ int main(int argc, char * argv[]) {
             exit(1);
         }
         if (TraceCode) fprintf(listing, "\nGenerating Intermediate Code\n");
-        codeGen(syntaxTree, codefile/*, codeInfo*/);
+        codeGen(syntaxTree, codefile, codeInfo);
         free(syntaxTree);
         fclose(code);
         if (TraceCode) fprintf(listing, "\nIntermediate code generation completed\n");
@@ -142,7 +149,7 @@ int main(int argc, char * argv[]) {
         strcat(asmFile, ".asm");
         asm_file = fopen(asmFile, "w");
 
-        geraCodigoObjeto(codigoIntermediario);
+        geraCodigoObjeto(codigoIntermediario, codeInfo);
         fclose(code);
         fclose(asm_file);
         if (TraceTarget) fprintf(listing, "\nDone Generating Target Code!\n");

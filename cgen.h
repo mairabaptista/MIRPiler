@@ -75,7 +75,7 @@ Quadruple getCodigoIntermediario(void);
  * of the code file, and is used to print the
  * file name as a comment in the code file
  */
-void codeGen(TreeNode * syntaxTree, char * codefile);
+void codeGen(TreeNode * syntaxTree, char * codefile, CodeType codeInfo);
 
 void checkEndOfFunction(void);
 

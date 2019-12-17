@@ -227,6 +227,9 @@ char *copySysKind(SysKind sys){
         case ChangeRd: 
             return "chrd";
         break;
+        case Syscall: 
+            return "sysend";
+        break;
     }
 }
 
@@ -532,6 +535,15 @@ const char * toOpcode(Opcode op){
         case _CH_RD:
             return "chrd";
         break;
+        case _SYS_END:
+            return "sysend";
+        break;
+        case _SYS_IN:
+            return "sysin";
+        break;
+        case _SYS_OUT:
+            return "sysout";
+        break;
     }
     
 }
@@ -540,10 +552,10 @@ const char * toRegName(RegisterName rn){
         case $rzero:
             return "$rzero";
         break;
-        case $v0: //
+        case $v0: //reserved for interrupt value
             return "$v0";
         break;
-        case $v1:
+        case $v1: //reserved for syscall return 
             return "$v1";
         break;
         case $out1:
@@ -749,6 +761,15 @@ const char * toBinaryOpcode(Opcode op){
         break;
         case _CH_RD:
             return "111001";
+        break;
+        case _SYS_END:
+            return "111100";
+        break;
+        case _SYS_IN:
+            return "111010";
+        break;
+        case _SYS_OUT:
+            return "111011";
         break;
 
     }

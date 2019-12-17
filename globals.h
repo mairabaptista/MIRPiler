@@ -74,7 +74,7 @@ typedef enum {Locals, Param, Globals, FunMem} MemKind;
 typedef enum exp {VoidType, IntegerType} ExpType;
 
 /* Used to select the type of code generation */
-typedef enum {PROGRAMA, KERNEL} CodeType;
+typedef enum {KERNEL, PROGRAMA} CodeType;
 
 #define MAXCHILDREN 3
 
