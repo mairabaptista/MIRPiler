@@ -70,22 +70,28 @@ gcd:
 main:
     26:	addi	$sp, $sp, 3
         27:	nop	
-        28:	in	$t0
-        29:	sw	$t0, -1($sp)
-        30:	nop	
-        31:	in	$t1
-        32:	sw	$t1, 0($sp)
-        33:	lw	$s0, -1($sp)
-        34:	mov	$a0, $s0
-        35:	lw	$s1, 0($sp)
-        36:	mov	$a1, $s1
-        37:	sw	$ra, -2($sp)
-        38:	jal	gcd
-        39:	subi	$sp, $sp, 4
-        40:	lw	$ra, -2($sp)
-        41:	mov	$s0, $v0
-        42:	mov	$a0, $s0
-        43:	out	$a0
-        44:	subi	$sp, $sp, 3
-        45:	hlt	
+        28:	sysin	
+        29:	nop	
+        30:	lw	$t0, $t0
+        31:	sw	$t0, -1($sp)
+        32:	nop	
+        33:	sysin	
+        34:	nop	
+        35:	lw	$t1, $t1
+        36:	sw	$t1, 0($sp)
+        37:	lw	$s0, -1($sp)
+        38:	mov	$a0, $s0
+        39:	lw	$s1, 0($sp)
+        40:	mov	$a1, $s1
+        41:	sw	$ra, -2($sp)
+        42:	jal	gcd
+        43:	subi	$sp, $sp, 4
+        44:	lw	$ra, -2($sp)
+        45:	mov	$s0, $v0
+        46:	mov	$a0, $s0
+        47:	nop	
+        48:	sysout	
+        49:	nop	
+        50:	subi	$sp, $sp, 3
+        51:	sysend	
     

@@ -22,3 +22,19 @@
 - adcionar instrucao de chrd - no compilador
 - adcionar instrucao de chrd - no processador
 
+--------------------------------------------
+fucoes de sistema: (nada do foi feito aqui alterou no processador)
+    -set_proc_pc
+    -swap_process -> guardar o numero do processo que foi trocado
+    -(DONE) recover_OS -> sem tratamento extra no processador
+    -(1/2 DONE) get_interruption -> move o que esta no registrador de interrupcao para o de retorno
+    -(1/2 DONE) get_proc_pc
+        *getpc
+        *mov $v1(?) -> (???)
+    -move_reg_OS_proc
+    -move_reg_proc_OS
+    -load_reg_context
+    -store_reg_context
+
+
+$v1 guarda o valor da interrupcao e do retorno, serio mesmo?

@@ -1,10 +1,12 @@
+int teste(int k, int l){
+	return;
+}
+
 int main(void){
 	int a;
 	int b;
 	int c;
 
 	b = input();
-	a = 5;
-	c = a + 80;
-	output(c);	
+	teste(b, 27);
 }

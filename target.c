@@ -666,6 +666,23 @@ void generateTargetCall(Quadruple q, CodeType codeInfo){
 	else if(!strcmp(q->op1->contents.variable.name, "chrd")) { //changes the read shift, takes no argument
         printCode(insertTargInstruction(createTargInstruction(_CH_RD, TYPE_I, NULL, NULL, NULL)));
 	}
+	else if(!strcmp(q->op1->contents.variable.name, "recover_os")) { //recorvers the OS by changing the read shift then the write shift
+		printCode(insertTargInstruction(createTargInstruction(_NOP, TYPE_I, NULL, NULL, NULL)));
+        printCode(insertTargInstruction(createTargInstruction(_CH_RD, TYPE_I, NULL, NULL, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_CH_WRT, TYPE_I, NULL, NULL, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_NOP, TYPE_I, NULL, NULL, NULL)));
+	}
+	//////////////////////////////check if it's working/////////////////////////////////////////////
+	else if(!strcmp(q->op1->contents.variable.name, "get_interruption")) { //get interruption number 
+		//muda pra quem????????? Sera que eh o op3?
+        printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, getTemporaryReg(q->op3), getSyscallReg(0), NULL)));
+	}
+	//////////////////////////////check if it's working/////////////////////////////////////////////
+	else if(!strcmp(q->op1->contents.variable.name, "get_proc_pc")) { //gets pc for process
+		printCode(insertTargInstruction(createTargInstruction(_GET_PC, TYPE_I, NULL, NULL, NULL)));
+		//muda pra quem????????? Sera que eh o op3?
+        printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, getTemporaryReg(q->op3), getSyscallReg(0), NULL)));
+	}
 	else if(strcmp(scopezers->name, "main") == 0){
 		removeSavedOperands();
 		memBlockSize = getTamanhoBlocoMemoriaEscopo(q->op1->contents.variable.name);
@@ -741,12 +758,12 @@ void generateTargetCall(Quadruple q, CodeType codeInfo){
  			else { //variable
  				reg = getOperandRegName(q->op1);
 				sysreg = getSyscallReg(0);
- 				if((getArgumentReg(scopezers->argumentRegCounter)->addressing.regis != reg->addressing.regis) && (codeInfo == KERNEL)){
+ 				if((getArgumentReg(scopezers->argumentRegCounter)->addressing.regis != reg->addressing.regis)){
  					printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, argument, reg, NULL)));
  				}
-				else if((getArgumentReg(scopezers->argumentRegCounter)->addressing.regis != reg->addressing.regis) && (codeInfo == PROGRAMA)){
+				/*else if((getArgumentReg(scopezers->argumentRegCounter)->addressing.regis != reg->addressing.regis) && (codeInfo == PROGRAMA)){
  					printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, sysreg, reg, NULL)));
- 				}
+ 				}*/
  			}
  		}
  		else { //constant

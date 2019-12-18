@@ -11,7 +11,7 @@ instruction_types = {
     'j':'J', 'jal':'J', 
     'hlt':'I', 'nop':'I',
     # daqui pra baixo tudo eh do so
-    'lhd': 'I', 'shd':'I', 'lmem': 'I', 'smem':'I',
+    'lhd': 'I', 'shd':'I', 'lmem': 'I', 'smem':'I', 'smemproc': 'I'
     'lcd': 'I', 'chwrt':'I', 'chrd':'I'
 }
 
@@ -314,6 +314,14 @@ def type_I_instruction(instruction):
         spare = '0000000000000000'
         bin_inst = f'32\'b{opcode}_{register_bank[rs]}_{register_bank[rd]}_{spare};'
         comment = f' // smem: mem[{rd}] = {rs}'
+        out = bin_inst + comment
+    elif name == 'smemproc':
+        opcode = '110111'
+        rd = instruction[2].replace(',','')
+        rs = instruction[3].replace(',','')
+        spare = '0000000000000000'
+        bin_inst = f'32\'b{opcode}_{register_bank[rs]}_{register_bank[rd]}_{spare};'
+        comment = f' // smem_proc: mem[{rd}] = {rs}'
         out = bin_inst + comment
     elif name == 'lcd': #out    $a0
         opcode = '110110'

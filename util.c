@@ -230,6 +230,21 @@ char *copySysKind(SysKind sys){
         case Syscall: 
             return "sysend";
         break;
+        case SysIn: 
+            return "sysin";
+        break;
+        case SysOut: 
+            return "sysout";
+        break;
+        case RecoverOs: 
+            return "recover_os";
+        break;
+        case GetInterruption:
+            return "get_interruption";
+        break;
+        case GetPC:
+            return "get_proc_pc";
+        break;
     }
 }
 
@@ -544,6 +559,9 @@ const char * toOpcode(Opcode op){
         case _SYS_OUT:
             return "sysout";
         break;
+        case _GET_PC:
+            return "getpc";
+        break;
     }
     
 }
@@ -552,16 +570,16 @@ const char * toRegName(RegisterName rn){
         case $rzero:
             return "$rzero";
         break;
-        case $v0: //reserved for interrupt value
+        case $v0: 
             return "$v0";
         break;
-        case $v1: //reserved for syscall return 
+        case $v1: //reserved for interrupt value
             return "$v1";
         break;
         case $out1:
             return "$out1";
         break;
-        case $out2:
+        case $out2: //reserved for syscall return  
             return "$out2";
         break;
         case $gp:
@@ -770,6 +788,9 @@ const char * toBinaryOpcode(Opcode op){
         break;
         case _SYS_OUT:
             return "111011";
+        break;
+        case _GET_PC:
+            return "111101";
         break;
 
     }

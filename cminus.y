@@ -56,7 +56,13 @@ program         : declarationList {
                     insertNewNode(createSysCall(VoidType, LCD));      //write lcd
                     insertNewNode(createSysCall(VoidType, ChangeWrt));      //change write shift
                     insertNewNode(createSysCall(VoidType, ChangeRd));      //change read shift
+                    insertNewNode(createSysCall(VoidType, RecoverOs));      //recover OS
                     insertNewNode(createSysCall(VoidType, Syscall));      //SYSCALL
+                    insertNewNode(createSysCall(IntegerType, SysIn));      //sysin
+                    insertNewNode(createSysCall(VoidType, SysOut));     //sysout
+                    insertNewNode(createSysCall(IntegerType, GetInterruption));     //get interruption value
+                    insertNewNode(createSysCall(IntegerType, GetPC));   //input
+                    
 
                     TreeNode *node = savedTree;
                     while(node->sibling != NULL){

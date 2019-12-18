@@ -34,15 +34,19 @@ void sort( int a[], int low, int high)
 void main(void)
 {
 	int i;
+	int aux_in;
+	int aux_out;
 	i = 0;
 	while (i < 4){
-		vet[i] = input();
+		aux_in = input();
+		vet[i] = aux_in;
 		i = i + 1;
 	}
 	sort(vet,0,4);
 	i = 0;
 	while (i < 4){
-		output(vet[i]);
+		aux_out = vet[i];
+		output(aux_out);
 		i = i + 1;
 	}
 }

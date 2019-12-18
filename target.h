@@ -15,7 +15,7 @@ typedef enum opcode {
 	_NOP, //from here, new instructions for OS
 	_LW_HD, _SW_HD, _LW_MEM, _SW_MEM,
 	_LCD, _SW_MEM_PROC, _CH_WRT, _CH_RD,
-	_SYS_IN, _SYS_OUT, _SYS_END
+	_SYS_IN, _SYS_OUT, _SYS_END, _GET_PC
 } Opcode;
 
 typedef enum function {
