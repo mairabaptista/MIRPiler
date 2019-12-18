@@ -1,5 +1,10 @@
-int teste(int k, int l){
+void teste(int k){
 	return;
+}
+
+int test(void){
+	int l;
+	return l;
 }
 
 int main(void){
@@ -7,6 +12,10 @@ int main(void){
 	int b;
 	int c;
 
-	b = input();
-	teste(b, 27);
+	b = 10;
+	set_proc_pc(b);
+	c = c + 3;
+	output(c);
+	c = get_proc_pc();
+	output(c);
 }

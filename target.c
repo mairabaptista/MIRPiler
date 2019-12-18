@@ -681,7 +681,17 @@ void generateTargetCall(Quadruple q, CodeType codeInfo){
 	else if(!strcmp(q->op1->contents.variable.name, "get_proc_pc")) { //gets pc for process ------ mov $v1 -> $v0
 		printCode(insertTargInstruction(createTargInstruction(_GET_PC, TYPE_I, NULL, NULL, NULL)));
 		//muda pra quem????????? Sera que eh o op3? Sera que eh o v0
-        printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, rtnOP, getSyscallReg(0), NULL)));
+        printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, getSavedReg(q->op3), getSyscallReg(0), NULL)));
+	}
+	else if(!strcmp(q->op1->contents.variable.name, "set_proc_pc")) { //gets pc for process ------ mov $v1 -> $v0
+		//printCode(insertTargInstruction(createTargInstruction(_LW, TYPE_I, NULL, NULL, NULL)));
+		/*****
+		 * 
+		 * 
+		 * 
+		 */
+		ObjectiveOperand argument = getArgumentReg((scopezers->argumentRegCounter)-1);
+		printCode(insertTargInstruction(createTargInstruction(_SET_PROC_PC, TYPE_I, argument, NULL, NULL)));
 	}
 	else if(strcmp(scopezers->name, "main") == 0){
 		removeSavedOperands();

@@ -565,6 +565,9 @@ const char * toOpcode(Opcode op){
         case _GET_PC:
             return "getpc";
         break;
+        case _SET_PROC_PC:
+            return "setpc";
+        break;
     }
     
 }
@@ -794,6 +797,9 @@ const char * toBinaryOpcode(Opcode op){
         break;
         case _GET_PC:
             return "111101";
+        break;
+        case _SET_PROC_PC:
+            return "111110";
         break;
 
     }

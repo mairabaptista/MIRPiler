@@ -11,8 +11,8 @@ instruction_types = {
     'j':'J', 'jal':'J', 
     'hlt':'I', 'nop':'I',
     # daqui pra baixo tudo eh do so
-    'lhd': 'I', 'shd':'I', 'lmem': 'I', 'smem':'I', 'smemproc': 'I'
-    'lcd': 'I', 'chwrt':'I', 'chrd':'I'
+    'lhd': 'I', 'shd':'I', 'lmem': 'I', 'smem':'I', 'smemproc': 'I',
+    'lcd': 'I', 'chwrt':'I', 'chrd':'I', 'setpc':'I', 'getpc':'I'
 }
 
 register_bank = {
@@ -344,6 +344,21 @@ def type_I_instruction(instruction):
         spare = '0000000000000000'
         bin_inst = f'32\'b{opcode}_{sparereg}_{sparereg}_{spare};'
         comment = f' // chrd'
+        out = bin_inst + comment
+    elif name == 'setpc': #setpc $aX
+        opcode = '111110'
+        rs = instruction[2].replace(',','')
+        sparereg = '00000'
+        spare = '0000000000000000'
+        bin_inst = f'32\'b{opcode}_{sparereg}_{register_bank[rs]}_{spare};'
+        comment = f' // process pc = {rs} '
+        out = bin_inst + comment
+    elif name == 'getpc': #getpc
+        opcode = '111101'
+        sparereg = '00000'
+        spare = '0000000000000000'
+        bin_inst = f'32\'b{opcode}_{sparereg}_{sparereg}_{spare};'
+        comment = f' // $v1 = process pc'
         out = bin_inst + comment
     return out
 

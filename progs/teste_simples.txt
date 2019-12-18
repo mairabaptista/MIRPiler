@@ -4,38 +4,60 @@
 
 1: (function, teste, _, _)
 2: (get param, k, _, _)
-3: (get param, l, _, _)
-4: (return, _, _, _)
-5: (function, main, _, _)
-6: (param list, 0, _, _)
-7: (call, input, 0, T1)
-8: (assign, b, T1, _)
-9: (param list, 2, _, _)
-10: (set param, b, _, _)
-11: (set param, 27, _, _)
-12: (call, teste, 2, T2)
+3: (return, _, _, _)
+4: (function, test, _, _)
+5: (return, l, _, _)
+6: (function, main, _, _)
+7: (assign, b, 10, _)
+8: (param list, 1, _, _)
+9: (set param, b, _, _)
+10: (call, set_proc_pc, 1, T1)
+11: (addition, c, 3, T2)
+12: (assign, c, T2, _)
+13: (param list, 1, _, _)
+14: (set param, c, _, _)
+15: (call, output, 1, T3)
+16: (param list, 0, _, _)
+17: (call, get_proc_pc, 0, T4)
+18: (assign, c, T4, _)
+19: (param list, 1, _, _)
+20: (set param, c, _, _)
+21: (call, output, 1, T5)
 
 ////////////Codigo Objeto////////////
 
 teste:
-    0:	addi	$sp, $sp, 4
-        1:	sw	$a0, -1($sp)
-        2:	sw	$a1, 0($sp)
-        3:	jr	$ra
+    0:	addi	$sp, $sp, 3
+        1:	sw	$a0, 0($sp)
+        2:	jr	$ra
+    
+test:
+    3:	addi	$sp, $sp, 3
+        4:	lw	$s0, 0($sp)
+        5:	mov	$v0, $s0
+        6:	jr	$ra
     
 main:
-    4:	addi	$sp, $sp, 4
-        5:	nop	
-        6:	in	$t0
-        7:	sw	$t0, -1($sp)
-        8:	lw	$s0, -1($sp)
-        9:	mov	$a0, $s0
-        10:	li	$a1, 27
-        11:	sw	$ra, -3($sp)
-        12:	jal	teste
-        13:	subi	$sp, $sp, 4
-        14:	lw	$ra, -3($sp)
-        15:	mov	$s0, $v0
-        16:	subi	$sp, $sp, 4
-        17:	hlt	
+    7:	addi	$sp, $sp, 4
+        8:	li	$t0, 10
+        9:	sw	$t0, -1($sp)
+        10:	lw	$s0, -1($sp)
+        11:	mov	$a0, $s0
+        12:	setpc	$a0
+        13:	lw	$s1, 0($sp)
+        14:	addi	$t1, $s1, 3
+        15:	sw	$t1, 0($sp)
+        16:	lw	$s1, 0($sp)
+        17:	mov	$a0, $s1
+        18:	nop	
+        19:	out	$a0
+        20:	getpc	
+        21:	mov	$s2, $v1
+        22:	sw	$s2, 0($sp)
+        23:	lw	$s1, 0($sp)
+        24:	mov	$a0, $s1
+        25:	nop	
+        26:	out	$a0
+        27:	subi	$sp, $sp, 4
+        28:	hlt	
     
