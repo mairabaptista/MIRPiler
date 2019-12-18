@@ -5,7 +5,7 @@ int main(void) {
     index = 0;
     instruction = lhd(index);
 
-    while(index != 256){
+    while(index != 1024){
         smem(instruction, index);
         index = index + 1;
         instruction = lhd(index);

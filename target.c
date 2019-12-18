@@ -70,6 +70,8 @@ RegisterName regNames[REG_QTY] = {
 };
 
 
+
+
 ObjectiveOperand getMemoLocation(RegisterName regis){
 	//array, we have indexed addressing mode
 	ObjectiveOperand ops = (ObjectiveOperand) malloc(sizeof(struct objectiveOperand));
@@ -177,6 +179,18 @@ ObjectiveOperand getSyscallReg(int i){
 	ops->addrKind = REGI;
 	ops->addressing.regis = regNames[2];
 	Regis reg = registers[2];
+	reg.objectiveOp = ops;
+	return reg.objectiveOp;
+}
+
+
+ObjectiveOperand getSNineReg(int i){
+	//we have four function parameter registers, $aX
+	ObjectiveOperand ops = (ObjectiveOperand) malloc(sizeof(struct objectiveOperand));
+	int pos;
+	ops->addrKind = REGI;
+	ops->addressing.regis = regNames[19];
+	Regis reg = registers[19];
 	reg.objectiveOp = ops;
 	return reg.objectiveOp;
 }
@@ -675,7 +689,7 @@ void generateTargetCall(Quadruple q, CodeType codeInfo){
 	//////////////////////////////check if it's working/////////////////////////////////////////////
 	else if(!strcmp(q->op1->contents.variable.name, "get_interruption")) { //get interruption number ------ mov $v1 -> $v0
 		//muda pra quem????????? Sera que eh o op3? Sera que eh o v0
-        printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, rtnOP, getSyscallReg(0), NULL)));
+        printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, getSavedReg(q->op3), getSyscallReg(0), NULL)));
 	}
 	//////////////////////////////check if it's working/////////////////////////////////////////////
 	else if(!strcmp(q->op1->contents.variable.name, "get_proc_pc")) { //gets pc for process ------ mov $v1 -> $v0
@@ -692,6 +706,30 @@ void generateTargetCall(Quadruple q, CodeType codeInfo){
 		 */
 		ObjectiveOperand argument = getArgumentReg((scopezers->argumentRegCounter)-1);
 		printCode(insertTargInstruction(createTargInstruction(_SET_PROC_PC, TYPE_I, argument, NULL, NULL)));
+	}
+	else if(!strcmp(q->op1->contents.variable.name, "move_OS_to_proc")) { //moves data from os reg to proc reg
+		ObjectiveOperand argument = getArgumentReg((scopezers->argumentRegCounter)-1);
+		//printCode(insertTargInstruction(createTargInstruction(_LW, TYPE_I, argument, argument, NULL))); nao sei se precisa
+		printCode(insertTargInstruction(createTargInstruction(_CH_WRT, TYPE_I, NULL, NULL, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, getSyscallReg(0), argument, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_CH_WRT, TYPE_I, NULL, NULL, NULL)));
+
+	}
+	else if(!strcmp(q->op1->contents.variable.name, "move_proc_to_OS")) { //moves data from proc reg to os reg
+		printCode(insertTargInstruction(createTargInstruction(_CH_RD, TYPE_I, NULL, NULL, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, getSavedReg(q->op3), getSyscallReg(0), NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_CH_RD, TYPE_I, NULL, NULL, NULL)));
+
+	}
+	else if(!strcmp(q->op1->contents.variable.name, "swap_process")) { //swaps process
+		ObjectiveOperand argument = getArgumentReg((scopezers->argumentRegCounter)-1);
+		printCode(insertTargInstruction(createTargInstruction(_NOP, TYPE_I, NULL, NULL, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_CH_WRT, TYPE_I, NULL, NULL, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, argument, argument, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_CH_RD, TYPE_I, NULL, NULL, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, getSNineReg(0), argument, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_SPRC, TYPE_I, getSNineReg(0), NULL, NULL)));
+
 	}
 	else if(strcmp(scopezers->name, "main") == 0){
 		removeSavedOperands();
@@ -980,6 +1018,7 @@ void geraCodigoObjeto(Quadruple q, CodeType codeInfo){
 		
 		popStackPointer(scopezers->memBlockSize + 1);
 		printCode(insertTargInstruction(createTargInstruction(_SYS_END, TYPE_I, NULL, NULL, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_NOP, TYPE_I, NULL, NULL, NULL)));
 	}
 	else if (codeInfo == KERNEL){
 		

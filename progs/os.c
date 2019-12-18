@@ -10,12 +10,105 @@ int STATE_PROC[10]; /*stores execution state - 1: finished, 0: ready to be execu
 
 int BASH_STOP;
 
-int circular_queue(int amount){
-    output(90);
+int INTERRUPTION;
+
+/*void load_proc_context(int proc_index){
+    int transfer_iterations;
+    int transfer_index;
+    int instruction;
+    int hd_address;
+
+
+    output(89);
+    transfer_iterations = FILE_MAX_SIZES[proc_index];
+    transfer_index = 0;
+    hd_address = MEM_SIZE * proc_index;
+    instruction = lhd(hd_address);
+
+    while( transfer_index < transfer_iterations ) {
+        smemproc(instruction, transfer_index);
+        transfer_index = transfer_index + 1;
+        hd_address= hd_address + 1;
+        instruction = lhd(hd_address);
+    }
+    smemproc(instruction, transfer_index);
+
+    output(99);
+
+    return;
+}
+*/
+
+void circular_queue(int amount){
+    
+    int proc_ID;
+    int finished_procs;
+    int queue_index;
+    int proc_index;
+    int io_aux;
+    int proc_pc;
+
+    finished_procs = 0;
+    queue_index = 0;
+    proc_pc = 0;
+
+    lcd(4); 
+
+    BASH_STOP = input();
+
+    while (finished_procs < amount){
+        output(12);
+        output(13);
+        /*proc_ID = PROCESS_QUEUE[queue_index];
+        proc_index = proc_ID; 
+        if( STATE_PROC[proc_index] == 0 ) {
+            output( proc_index );
+            proc_pc = PROC_PCS[proc_index];
+            set_proc_pc( proc_pc );
+            
+            swap_process(proc_index);
+            recover_os();
+            output(70);
+            INTERRUPTION = get_interruption();
+            output(INTERRUPTION);
+            PROC_PCS[proc_index] = get_proc_pc();
+            
+            if( INTERRUPTION == 1 ) {
+                output(INTERRUPTION);
+                io_aux = input();
+                output(io_aux);
+                move_OS_to_proc(io_aux); 
+            }
+            
+            if(INTERRUPTION == 2) {
+                output(INTERRUPTION);
+                io_aux = move_proc_to_OS(); 
+                output(io_aux);
+            }
+            
+            if(INTERRUPTION == 3) {
+                output(INTERRUPTION);
+                output(proc_index);
+                STATE_PROC[proc_index] = 1;
+                finished_procs = finished_procs + 1;
+            }
+            
+        }
+        
+        if(queue_index < amount - 1) {             
+            queue_index = queue_index + 1;
+        }
+        else {
+            queue_index = 0;
+        }*/
+    }
+    lcd(5); 
+    BASH_STOP = input();
+
     return;
 }
 
-int reset_queue(void){
+void reset_queue(void){
     int i;
 
     while(i < 10){
@@ -26,7 +119,7 @@ int reset_queue(void){
     return;
 }
 
-int reset_pcs(void){
+void reset_pcs(void){
     int i;
 
     while(i < 10){
@@ -37,7 +130,7 @@ int reset_pcs(void){
     return;
 }
 
-int process_handling(void){
+void process_handling(void){
     int amount;
     int inqueue;
     int proc_ID;
@@ -62,7 +155,7 @@ int process_handling(void){
     return;
 }
 
-int bash(void){
+void bash(void){
     int choice;
 
     lcd(1); /*make your choice: 1 - process*/
@@ -74,12 +167,12 @@ int bash(void){
     return;
 }
 
-int init_os(void){
+void init_os(void){
     int i;
 
     i = 0;
     MAX_PROCESS = 10;
-    MEM_SIZE = 2096;
+    MEM_SIZE = 1024;
 
     FILE_MAX_SIZES[1] = 0;
     FILE_MAX_SIZES[2] = 0;

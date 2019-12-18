@@ -1,189 +1,221 @@
 
 circular_queue:
-0:	addi	$sp, $sp, 3
-1:	sw	$a0, 0($sp)
-2:	li	$a0, 90
-3:	out	$a0
-4:	jr	$ra
+0:	addi	$sp, $sp, 9
+1:	sw	$a0, -6($sp)
+2:	li	$t0, 0
+3:	sw	$t0, -4($sp)
+4:	li	$t1, 0
+5:	sw	$t1, -3($sp)
+6:	li	$t2, 0
+7:	sw	$t2, 0($sp)
+8:	li	$a0, 4
+9:	lcd	$a0
+10:	nop	
+11:	in	$t3
+12:	sw	$t3, 52($gp)
+.L1	
+13:	lw	$s0, -4($sp)
+14:	lw	$s1, -6($sp)
+15:	lt	$t4, $s0, $s1
+16:	beq	$t4, $rzero, L2
+17:	li	$a0, 12
+18:	nop	
+19:	out	$a0
+20:	li	$a0, 13
+21:	nop	
+22:	out	$a0
+23:	j	L1
+.L2	
+24:	li	$a0, 5
+25:	lcd	$a0
+26:	nop	
+27:	in	$t5
+28:	sw	$t5, 52($gp)
+29:	jr	$ra
 
 reset_queue:
-5:	addi	$sp, $sp, 3
-.L1	
-6:	lw	$s0, 0($sp)
-7:	li	$t0, 10
-8:	lt	$t1, $s0, $t0
-9:	beq	$t1, $rzero, L2
-10:	la	$s1, 2($gp)
-11:	add	$t2, $s1, $s0
-12:	li	$t3, 0
-13:	sw	$t3, 0($t2)
-14:	addi	$t4, $s0, 1
-15:	sw	$t4, 0($sp)
-16:	lw	$s0, 0($sp)
-17:	j	L1
-.L2	
-18:	li	$a0, 87
-19:	out	$a0
-20:	jr	$ra
+30:	addi	$sp, $sp, 3
+.L3	
+31:	lw	$s0, 0($sp)
+32:	li	$t0, 10
+33:	lt	$t1, $s0, $t0
+34:	beq	$t1, $rzero, L4
+35:	la	$s1, 2($gp)
+36:	add	$t2, $s1, $s0
+37:	li	$t3, 0
+38:	sw	$t3, 0($t2)
+39:	addi	$t4, $s0, 1
+40:	sw	$t4, 0($sp)
+41:	lw	$s0, 0($sp)
+42:	j	L3
+.L4	
+43:	li	$a0, 87
+44:	nop	
+45:	out	$a0
+46:	jr	$ra
 
 reset_pcs:
-21:	addi	$sp, $sp, 3
-.L3	
-22:	lw	$s0, 0($sp)
-23:	li	$t0, 10
-24:	lt	$t1, $s0, $t0
-25:	beq	$t1, $rzero, L4
-26:	la	$s1, 32($gp)
-27:	add	$t2, $s1, $s0
-28:	li	$t3, 0
-29:	sw	$t3, 0($t2)
-30:	addi	$t4, $s0, 1
-31:	sw	$t4, 0($sp)
-32:	lw	$s0, 0($sp)
-33:	j	L3
-.L4	
-34:	li	$a0, 47
-35:	out	$a0
-36:	jr	$ra
+47:	addi	$sp, $sp, 3
+.L5	
+48:	lw	$s0, 0($sp)
+49:	li	$t0, 10
+50:	lt	$t1, $s0, $t0
+51:	beq	$t1, $rzero, L6
+52:	la	$s1, 32($gp)
+53:	add	$t2, $s1, $s0
+54:	li	$t3, 0
+55:	sw	$t3, 0($t2)
+56:	addi	$t4, $s0, 1
+57:	sw	$t4, 0($sp)
+58:	lw	$s0, 0($sp)
+59:	j	L5
+.L6	
+60:	li	$a0, 47
+61:	nop	
+62:	out	$a0
+63:	jr	$ra
 
 process_handling:
-37:	addi	$sp, $sp, 5
-38:	li	$a0, 2
-39:	lcd	$a0
-40:	nop	
-41:	in	$t0
-42:	sw	$t0, -2($sp)
-43:	lw	$s0, -2($sp)
-44:	mov	$a0, $s0
-45:	out	$a0
-46:	li	$t1, 0
-47:	sw	$t1, -1($sp)
-48:	li	$a0, 3
-49:	lcd	$a0
-.L5	
-50:	lw	$s0, -1($sp)
-51:	lw	$s1, -2($sp)
-52:	lt	$t2, $s0, $s1
-53:	beq	$t2, $rzero, L6
-54:	nop	
-55:	in	$t3
-56:	sw	$t3, 0($sp)
-57:	lw	$s2, 0($sp)
-58:	mov	$a0, $s2
-59:	out	$a0
-60:	la	$s3, 2($gp)
-61:	add	$t4, $s3, $s0
-62:	sw	$s2, 0($t4)
-63:	la	$s4, 42($gp)
-64:	add	$t5, $s4, $s0
-65:	li	$t6, 0
-66:	sw	$t6, 0($t5)
-67:	addi	$t7, $s0, 1
-68:	sw	$t7, -1($sp)
-69:	lw	$s0, -1($sp)
-70:	j	L5
-.L6	
-71:	lw	$s0, -2($sp)
-72:	mov	$a0, $s0
-73:	sw	$ra, -3($sp)
-74:	jal	circular_queue
-75:	subi	$sp, $sp, 3
-76:	lw	$ra, -3($sp)
-77:	mov	$s0, $v0
-78:	sw	$ra, -3($sp)
-79:	jal	reset_queue
-80:	subi	$sp, $sp, 3
-81:	lw	$ra, -3($sp)
-82:	mov	$s0, $v0
-83:	sw	$ra, -3($sp)
-84:	jal	reset_pcs
-85:	subi	$sp, $sp, 3
-86:	lw	$ra, -3($sp)
-87:	mov	$s0, $v0
-88:	jr	$ra
+64:	addi	$sp, $sp, 5
+65:	li	$a0, 2
+66:	lcd	$a0
+67:	nop	
+68:	in	$t0
+69:	sw	$t0, -2($sp)
+70:	lw	$s0, -2($sp)
+71:	mov	$a0, $s0
+72:	nop	
+73:	out	$a0
+74:	li	$t1, 0
+75:	sw	$t1, -1($sp)
+76:	li	$a0, 3
+77:	lcd	$a0
+.L7	
+78:	lw	$s0, -1($sp)
+79:	lw	$s1, -2($sp)
+80:	lt	$t2, $s0, $s1
+81:	beq	$t2, $rzero, L8
+82:	nop	
+83:	in	$t3
+84:	sw	$t3, 0($sp)
+85:	lw	$s2, 0($sp)
+86:	mov	$a0, $s2
+87:	nop	
+88:	out	$a0
+89:	la	$s3, 2($gp)
+90:	add	$t4, $s3, $s0
+91:	sw	$s2, 0($t4)
+92:	la	$s4, 42($gp)
+93:	add	$t5, $s4, $s0
+94:	li	$t6, 0
+95:	sw	$t6, 0($t5)
+96:	addi	$t7, $s0, 1
+97:	sw	$t7, -1($sp)
+98:	lw	$s0, -1($sp)
+99:	j	L7
+.L8	
+100:	lw	$s0, -2($sp)
+101:	mov	$a0, $s0
+102:	sw	$ra, -3($sp)
+103:	jal	circular_queue
+104:	subi	$sp, $sp, 9
+105:	lw	$ra, -3($sp)
+106:	mov	$s0, $v0
+107:	sw	$ra, -3($sp)
+108:	jal	reset_queue
+109:	subi	$sp, $sp, 3
+110:	lw	$ra, -3($sp)
+111:	mov	$s0, $v0
+112:	sw	$ra, -3($sp)
+113:	jal	reset_pcs
+114:	subi	$sp, $sp, 3
+115:	lw	$ra, -3($sp)
+116:	mov	$s0, $v0
+117:	jr	$ra
 
 bash:
-89:	addi	$sp, $sp, 3
-90:	li	$a0, 1
-91:	lcd	$a0
-92:	nop	
-93:	in	$t0
-94:	sw	$t0, 0($sp)
-95:	lw	$s0, 0($sp)
-96:	mov	$a0, $s0
-97:	out	$a0
-98:	li	$t1, 1
-99:	eq	$t2, $s0, $t1
-100:	beq	$t2, $rzero, L7
-101:	sw	$ra, -1($sp)
-102:	jal	process_handling
-103:	subi	$sp, $sp, 5
-104:	lw	$ra, -1($sp)
-105:	mov	$s0, $v0
-.L7	
-106:	jr	$ra
+118:	addi	$sp, $sp, 3
+119:	li	$a0, 1
+120:	lcd	$a0
+121:	nop	
+122:	in	$t0
+123:	sw	$t0, 0($sp)
+124:	lw	$s0, 0($sp)
+125:	mov	$a0, $s0
+126:	nop	
+127:	out	$a0
+128:	li	$t1, 1
+129:	eq	$t2, $s0, $t1
+130:	beq	$t2, $rzero, L9
+131:	sw	$ra, -1($sp)
+132:	jal	process_handling
+133:	subi	$sp, $sp, 5
+134:	lw	$ra, -1($sp)
+135:	mov	$s0, $v0
+.L9	
+136:	jr	$ra
 
 init_os:
-107:	addi	$sp, $sp, 3
-108:	li	$t0, 0
-109:	sw	$t0, 0($sp)
-110:	li	$t1, 10
-111:	sw	$t1, 0($gp)
-112:	li	$t2, 2096
-113:	sw	$t2, 1($gp)
-114:	la	$s0, 22($gp)
-115:	li	$t3, 0
-116:	sw	$t3, 1($s0)
-117:	li	$t4, 0
-118:	sw	$t4, 2($s0)
-119:	li	$t5, 0
-120:	sw	$t5, 3($s0)
-.L8	
-121:	lw	$s0, 0($sp)
-122:	li	$t6, 10
-123:	lt	$t7, $s0, $t6
-124:	beq	$t7, $rzero, L9
-125:	la	$s1, 2($gp)
-126:	add	$t8, $s1, $s0
-127:	li	$t9, 0
-128:	sw	$t9, 0($t8)
-129:	la	$s2, 42($gp)
-130:	add	$t0, $s2, $s0
-131:	li	$t1, 0
-132:	sw	$t1, 0($t0)
-133:	la	$s3, 32($gp)
-134:	add	$t2, $s3, $s0
-135:	li	$t3, 0
-136:	sw	$t3, 0($t2)
-137:	la	$s4, 12($gp)
-138:	add	$t4, $s4, $s0
-139:	sw	$s0, 0($t4)
-140:	addi	$t5, $s0, 1
-141:	sw	$t5, 0($sp)
-142:	lw	$s0, 0($sp)
-143:	j	L8
-.L9	
-144:	jr	$ra
+137:	addi	$sp, $sp, 3
+138:	li	$t0, 0
+139:	sw	$t0, 0($sp)
+140:	li	$t1, 10
+141:	sw	$t1, 0($gp)
+142:	li	$t2, 1024
+143:	sw	$t2, 1($gp)
+144:	la	$s0, 22($gp)
+145:	li	$t3, 0
+146:	sw	$t3, 1($s0)
+147:	li	$t4, 0
+148:	sw	$t4, 2($s0)
+149:	li	$t5, 0
+150:	sw	$t5, 3($s0)
+.L10	
+151:	lw	$s0, 0($sp)
+152:	li	$t6, 10
+153:	lt	$t7, $s0, $t6
+154:	beq	$t7, $rzero, L11
+155:	la	$s1, 2($gp)
+156:	add	$t8, $s1, $s0
+157:	li	$t9, 0
+158:	sw	$t9, 0($t8)
+159:	la	$s2, 42($gp)
+160:	add	$t0, $s2, $s0
+161:	li	$t1, 0
+162:	sw	$t1, 0($t0)
+163:	la	$s3, 32($gp)
+164:	add	$t2, $s3, $s0
+165:	li	$t3, 0
+166:	sw	$t3, 0($t2)
+167:	la	$s4, 12($gp)
+168:	add	$t4, $s4, $s0
+169:	sw	$s0, 0($t4)
+170:	addi	$t5, $s0, 1
+171:	sw	$t5, 0($sp)
+172:	lw	$s0, 0($sp)
+173:	j	L10
+.L11	
+174:	jr	$ra
 
 main:
-145:	addi	$sp, $gp, 1
-146:	addi	$sp, $sp, 54
-147:	li	$a0, 0
-148:	lcd	$a0
-149:	nop	
-150:	in	$t0
-151:	sw	$t0, 52($gp)
-.L10	
-152:	li	$t1, 1
-153:	li	$t2, 2
-154:	lt	$t3, $t1, $t2
-155:	beq	$t3, $rzero, L11
-156:	sw	$ra, 0($sp)
-157:	jal	bash
-158:	subi	$sp, $sp, 3
-159:	lw	$ra, 0($sp)
-160:	mov	$s0, $v0
-161:	j	L10
-.L11	
-162:	subi	$sp, $sp, 1
-163:	hlt	
+175:	addi	$sp, $gp, 1
+176:	addi	$sp, $sp, 55
+177:	li	$a0, 0
+178:	lcd	$a0
+179:	nop	
+180:	in	$t0
+181:	sw	$t0, 52($gp)
+.L12	
+182:	li	$t1, 1
+183:	li	$t2, 2
+184:	lt	$t3, $t1, $t2
+185:	beq	$t3, $rzero, L13
+186:	sw	$ra, 0($sp)
+187:	jal	bash
+188:	subi	$sp, $sp, 3
+189:	lw	$ra, 0($sp)
+190:	mov	$s0, $v0
+191:	j	L12
+.L13	
+192:	subi	$sp, $sp, 1
+193:	hlt	

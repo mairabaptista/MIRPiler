@@ -9,7 +9,7 @@ main:
 6:	sw	$t1, 0($sp)
 .L1	
 7:	lw	$s0, -1($sp)
-8:	li	$t2, 256
+8:	li	$t2, 1024
 9:	neq	$t3, $s0, $t2
 10:	beq	$t3, $rzero, L2
 11:	lw	$s1, 0($sp)
@@ -33,8 +33,10 @@ main:
 28:	li	$a0, 8
 29:	lcd	$a0
 30:	mov	$a0, $s1
-31:	out	$a0
-32:	li	$a0, 99
-33:	out	$a0
-34:	subi	$sp, $sp, 3
-35:	hlt	
+31:	nop	
+32:	out	$a0
+33:	li	$a0, 99
+34:	nop	
+35:	out	$a0
+36:	subi	$sp, $sp, 3
+37:	hlt	

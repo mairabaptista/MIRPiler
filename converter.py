@@ -12,7 +12,8 @@ instruction_types = {
     'hlt':'I', 'nop':'I',
     # daqui pra baixo tudo eh do so
     'lhd': 'I', 'shd':'I', 'lmem': 'I', 'smem':'I', 'smemproc': 'I',
-    'lcd': 'I', 'chwrt':'I', 'chrd':'I', 'setpc':'I', 'getpc':'I'
+    'lcd': 'I', 'chwrt':'I', 'chrd':'I', 'setpc':'I', 'getpc':'I', 'sprc':'I',
+    'sysin': 'I', 'sysout': 'I'
 }
 
 register_bank = {
@@ -360,6 +361,26 @@ def type_I_instruction(instruction):
         bin_inst = f'32\'b{opcode}_{sparereg}_{sparereg}_{spare};'
         comment = f' // $v1 = process pc'
         out = bin_inst + comment
+    elif name == 'sprc': #sprc
+        opcode = '100111'
+        rs = instruction[2].replace(',','')
+        sparereg = '00000'
+        spare = '0000000000000000'
+        bin_inst = f'32\'b{opcode}_{sparereg}_{register_bank[rs]}_{spare};'
+        comment = f' // sprc = {rs} '
+        out = bin_inst + comment
+    elif name == 'sysin':
+        opcode = '111010'
+        spare = '00000000000000000000000000'
+        bin_inst = f'32\'b{opcode}_{spare};'
+        comment = f' // sysin'
+        out = bin_inst + comment
+    elif name == 'sysout':
+        opcode = '111011'
+        spare = '00000000000000000000000000'
+        bin_inst = f'32\'b{opcode}_{spare};'
+        comment = f' // sysout'
+        out = bin_inst + comment
     return out
 
 def type_J_instruction(instruction):
@@ -379,6 +400,7 @@ def type_J_instruction(instruction):
         bin_inst = f'32\'b{opcode}_{bin_line_num};'
         comment =  f' // jump and link to {line_num} ({instruction[-1]})'
         out = bin_inst + comment
+    
     return out 
 
 def main():
@@ -404,8 +426,12 @@ def main():
     
 
     out_file = open('teste_simples.b', 'w')
+    #label_dict['main'] = label_dict['main'] + 1
     instruction_number = instr_num + 1
+    #out = mem_name + '[' + str(instr_num) + '] <= ' + '32\'b011100_00000_00000_0000000000000000' + '\n'
+    #out_file.write(out)
     out = mem_name + '[' + str(instr_num) + '] <= ' + type_J_instruction(['0:','j','main']) + '\n'
+    #instruction_number = instr_num + 2
     out_file.write(out)
     for line in asm_file:
         instruction = line.split()

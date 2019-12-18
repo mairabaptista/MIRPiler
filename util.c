@@ -248,6 +248,15 @@ char *copySysKind(SysKind sys){
         case SetProcPC:
             return "set_proc_pc";
         break;
+        case MoveOsToProc:
+            return "move_OS_to_proc";
+        break;
+        case MoveProctoOs:
+            return "move_proc_to_OS";
+        break;
+        case SwapProcess:
+            return "swap_process";
+        break;
     }
 }
 
@@ -568,6 +577,9 @@ const char * toOpcode(Opcode op){
         case _SET_PROC_PC:
             return "setpc";
         break;
+        case _SPRC: //swap process
+            return "sprc";
+        break;
     }
     
 }
@@ -800,6 +812,9 @@ const char * toBinaryOpcode(Opcode op){
         break;
         case _SET_PROC_PC:
             return "111110";
+        break;
+        case _SPRC:
+            return "100111";
         break;
 
     }

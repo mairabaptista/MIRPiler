@@ -63,7 +63,9 @@ program         : declarationList {
                     insertNewNode(createSysCall(IntegerType, GetInterruption));     //get interruption value
                     insertNewNode(createSysCall(IntegerType, GetPC));   //get_proc_pc
                     insertNewNode(createSysCall(VoidType, SetProcPC));     //set_proc_pc
-                    
+                    insertNewNode(createSysCall(IntegerType, MoveOsToProc));   //moves data os to proc
+                    insertNewNode(createSysCall(VoidType, MoveProctoOs));   //moves data proc to os
+                    insertNewNode(createSysCall(VoidType, SwapProcess));   //swaps to process
 
                     TreeNode *node = savedTree;
                     while(node->sibling != NULL){
