@@ -245,6 +245,9 @@ char *copySysKind(SysKind sys){
         case GetPC:
             return "get_proc_pc";
         break;
+        case SetProcPC:
+            return "set_proc_pc";
+        break;
     }
 }
 

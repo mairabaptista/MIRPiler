@@ -61,7 +61,8 @@ program         : declarationList {
                     insertNewNode(createSysCall(IntegerType, SysIn));      //sysin
                     insertNewNode(createSysCall(VoidType, SysOut));     //sysout
                     insertNewNode(createSysCall(IntegerType, GetInterruption));     //get interruption value
-                    insertNewNode(createSysCall(IntegerType, GetPC));   //input
+                    insertNewNode(createSysCall(IntegerType, GetPC));   //get_proc_pc
+                    insertNewNode(createSysCall(VoidType, SetProcPC));     //set_proc_pc
                     
 
                     TreeNode *node = savedTree;

@@ -673,15 +673,15 @@ void generateTargetCall(Quadruple q, CodeType codeInfo){
 		printCode(insertTargInstruction(createTargInstruction(_NOP, TYPE_I, NULL, NULL, NULL)));
 	}
 	//////////////////////////////check if it's working/////////////////////////////////////////////
-	else if(!strcmp(q->op1->contents.variable.name, "get_interruption")) { //get interruption number 
-		//muda pra quem????????? Sera que eh o op3?
-        printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, getTemporaryReg(q->op3), getSyscallReg(0), NULL)));
+	else if(!strcmp(q->op1->contents.variable.name, "get_interruption")) { //get interruption number ------ mov $v1 -> $v0
+		//muda pra quem????????? Sera que eh o op3? Sera que eh o v0
+        printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, rtnOP, getSyscallReg(0), NULL)));
 	}
 	//////////////////////////////check if it's working/////////////////////////////////////////////
-	else if(!strcmp(q->op1->contents.variable.name, "get_proc_pc")) { //gets pc for process
+	else if(!strcmp(q->op1->contents.variable.name, "get_proc_pc")) { //gets pc for process ------ mov $v1 -> $v0
 		printCode(insertTargInstruction(createTargInstruction(_GET_PC, TYPE_I, NULL, NULL, NULL)));
-		//muda pra quem????????? Sera que eh o op3?
-        printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, getTemporaryReg(q->op3), getSyscallReg(0), NULL)));
+		//muda pra quem????????? Sera que eh o op3? Sera que eh o v0
+        printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, rtnOP, getSyscallReg(0), NULL)));
 	}
 	else if(strcmp(scopezers->name, "main") == 0){
 		removeSavedOperands();
