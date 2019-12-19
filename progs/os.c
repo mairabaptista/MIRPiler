@@ -2,17 +2,17 @@
 int MAX_PROCESS; /*maximum number of processes*/
 int MEM_SIZE; /*size of memory page*/
 
+int BASH_STOP;
+
 int PROCESS_QUEUE[10]; /*the queue for process swapping*/
 int FILE_ID[10]; /*stores file ids*/
 int FILE_MAX_SIZES[10]; /*stores the maximum size for each file*/
 int PROC_PCS[10]; /*store program counters for each proc */
 int STATE_PROC[10]; /*stores execution state - 1: finished, 0: ready to be executed*/
 
-int BASH_STOP;
 
-int INTERRUPTION;
 
-/*void load_proc_context(int proc_index){
+void load_proc_context(int proc_index){
     int transfer_iterations;
     int transfer_index;
     int instruction;
@@ -22,22 +22,28 @@ int INTERRUPTION;
     output(89);
     transfer_iterations = FILE_MAX_SIZES[proc_index];
     transfer_index = 0;
+    output(proc_index);
+    output(FILE_ID[3]);
+    output(FILE_ID[4]);
+    output(MEM_SIZE);
     hd_address = MEM_SIZE * proc_index;
-    instruction = lhd(hd_address);
+
+    output(hd_address);
+    
 
     while( transfer_index < transfer_iterations ) {
+        instruction = lhd(hd_address);
         smemproc(instruction, transfer_index);
         transfer_index = transfer_index + 1;
-        hd_address= hd_address + 1;
-        instruction = lhd(hd_address);
+        hd_address= hd_address + 1;     
     }
-    smemproc(instruction, transfer_index);
+    output(transfer_index);
 
     output(99);
 
     return;
 }
-*/
+
 
 void circular_queue(int amount){
     
@@ -47,6 +53,7 @@ void circular_queue(int amount){
     int proc_index;
     int io_aux;
     int proc_pc;
+    int INTERRUPTION;
 
     finished_procs = 0;
     queue_index = 0;
@@ -59,13 +66,13 @@ void circular_queue(int amount){
     while (finished_procs < amount){
         output(12);
         output(13);
-        /*proc_ID = PROCESS_QUEUE[queue_index];
+        proc_ID = PROCESS_QUEUE[queue_index];
         proc_index = proc_ID; 
         if( STATE_PROC[proc_index] == 0 ) {
             output( proc_index );
             proc_pc = PROC_PCS[proc_index];
             set_proc_pc( proc_pc );
-            
+            load_proc_context(proc_index);
             swap_process(proc_index);
             recover_os();
             output(70);
@@ -100,7 +107,7 @@ void circular_queue(int amount){
         }
         else {
             queue_index = 0;
-        }*/
+        }
     }
     lcd(5); 
     BASH_STOP = input();
@@ -174,7 +181,7 @@ void init_os(void){
     MAX_PROCESS = 10;
     MEM_SIZE = 1024;
 
-    FILE_MAX_SIZES[1] = 0;
+    FILE_MAX_SIZES[1] = 50;
     FILE_MAX_SIZES[2] = 0;
     FILE_MAX_SIZES[3] = 0;
 
@@ -189,10 +196,14 @@ void init_os(void){
 }
 
 int main(void){
+
+    init_os();
     
     lcd(0); /*Bem vindx ao sistema operacional*/
 
     BASH_STOP = input();
+
+
 
     while(1 < 2){
         bash();

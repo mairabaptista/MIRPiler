@@ -13,7 +13,7 @@ instruction_types = {
     # daqui pra baixo tudo eh do so
     'lhd': 'I', 'shd':'I', 'lmem': 'I', 'smem':'I', 'smemproc': 'I',
     'lcd': 'I', 'chwrt':'I', 'chrd':'I', 'setpc':'I', 'getpc':'I', 'sprc':'I',
-    'sysin': 'I', 'sysout': 'I'
+    'sysin': 'I', 'sysout': 'I', 'sysend':'I'
 }
 
 register_bank = {
@@ -46,6 +46,7 @@ def type_R_instruction(instruction):
     name = instruction[1]
     if name == 'add':   #add   $s0, $s1, $s2 -> $s0 = $s1 + $s2
         opcode = '000000'
+        print(instruction)
         rd = instruction[2].replace(',','')
         rs = instruction[3].replace(',','')
         rt = instruction[4].replace(',','')
@@ -381,6 +382,12 @@ def type_I_instruction(instruction):
         bin_inst = f'32\'b{opcode}_{spare};'
         comment = f' // sysout'
         out = bin_inst + comment
+    elif name == 'sysend':
+        opcode = '111100'
+        spare = '00000000000000000000000000'
+        bin_inst = f'32\'b{opcode}_{spare};'
+        comment = f' // sysend'
+        out = bin_inst + comment
     return out
 
 def type_J_instruction(instruction):
@@ -426,12 +433,8 @@ def main():
     
 
     out_file = open('teste_simples.b', 'w')
-    #label_dict['main'] = label_dict['main'] + 1
     instruction_number = instr_num + 1
-    #out = mem_name + '[' + str(instr_num) + '] <= ' + '32\'b011100_00000_00000_0000000000000000' + '\n'
-    #out_file.write(out)
     out = mem_name + '[' + str(instr_num) + '] <= ' + type_J_instruction(['0:','j','main']) + '\n'
-    #instruction_number = instr_num + 2
     out_file.write(out)
     for line in asm_file:
         instruction = line.split()

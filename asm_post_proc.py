@@ -16,9 +16,9 @@ for idx in range(len(asm_file)):
     elif len(new_line) > 1 and new_line[1] == "sysout":
         out_idx_to_v1 = idx - 2 
 
-print(asm_file[idx_to_nop])
-print(asm_file[idx_to_v1])
-print(asm_file[out_idx_to_v1])
+##print(asm_file[idx_to_nop])
+#print(asm_file[idx_to_v1])
+#print(asm_file[out_idx_to_v1])
 
 nop_num = asm_file[idx_to_nop].split()[0]
 v1_num = asm_file[idx_to_v1].split()[0]

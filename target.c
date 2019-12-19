@@ -647,7 +647,6 @@ void generateTargetCall(Quadruple q, CodeType codeInfo){
 		}
 
 	else if((strcmp(q->op1->contents.variable.name, "output") == 0) && (codeInfo == KERNEL)){ //output
-		printCode(insertTargInstruction(createTargInstruction(_NOP, TYPE_I, NULL, NULL, NULL)));
 		printCode(insertTargInstruction(createTargInstruction(_OUT, TYPE_I, getArgumentReg(0), NULL, NULL)));
 	}
 	else if((strcmp(q->op1->contents.variable.name, "output") == 0) && (codeInfo == PROGRAMA)){ //output from a process

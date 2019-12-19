@@ -257,6 +257,9 @@ char *copySysKind(SysKind sys){
         case SwapProcess:
             return "swap_process";
         break;
+        case StoreReg:
+            return "store_reg";
+        break;
     }
 }
 
