@@ -60,7 +60,7 @@ void load_proc_context(int proc_index){
     int hd_address;
 
 
-    output(89);
+    /*output(89);*/
     transfer_iterations = FILE_MAX_SIZES[proc_index];
     transfer_index = 0;
     hd_address = MEM_SIZE * proc_index;
@@ -111,9 +111,9 @@ void load_proc_context(int proc_index){
 
     
 
-    output(99);
+    /*output(99);
 
-    output(123);
+    output(123);*/
   
     return;
 }
@@ -133,12 +133,12 @@ void circular_queue(int amount){
     queue_index = 0;
     proc_pc = 0;
 
-    lcd(4); 
+    lcd(4); /*Running processes*/
 
     BASH_STOP = input();
 
     while (finished_procs < amount){
-        output(12);
+        /*output(12);*/
         proc_ID = PROCESS_QUEUE[queue_index];
         proc_index = proc_ID; 
         if( STATE_PROC[proc_index] == 0 ) {
@@ -148,12 +148,13 @@ void circular_queue(int amount){
             load_proc_context(proc_index);
             swap_process(proc_index);
             recover_os();
-            output(70);
+            /*output(70);*/
             INTERRUPTION = get_interruption();
             output(INTERRUPTION);
             PROC_PCS[proc_index] = get_proc_pc();
             
             if( INTERRUPTION == 1 ) {
+                lcd(7); /*Interruption caused by sysin*/
                 output(INTERRUPTION);
                 io_aux = input();
                 output(io_aux);
@@ -161,12 +162,14 @@ void circular_queue(int amount){
             }
             
             if(INTERRUPTION == 2) {
+                lcd(8); /*interruption caused by sysout*/
                 output(INTERRUPTION);
                 io_aux = move_proc_to_OS(); 
                 output(io_aux);
             }
             
             if(INTERRUPTION == 3) {
+                lcd(9); /*interruption caused by sysend*/
                 output(INTERRUPTION);
                 output(proc_index);
                 STATE_PROC[proc_index] = 1;
@@ -182,7 +185,7 @@ void circular_queue(int amount){
             queue_index = 0;
         }
     }
-    lcd(5); 
+    lcd(5); /*All processes finished running*/
     BASH_STOP = input();
 
     return;
@@ -190,23 +193,25 @@ void circular_queue(int amount){
 
 void reset_queue(void){
     int i;
-
+    lcd(6); /*Queue is being reseted*/
+    BASH_STOP = input();
     while(i < 10){
         PROCESS_QUEUE[i] = 0;
         i = i + 1;
     }
-    output(87);
+    /*output(87);*/
     return;
 }
 
 void reset_pcs(void){
     int i;
-
+    lcd(7); /*PCs are being reseted*/
+    BASH_STOP = input();
     while(i < 10){
         PROC_PCS[i] = 0;
         i = i + 1;
     }
-    output(47);
+    /*output(47);*/
     return;
 }
 
@@ -272,11 +277,9 @@ int main(void){
 
     init_os();
     
-    lcd(0); /*Bem vindx ao sistema operacional*/
+    lcd(0); /*Welcome to mirOS*/
 
     BASH_STOP = input();
-
-
 
     while(1 < 2){
         bash();
