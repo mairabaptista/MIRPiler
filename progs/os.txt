@@ -2,711 +2,1478 @@
 
 ***************************************
 
-1: (function, load_proc_context, _, _)
+1: (function, store_proc_context, _, _)
 2: (get param, proc_index, _, _)
-3: (param list, 1, _, _)
-4: (set param, 89, _, _)
-5: (call, output, 1, T6)
-6: (array value, FILE_MAX_SIZES, proc_index, T7)
-7: (assign, transfer_iterations, T7, _)
-8: (assign, transfer_index, 0, _)
-9: (param list, 1, _, _)
-10: (set param, proc_index, _, _)
-11: (call, output, 1, T8)
-12: (param list, 1, _, _)
-13: (array value, FILE_ID, 3, T9)
-14: (set param, T9, _, _)
-15: (call, output, 1, T10)
-16: (param list, 1, _, _)
-17: (array value, FILE_ID, 4, T11)
-18: (set param, T11, _, _)
-19: (call, output, 1, T12)
-20: (param list, 1, _, _)
-21: (set param, MEM_SIZE, _, _)
-22: (call, output, 1, T13)
-23: (multiplication, MEM_SIZE, proc_index, T14)
-24: (assign, hd_address, T14, _)
-25: (param list, 1, _, _)
-26: (set param, hd_address, _, _)
-27: (call, output, 1, T15)
-28: (label, L1, _, _)
-29: (less than, transfer_index, transfer_iterations, T16)
-30: (jump if false, T16, L2, _)
-31: (param list, 1, _, _)
-32: (set param, hd_address, _, _)
-33: (call, lhd, 1, T17)
-34: (assign, instruction, T17, _)
-35: (param list, 2, _, _)
-36: (set param, instruction, _, _)
-37: (set param, transfer_index, _, _)
-38: (call, smemproc, 2, T18)
-39: (addition, transfer_index, 1, T19)
-40: (assign, transfer_index, T19, _)
-41: (addition, hd_address, 1, T20)
-42: (assign, hd_address, T20, _)
-43: (goto, L1, _, _)
-44: (label, L2, _, _)
-45: (param list, 1, _, _)
-46: (set param, transfer_index, _, _)
-47: (call, output, 1, T21)
-48: (param list, 1, _, _)
-49: (set param, 99, _, _)
-50: (call, output, 1, T22)
-51: (return, _, _, _)
-52: (function, circular_queue, _, _)
-53: (get param, amount, _, _)
-54: (assign, finished_procs, 0, _)
-55: (assign, queue_index, 0, _)
-56: (assign, proc_pc, 0, _)
-57: (param list, 1, _, _)
-58: (set param, 4, _, _)
-59: (call, lcd, 1, T23)
-60: (param list, 0, _, _)
-61: (call, input, 0, T24)
-62: (assign, BASH_STOP, T24, _)
-63: (label, L3, _, _)
-64: (less than, finished_procs, amount, T25)
-65: (jump if false, T25, L10, _)
-66: (param list, 1, _, _)
-67: (set param, 12, _, _)
-68: (call, output, 1, T26)
-69: (param list, 1, _, _)
+3: (addition, proc_index, 1, T6)
+4: (assign, proc_index, T6, _)
+5: (multiplication, proc_index, MEM_SIZE, T7)
+6: (assign, transfer_index, T7, _)
+7: (param list, 3, _, _)
+8: (set param, 1, _, _)
+9: (set param, transfer_index, _, _)
+10: (set param, 1, _, _)
+11: (call, store_reg, 3, T8)
+12: (param list, 3, _, _)
+13: (set param, 2, _, _)
+14: (set param, transfer_index, _, _)
+15: (set param, 2, _, _)
+16: (call, store_reg, 3, T9)
+17: (param list, 3, _, _)
+18: (set param, 3, _, _)
+19: (set param, transfer_index, _, _)
+20: (set param, 3, _, _)
+21: (call, store_reg, 3, T10)
+22: (param list, 3, _, _)
+23: (set param, 4, _, _)
+24: (set param, transfer_index, _, _)
+25: (set param, 4, _, _)
+26: (call, store_reg, 3, T11)
+27: (param list, 3, _, _)
+28: (set param, 5, _, _)
+29: (set param, transfer_index, _, _)
+30: (set param, 5, _, _)
+31: (call, store_reg, 3, T12)
+32: (param list, 3, _, _)
+33: (set param, 6, _, _)
+34: (set param, transfer_index, _, _)
+35: (set param, 6, _, _)
+36: (call, store_reg, 3, T13)
+37: (param list, 3, _, _)
+38: (set param, 7, _, _)
+39: (set param, transfer_index, _, _)
+40: (set param, 7, _, _)
+41: (call, store_reg, 3, T14)
+42: (param list, 3, _, _)
+43: (set param, 8, _, _)
+44: (set param, transfer_index, _, _)
+45: (set param, 8, _, _)
+46: (call, store_reg, 3, T15)
+47: (param list, 3, _, _)
+48: (set param, 9, _, _)
+49: (set param, transfer_index, _, _)
+50: (set param, 9, _, _)
+51: (call, store_reg, 3, T16)
+52: (param list, 3, _, _)
+53: (set param, 10, _, _)
+54: (set param, transfer_index, _, _)
+55: (set param, 10, _, _)
+56: (call, store_reg, 3, T17)
+57: (param list, 3, _, _)
+58: (set param, 11, _, _)
+59: (set param, transfer_index, _, _)
+60: (set param, 11, _, _)
+61: (call, store_reg, 3, T18)
+62: (param list, 3, _, _)
+63: (set param, 12, _, _)
+64: (set param, transfer_index, _, _)
+65: (set param, 12, _, _)
+66: (call, store_reg, 3, T19)
+67: (param list, 3, _, _)
+68: (set param, 13, _, _)
+69: (set param, transfer_index, _, _)
 70: (set param, 13, _, _)
-71: (call, output, 1, T27)
-72: (array value, PROCESS_QUEUE, queue_index, T28)
-73: (assign, proc_ID, T28, _)
-74: (assign, proc_index, proc_ID, _)
-75: (array value, STATE_PROC, proc_index, T29)
-76: (equal, T29, 0, T30)
-77: (jump if false, T30, L7, _)
-78: (param list, 1, _, _)
-79: (set param, proc_index, _, _)
-80: (call, output, 1, T31)
-81: (array value, PROC_PCS, proc_index, T32)
-82: (assign, proc_pc, T32, _)
-83: (param list, 1, _, _)
-84: (set param, proc_pc, _, _)
-85: (call, set_proc_pc, 1, T33)
-86: (param list, 1, _, _)
-87: (set param, proc_index, _, _)
-88: (call, load_proc_context, 1, T34)
-89: (param list, 1, _, _)
-90: (set param, proc_index, _, _)
-91: (call, swap_process, 1, T35)
-92: (param list, 0, _, _)
-93: (call, recover_os, 0, T36)
-94: (param list, 1, _, _)
-95: (set param, 70, _, _)
-96: (call, output, 1, T37)
-97: (param list, 0, _, _)
-98: (call, get_interruption, 0, T38)
-99: (assign, INTERRUPTION, T38, _)
-100: (param list, 1, _, _)
-101: (set param, INTERRUPTION, _, _)
-102: (call, output, 1, T39)
-103: (param list, 0, _, _)
-104: (call, get_proc_pc, 0, T40)
-105: (array address, PROC_PCS, proc_index, T41)
-106: (assign, T41, T40, _)
-107: (equal, INTERRUPTION, 1, T42)
-108: (jump if false, T42, L4, _)
-109: (param list, 1, _, _)
-110: (set param, INTERRUPTION, _, _)
-111: (call, output, 1, T43)
-112: (param list, 0, _, _)
-113: (call, input, 0, T44)
-114: (assign, io_aux, T44, _)
-115: (param list, 1, _, _)
-116: (set param, io_aux, _, _)
-117: (call, output, 1, T45)
-118: (param list, 1, _, _)
-119: (set param, io_aux, _, _)
-120: (call, move_OS_to_proc, 1, T46)
-121: (label, L4, _, _)
-122: (equal, INTERRUPTION, 2, T47)
-123: (jump if false, T47, L5, _)
-124: (param list, 1, _, _)
-125: (set param, INTERRUPTION, _, _)
-126: (call, output, 1, T48)
-127: (param list, 0, _, _)
-128: (call, move_proc_to_OS, 0, T49)
-129: (assign, io_aux, T49, _)
-130: (param list, 1, _, _)
-131: (set param, io_aux, _, _)
-132: (call, output, 1, T50)
-133: (label, L5, _, _)
-134: (equal, INTERRUPTION, 3, T51)
-135: (jump if false, T51, L6, _)
-136: (param list, 1, _, _)
-137: (set param, INTERRUPTION, _, _)
-138: (call, output, 1, T52)
-139: (param list, 1, _, _)
-140: (set param, proc_index, _, _)
-141: (call, output, 1, T53)
-142: (array address, STATE_PROC, proc_index, T54)
-143: (assign, T54, 1, _)
-144: (addition, finished_procs, 1, T55)
-145: (assign, finished_procs, T55, _)
-146: (label, L6, _, _)
-147: (label, L7, _, _)
-148: (subtraction, amount, 1, T56)
-149: (less than, queue_index, T56, T57)
-150: (jump if false, T57, L8, _)
-151: (addition, queue_index, 1, T58)
-152: (assign, queue_index, T58, _)
-153: (goto, L9, _, _)
-154: (label, L8, _, _)
-155: (assign, queue_index, 0, _)
-156: (label, L9, _, _)
-157: (goto, L3, _, _)
-158: (label, L10, _, _)
-159: (param list, 1, _, _)
-160: (set param, 5, _, _)
-161: (call, lcd, 1, T59)
-162: (param list, 0, _, _)
-163: (call, input, 0, T60)
-164: (assign, BASH_STOP, T60, _)
+71: (call, store_reg, 3, T20)
+72: (param list, 3, _, _)
+73: (set param, 14, _, _)
+74: (set param, transfer_index, _, _)
+75: (set param, 14, _, _)
+76: (call, store_reg, 3, T21)
+77: (param list, 3, _, _)
+78: (set param, 15, _, _)
+79: (set param, transfer_index, _, _)
+80: (set param, 15, _, _)
+81: (call, store_reg, 3, T22)
+82: (param list, 3, _, _)
+83: (set param, 16, _, _)
+84: (set param, transfer_index, _, _)
+85: (set param, 16, _, _)
+86: (call, store_reg, 3, T23)
+87: (param list, 3, _, _)
+88: (set param, 17, _, _)
+89: (set param, transfer_index, _, _)
+90: (set param, 17, _, _)
+91: (call, store_reg, 3, T24)
+92: (param list, 3, _, _)
+93: (set param, 18, _, _)
+94: (set param, transfer_index, _, _)
+95: (set param, 18, _, _)
+96: (call, store_reg, 3, T25)
+97: (param list, 3, _, _)
+98: (set param, 19, _, _)
+99: (set param, transfer_index, _, _)
+100: (set param, 19, _, _)
+101: (call, store_reg, 3, T26)
+102: (param list, 3, _, _)
+103: (set param, 20, _, _)
+104: (set param, transfer_index, _, _)
+105: (set param, 20, _, _)
+106: (call, store_reg, 3, T27)
+107: (param list, 3, _, _)
+108: (set param, 21, _, _)
+109: (set param, transfer_index, _, _)
+110: (set param, 21, _, _)
+111: (call, store_reg, 3, T28)
+112: (param list, 3, _, _)
+113: (set param, 22, _, _)
+114: (set param, transfer_index, _, _)
+115: (set param, 22, _, _)
+116: (call, store_reg, 3, T29)
+117: (param list, 3, _, _)
+118: (set param, 23, _, _)
+119: (set param, transfer_index, _, _)
+120: (set param, 23, _, _)
+121: (call, store_reg, 3, T30)
+122: (param list, 3, _, _)
+123: (set param, 24, _, _)
+124: (set param, transfer_index, _, _)
+125: (set param, 24, _, _)
+126: (call, store_reg, 3, T31)
+127: (param list, 3, _, _)
+128: (set param, 25, _, _)
+129: (set param, transfer_index, _, _)
+130: (set param, 25, _, _)
+131: (call, store_reg, 3, T32)
+132: (param list, 3, _, _)
+133: (set param, 26, _, _)
+134: (set param, transfer_index, _, _)
+135: (set param, 26, _, _)
+136: (call, store_reg, 3, T33)
+137: (param list, 3, _, _)
+138: (set param, 27, _, _)
+139: (set param, transfer_index, _, _)
+140: (set param, 27, _, _)
+141: (call, store_reg, 3, T34)
+142: (param list, 3, _, _)
+143: (set param, 28, _, _)
+144: (set param, transfer_index, _, _)
+145: (set param, 28, _, _)
+146: (call, store_reg, 3, T35)
+147: (param list, 3, _, _)
+148: (set param, 29, _, _)
+149: (set param, transfer_index, _, _)
+150: (set param, 29, _, _)
+151: (call, store_reg, 3, T36)
+152: (param list, 3, _, _)
+153: (set param, 30, _, _)
+154: (set param, transfer_index, _, _)
+155: (set param, 30, _, _)
+156: (call, store_reg, 3, T37)
+157: (param list, 3, _, _)
+158: (set param, 31, _, _)
+159: (set param, transfer_index, _, _)
+160: (set param, 31, _, _)
+161: (call, store_reg, 3, T38)
+162: (param list, 1, _, _)
+163: (set param, 69, _, _)
+164: (call, output, 1, T39)
 165: (return, _, _, _)
-166: (function, reset_queue, _, _)
-167: (label, L11, _, _)
-168: (less than, i, 10, T61)
-169: (jump if false, T61, L12, _)
-170: (array address, PROCESS_QUEUE, i, T62)
-171: (assign, T62, 0, _)
-172: (addition, i, 1, T63)
-173: (assign, i, T63, _)
-174: (goto, L11, _, _)
-175: (label, L12, _, _)
+166: (function, load_proc_context, _, _)
+167: (get param, proc_index, _, _)
+168: (param list, 1, _, _)
+169: (set param, 89, _, _)
+170: (call, output, 1, T40)
+171: (array value, FILE_MAX_SIZES, proc_index, T41)
+172: (assign, transfer_iterations, T41, _)
+173: (assign, transfer_index, 0, _)
+174: (multiplication, MEM_SIZE, proc_index, T42)
+175: (assign, hd_address, T42, _)
 176: (param list, 1, _, _)
-177: (set param, 87, _, _)
-178: (call, output, 1, T64)
-179: (return, _, _, _)
-180: (function, reset_pcs, _, _)
-181: (label, L13, _, _)
-182: (less than, i, 10, T65)
-183: (jump if false, T65, L14, _)
-184: (array address, PROC_PCS, i, T66)
-185: (assign, T66, 0, _)
-186: (addition, i, 1, T67)
-187: (assign, i, T67, _)
-188: (goto, L13, _, _)
-189: (label, L14, _, _)
-190: (param list, 1, _, _)
-191: (set param, 47, _, _)
-192: (call, output, 1, T68)
-193: (return, _, _, _)
-194: (function, process_handling, _, _)
-195: (param list, 1, _, _)
-196: (set param, 2, _, _)
-197: (call, lcd, 1, T69)
-198: (param list, 0, _, _)
-199: (call, input, 0, T70)
-200: (assign, amount, T70, _)
-201: (param list, 1, _, _)
-202: (set param, amount, _, _)
-203: (call, output, 1, T71)
-204: (assign, inqueue, 0, _)
-205: (param list, 1, _, _)
-206: (set param, 3, _, _)
-207: (call, lcd, 1, T72)
-208: (label, L15, _, _)
-209: (less than, inqueue, amount, T73)
-210: (jump if false, T73, L16, _)
-211: (param list, 0, _, _)
-212: (call, input, 0, T74)
-213: (assign, proc_ID, T74, _)
-214: (param list, 1, _, _)
-215: (set param, proc_ID, _, _)
-216: (call, output, 1, T75)
-217: (array address, PROCESS_QUEUE, inqueue, T76)
-218: (assign, T76, proc_ID, _)
-219: (array address, STATE_PROC, inqueue, T77)
-220: (assign, T77, 0, _)
-221: (addition, inqueue, 1, T78)
-222: (assign, inqueue, T78, _)
-223: (goto, L15, _, _)
-224: (label, L16, _, _)
-225: (param list, 1, _, _)
-226: (set param, amount, _, _)
-227: (call, circular_queue, 1, T79)
-228: (param list, 0, _, _)
-229: (call, reset_queue, 0, T80)
-230: (param list, 0, _, _)
-231: (call, reset_pcs, 0, T81)
-232: (return, _, _, _)
-233: (function, bash, _, _)
-234: (param list, 1, _, _)
-235: (set param, 1, _, _)
-236: (call, lcd, 1, T82)
-237: (param list, 0, _, _)
-238: (call, input, 0, T83)
-239: (assign, choice, T83, _)
-240: (param list, 1, _, _)
-241: (set param, choice, _, _)
-242: (call, output, 1, T84)
-243: (equal, choice, 1, T85)
-244: (jump if false, T85, L17, _)
-245: (param list, 0, _, _)
-246: (call, process_handling, 0, T86)
-247: (label, L17, _, _)
-248: (return, _, _, _)
-249: (function, init_os, _, _)
-250: (assign, i, 0, _)
-251: (assign, MAX_PROCESS, 10, _)
-252: (assign, MEM_SIZE, 1024, _)
-253: (array address, FILE_MAX_SIZES, 1, T87)
-254: (assign, FILE_MAX_SIZES, 50, 1)
-255: (array address, FILE_MAX_SIZES, 2, T88)
-256: (assign, FILE_MAX_SIZES, 0, 2)
-257: (array address, FILE_MAX_SIZES, 3, T89)
-258: (assign, FILE_MAX_SIZES, 0, 3)
-259: (label, L18, _, _)
-260: (less than, i, 10, T90)
-261: (jump if false, T90, L19, _)
-262: (array address, PROCESS_QUEUE, i, T91)
-263: (assign, T91, 0, _)
-264: (array address, STATE_PROC, i, T92)
-265: (assign, T92, 0, _)
-266: (array address, PROC_PCS, i, T93)
-267: (assign, T93, 0, _)
-268: (array address, FILE_ID, i, T94)
-269: (assign, T94, i, _)
-270: (addition, i, 1, T95)
-271: (assign, i, T95, _)
-272: (goto, L18, _, _)
-273: (label, L19, _, _)
-274: (return, _, _, _)
-275: (function, main, _, _)
-276: (param list, 0, _, _)
-277: (call, init_os, 0, T96)
-278: (param list, 1, _, _)
-279: (set param, 0, _, _)
-280: (call, lcd, 1, T97)
-281: (param list, 0, _, _)
-282: (call, input, 0, T98)
-283: (assign, BASH_STOP, T98, _)
-284: (label, L20, _, _)
-285: (less than, 1, 2, T99)
-286: (jump if false, T99, L21, _)
-287: (param list, 0, _, _)
-288: (call, bash, 0, T100)
-289: (goto, L20, _, _)
-290: (label, L21, _, _)
+177: (set param, hd_address, _, _)
+178: (call, output, 1, T43)
+179: (label, L1, _, _)
+180: (less than, transfer_index, transfer_iterations, T44)
+181: (jump if false, T44, L2, _)
+182: (param list, 1, _, _)
+183: (set param, hd_address, _, _)
+184: (call, lhd, 1, T45)
+185: (assign, instruction, T45, _)
+186: (param list, 2, _, _)
+187: (set param, instruction, _, _)
+188: (set param, transfer_index, _, _)
+189: (call, smemproc, 2, T46)
+190: (addition, transfer_index, 1, T47)
+191: (assign, transfer_index, T47, _)
+192: (addition, hd_address, 1, T48)
+193: (assign, hd_address, T48, _)
+194: (goto, L1, _, _)
+195: (label, L2, _, _)
+196: (addition, proc_index, 1, T49)
+197: (assign, proc_index, T49, _)
+198: (multiplication, proc_index, MEM_SIZE, T50)
+199: (assign, transfer_index, T50, _)
+200: (param list, 3, _, _)
+201: (set param, 1, _, _)
+202: (set param, transfer_index, _, _)
+203: (set param, 1, _, _)
+204: (call, load_reg, 3, T51)
+205: (param list, 3, _, _)
+206: (set param, 2, _, _)
+207: (set param, transfer_index, _, _)
+208: (set param, 2, _, _)
+209: (call, load_reg, 3, T52)
+210: (param list, 3, _, _)
+211: (set param, 3, _, _)
+212: (set param, transfer_index, _, _)
+213: (set param, 3, _, _)
+214: (call, load_reg, 3, T53)
+215: (param list, 3, _, _)
+216: (set param, 4, _, _)
+217: (set param, transfer_index, _, _)
+218: (set param, 4, _, _)
+219: (call, load_reg, 3, T54)
+220: (param list, 3, _, _)
+221: (set param, 5, _, _)
+222: (set param, transfer_index, _, _)
+223: (set param, 5, _, _)
+224: (call, load_reg, 3, T55)
+225: (param list, 3, _, _)
+226: (set param, 6, _, _)
+227: (set param, transfer_index, _, _)
+228: (set param, 6, _, _)
+229: (call, load_reg, 3, T56)
+230: (param list, 3, _, _)
+231: (set param, 7, _, _)
+232: (set param, transfer_index, _, _)
+233: (set param, 7, _, _)
+234: (call, load_reg, 3, T57)
+235: (param list, 3, _, _)
+236: (set param, 8, _, _)
+237: (set param, transfer_index, _, _)
+238: (set param, 8, _, _)
+239: (call, load_reg, 3, T58)
+240: (param list, 3, _, _)
+241: (set param, 9, _, _)
+242: (set param, transfer_index, _, _)
+243: (set param, 9, _, _)
+244: (call, load_reg, 3, T59)
+245: (param list, 3, _, _)
+246: (set param, 10, _, _)
+247: (set param, transfer_index, _, _)
+248: (set param, 10, _, _)
+249: (call, load_reg, 3, T60)
+250: (param list, 3, _, _)
+251: (set param, 11, _, _)
+252: (set param, transfer_index, _, _)
+253: (set param, 11, _, _)
+254: (call, load_reg, 3, T61)
+255: (param list, 3, _, _)
+256: (set param, 12, _, _)
+257: (set param, transfer_index, _, _)
+258: (set param, 12, _, _)
+259: (call, load_reg, 3, T62)
+260: (param list, 3, _, _)
+261: (set param, 13, _, _)
+262: (set param, transfer_index, _, _)
+263: (set param, 13, _, _)
+264: (call, load_reg, 3, T63)
+265: (param list, 3, _, _)
+266: (set param, 14, _, _)
+267: (set param, transfer_index, _, _)
+268: (set param, 14, _, _)
+269: (call, load_reg, 3, T64)
+270: (param list, 3, _, _)
+271: (set param, 15, _, _)
+272: (set param, transfer_index, _, _)
+273: (set param, 15, _, _)
+274: (call, load_reg, 3, T65)
+275: (param list, 3, _, _)
+276: (set param, 16, _, _)
+277: (set param, transfer_index, _, _)
+278: (set param, 16, _, _)
+279: (call, load_reg, 3, T66)
+280: (param list, 3, _, _)
+281: (set param, 17, _, _)
+282: (set param, transfer_index, _, _)
+283: (set param, 17, _, _)
+284: (call, load_reg, 3, T67)
+285: (param list, 3, _, _)
+286: (set param, 18, _, _)
+287: (set param, transfer_index, _, _)
+288: (set param, 18, _, _)
+289: (call, load_reg, 3, T68)
+290: (param list, 3, _, _)
+291: (set param, 19, _, _)
+292: (set param, transfer_index, _, _)
+293: (set param, 19, _, _)
+294: (call, load_reg, 3, T69)
+295: (param list, 3, _, _)
+296: (set param, 20, _, _)
+297: (set param, transfer_index, _, _)
+298: (set param, 20, _, _)
+299: (call, load_reg, 3, T70)
+300: (param list, 3, _, _)
+301: (set param, 21, _, _)
+302: (set param, transfer_index, _, _)
+303: (set param, 21, _, _)
+304: (call, load_reg, 3, T71)
+305: (param list, 3, _, _)
+306: (set param, 22, _, _)
+307: (set param, transfer_index, _, _)
+308: (set param, 22, _, _)
+309: (call, load_reg, 3, T72)
+310: (param list, 3, _, _)
+311: (set param, 23, _, _)
+312: (set param, transfer_index, _, _)
+313: (set param, 23, _, _)
+314: (call, load_reg, 3, T73)
+315: (param list, 3, _, _)
+316: (set param, 24, _, _)
+317: (set param, transfer_index, _, _)
+318: (set param, 24, _, _)
+319: (call, load_reg, 3, T74)
+320: (param list, 3, _, _)
+321: (set param, 25, _, _)
+322: (set param, transfer_index, _, _)
+323: (set param, 25, _, _)
+324: (call, load_reg, 3, T75)
+325: (param list, 3, _, _)
+326: (set param, 26, _, _)
+327: (set param, transfer_index, _, _)
+328: (set param, 26, _, _)
+329: (call, load_reg, 3, T76)
+330: (param list, 3, _, _)
+331: (set param, 27, _, _)
+332: (set param, transfer_index, _, _)
+333: (set param, 27, _, _)
+334: (call, load_reg, 3, T77)
+335: (param list, 3, _, _)
+336: (set param, 28, _, _)
+337: (set param, transfer_index, _, _)
+338: (set param, 28, _, _)
+339: (call, load_reg, 3, T78)
+340: (param list, 3, _, _)
+341: (set param, 29, _, _)
+342: (set param, transfer_index, _, _)
+343: (set param, 29, _, _)
+344: (call, load_reg, 3, T79)
+345: (param list, 3, _, _)
+346: (set param, 30, _, _)
+347: (set param, transfer_index, _, _)
+348: (set param, 30, _, _)
+349: (call, load_reg, 3, T80)
+350: (param list, 3, _, _)
+351: (set param, 31, _, _)
+352: (set param, transfer_index, _, _)
+353: (set param, 31, _, _)
+354: (call, load_reg, 3, T81)
+355: (param list, 1, _, _)
+356: (set param, 99, _, _)
+357: (call, output, 1, T82)
+358: (param list, 1, _, _)
+359: (set param, 123, _, _)
+360: (call, output, 1, T83)
+361: (return, _, _, _)
+362: (function, circular_queue, _, _)
+363: (get param, amount, _, _)
+364: (assign, finished_procs, 0, _)
+365: (assign, queue_index, 0, _)
+366: (assign, proc_pc, 0, _)
+367: (param list, 1, _, _)
+368: (set param, 4, _, _)
+369: (call, lcd, 1, T84)
+370: (param list, 0, _, _)
+371: (call, input, 0, T85)
+372: (assign, BASH_STOP, T85, _)
+373: (label, L3, _, _)
+374: (less than, finished_procs, amount, T86)
+375: (jump if false, T86, L10, _)
+376: (param list, 1, _, _)
+377: (set param, 12, _, _)
+378: (call, output, 1, T87)
+379: (array value, PROCESS_QUEUE, queue_index, T88)
+380: (assign, proc_ID, T88, _)
+381: (assign, proc_index, proc_ID, _)
+382: (array value, STATE_PROC, proc_index, T89)
+383: (equal, T89, 0, T90)
+384: (jump if false, T90, L7, _)
+385: (param list, 1, _, _)
+386: (set param, proc_index, _, _)
+387: (call, output, 1, T91)
+388: (array value, PROC_PCS, proc_index, T92)
+389: (assign, proc_pc, T92, _)
+390: (param list, 1, _, _)
+391: (set param, proc_pc, _, _)
+392: (call, set_proc_pc, 1, T93)
+393: (param list, 1, _, _)
+394: (set param, proc_index, _, _)
+395: (call, load_proc_context, 1, T94)
+396: (param list, 1, _, _)
+397: (set param, proc_index, _, _)
+398: (call, swap_process, 1, T95)
+399: (param list, 0, _, _)
+400: (call, recover_os, 0, T96)
+401: (param list, 1, _, _)
+402: (set param, 70, _, _)
+403: (call, output, 1, T97)
+404: (param list, 0, _, _)
+405: (call, get_interruption, 0, T98)
+406: (assign, INTERRUPTION, T98, _)
+407: (param list, 1, _, _)
+408: (set param, INTERRUPTION, _, _)
+409: (call, output, 1, T99)
+410: (param list, 0, _, _)
+411: (call, get_proc_pc, 0, T100)
+412: (array address, PROC_PCS, proc_index, T101)
+413: (assign, T101, T100, _)
+414: (equal, INTERRUPTION, 1, T102)
+415: (jump if false, T102, L4, _)
+416: (param list, 1, _, _)
+417: (set param, INTERRUPTION, _, _)
+418: (call, output, 1, T103)
+419: (param list, 0, _, _)
+420: (call, input, 0, T104)
+421: (assign, io_aux, T104, _)
+422: (param list, 1, _, _)
+423: (set param, io_aux, _, _)
+424: (call, output, 1, T105)
+425: (param list, 1, _, _)
+426: (set param, io_aux, _, _)
+427: (call, move_OS_to_proc, 1, T106)
+428: (label, L4, _, _)
+429: (equal, INTERRUPTION, 2, T107)
+430: (jump if false, T107, L5, _)
+431: (param list, 1, _, _)
+432: (set param, INTERRUPTION, _, _)
+433: (call, output, 1, T108)
+434: (param list, 0, _, _)
+435: (call, move_proc_to_OS, 0, T109)
+436: (assign, io_aux, T109, _)
+437: (param list, 1, _, _)
+438: (set param, io_aux, _, _)
+439: (call, output, 1, T110)
+440: (label, L5, _, _)
+441: (equal, INTERRUPTION, 3, T111)
+442: (jump if false, T111, L6, _)
+443: (param list, 1, _, _)
+444: (set param, INTERRUPTION, _, _)
+445: (call, output, 1, T112)
+446: (param list, 1, _, _)
+447: (set param, proc_index, _, _)
+448: (call, output, 1, T113)
+449: (array address, STATE_PROC, proc_index, T114)
+450: (assign, T114, 1, _)
+451: (addition, finished_procs, 1, T115)
+452: (assign, finished_procs, T115, _)
+453: (label, L6, _, _)
+454: (param list, 1, _, _)
+455: (set param, proc_index, _, _)
+456: (call, store_proc_context, 1, T116)
+457: (label, L7, _, _)
+458: (subtraction, amount, 1, T117)
+459: (less than, queue_index, T117, T118)
+460: (jump if false, T118, L8, _)
+461: (addition, queue_index, 1, T119)
+462: (assign, queue_index, T119, _)
+463: (goto, L9, _, _)
+464: (label, L8, _, _)
+465: (assign, queue_index, 0, _)
+466: (label, L9, _, _)
+467: (goto, L3, _, _)
+468: (label, L10, _, _)
+469: (param list, 1, _, _)
+470: (set param, 5, _, _)
+471: (call, lcd, 1, T120)
+472: (param list, 0, _, _)
+473: (call, input, 0, T121)
+474: (assign, BASH_STOP, T121, _)
+475: (return, _, _, _)
+476: (function, reset_queue, _, _)
+477: (label, L11, _, _)
+478: (less than, i, 10, T122)
+479: (jump if false, T122, L12, _)
+480: (array address, PROCESS_QUEUE, i, T123)
+481: (assign, T123, 0, _)
+482: (addition, i, 1, T124)
+483: (assign, i, T124, _)
+484: (goto, L11, _, _)
+485: (label, L12, _, _)
+486: (param list, 1, _, _)
+487: (set param, 87, _, _)
+488: (call, output, 1, T125)
+489: (return, _, _, _)
+490: (function, reset_pcs, _, _)
+491: (label, L13, _, _)
+492: (less than, i, 10, T126)
+493: (jump if false, T126, L14, _)
+494: (array address, PROC_PCS, i, T127)
+495: (assign, T127, 0, _)
+496: (addition, i, 1, T128)
+497: (assign, i, T128, _)
+498: (goto, L13, _, _)
+499: (label, L14, _, _)
+500: (param list, 1, _, _)
+501: (set param, 47, _, _)
+502: (call, output, 1, T129)
+503: (return, _, _, _)
+504: (function, process_handling, _, _)
+505: (param list, 1, _, _)
+506: (set param, 2, _, _)
+507: (call, lcd, 1, T130)
+508: (param list, 0, _, _)
+509: (call, input, 0, T131)
+510: (assign, amount, T131, _)
+511: (param list, 1, _, _)
+512: (set param, amount, _, _)
+513: (call, output, 1, T132)
+514: (assign, inqueue, 0, _)
+515: (param list, 1, _, _)
+516: (set param, 3, _, _)
+517: (call, lcd, 1, T133)
+518: (label, L15, _, _)
+519: (less than, inqueue, amount, T134)
+520: (jump if false, T134, L16, _)
+521: (param list, 0, _, _)
+522: (call, input, 0, T135)
+523: (assign, proc_ID, T135, _)
+524: (param list, 1, _, _)
+525: (set param, proc_ID, _, _)
+526: (call, output, 1, T136)
+527: (array address, PROCESS_QUEUE, inqueue, T137)
+528: (assign, T137, proc_ID, _)
+529: (array address, STATE_PROC, inqueue, T138)
+530: (assign, T138, 0, _)
+531: (addition, inqueue, 1, T139)
+532: (assign, inqueue, T139, _)
+533: (goto, L15, _, _)
+534: (label, L16, _, _)
+535: (param list, 1, _, _)
+536: (set param, amount, _, _)
+537: (call, circular_queue, 1, T140)
+538: (param list, 0, _, _)
+539: (call, reset_queue, 0, T141)
+540: (param list, 0, _, _)
+541: (call, reset_pcs, 0, T142)
+542: (return, _, _, _)
+543: (function, bash, _, _)
+544: (param list, 1, _, _)
+545: (set param, 1, _, _)
+546: (call, lcd, 1, T143)
+547: (param list, 0, _, _)
+548: (call, input, 0, T144)
+549: (assign, choice, T144, _)
+550: (param list, 1, _, _)
+551: (set param, choice, _, _)
+552: (call, output, 1, T145)
+553: (equal, choice, 1, T146)
+554: (jump if false, T146, L17, _)
+555: (param list, 0, _, _)
+556: (call, process_handling, 0, T147)
+557: (label, L17, _, _)
+558: (return, _, _, _)
+559: (function, init_os, _, _)
+560: (assign, i, 0, _)
+561: (assign, MAX_PROCESS, 10, _)
+562: (assign, MEM_SIZE, 1024, _)
+563: (array address, FILE_MAX_SIZES, 1, T148)
+564: (assign, FILE_MAX_SIZES, 50, 1)
+565: (array address, FILE_MAX_SIZES, 2, T149)
+566: (assign, FILE_MAX_SIZES, 50, 2)
+567: (array address, FILE_MAX_SIZES, 3, T150)
+568: (assign, FILE_MAX_SIZES, 50, 3)
+569: (label, L18, _, _)
+570: (less than, i, 10, T151)
+571: (jump if false, T151, L19, _)
+572: (array address, PROCESS_QUEUE, i, T152)
+573: (assign, T152, 0, _)
+574: (array address, STATE_PROC, i, T153)
+575: (assign, T153, 0, _)
+576: (array address, PROC_PCS, i, T154)
+577: (assign, T154, 0, _)
+578: (array address, FILE_ID, i, T155)
+579: (assign, T155, i, _)
+580: (addition, i, 1, T156)
+581: (assign, i, T156, _)
+582: (goto, L18, _, _)
+583: (label, L19, _, _)
+584: (return, _, _, _)
+585: (function, main, _, _)
+586: (param list, 0, _, _)
+587: (call, init_os, 0, T157)
+588: (param list, 1, _, _)
+589: (set param, 0, _, _)
+590: (call, lcd, 1, T158)
+591: (param list, 0, _, _)
+592: (call, input, 0, T159)
+593: (assign, BASH_STOP, T159, _)
+594: (label, L20, _, _)
+595: (less than, 1, 2, T160)
+596: (jump if false, T160, L21, _)
+597: (param list, 0, _, _)
+598: (call, bash, 0, T161)
+599: (goto, L20, _, _)
+600: (label, L21, _, _)
 
 ////////////Codigo Objeto////////////
 
+store_proc_context:
+    0:	addi	$sp, $sp, 4
+        1:	sw	$a0, -1($sp)
+        2:	lw	$s0, -1($sp)
+        3:	addi	$t0, $s0, 1
+        4:	sw	$t0, -1($sp)
+        5:	lw	$s0, -1($sp)
+        6:	lw	$s1, 1($gp)
+        7:	mult	$t1, $s0, $s1
+        8:	sw	$t1, 0($sp)
+        9:	li	$a0, 1
+        10:	lw	$s2, 0($sp)
+        11:	mov	$a1, $s2
+        12:	li	$a2, 1
+        13:	sub	$a1, $a1, $a2
+        14:	chrd	
+        15:	mov	$a0, $v0
+        16:	chrd	
+        17:	sw	$a0, 0($a1)
+        18:	li	$a0, 2
+        19:	mov	$a1, $s2
+        20:	li	$a2, 2
+        21:	sub	$a1, $a1, $a2
+        22:	chrd	
+        23:	mov	$a0, $v1
+        24:	chrd	
+        25:	sw	$a0, 0($a1)
+        26:	li	$a0, 3
+        27:	mov	$a1, $s2
+        28:	li	$a2, 3
+        29:	sub	$a1, $a1, $a2
+        30:	chrd	
+        31:	mov	$a0, $out1
+        32:	chrd	
+        33:	sw	$a0, 0($a1)
+        34:	li	$a0, 4
+        35:	mov	$a1, $s2
+        36:	li	$a2, 4
+        37:	sub	$a1, $a1, $a2
+        38:	chrd	
+        39:	mov	$a0, $out2
+        40:	chrd	
+        41:	sw	$a0, 0($a1)
+        42:	li	$a0, 5
+        43:	mov	$a1, $s2
+        44:	li	$a2, 5
+        45:	sub	$a1, $a1, $a2
+        46:	chrd	
+        47:	mov	$a0, $gp
+        48:	chrd	
+        49:	sw	$a0, 0($a1)
+        50:	li	$a0, 6
+        51:	mov	$a1, $s2
+        52:	li	$a2, 6
+        53:	sub	$a1, $a1, $a2
+        54:	chrd	
+        55:	mov	$a0, $a0
+        56:	chrd	
+        57:	sw	$a0, 0($a1)
+        58:	li	$a0, 7
+        59:	mov	$a1, $s2
+        60:	li	$a2, 7
+        61:	sub	$a1, $a1, $a2
+        62:	chrd	
+        63:	mov	$a0, $a1
+        64:	chrd	
+        65:	sw	$a0, 0($a1)
+        66:	li	$a0, 8
+        67:	mov	$a1, $s2
+        68:	li	$a2, 8
+        69:	sub	$a1, $a1, $a2
+        70:	chrd	
+        71:	mov	$a0, $a2
+        72:	chrd	
+        73:	sw	$a0, 0($a1)
+        74:	li	$a0, 9
+        75:	mov	$a1, $s2
+        76:	li	$a2, 9
+        77:	sub	$a1, $a1, $a2
+        78:	chrd	
+        79:	mov	$a0, $a3
+        80:	chrd	
+        81:	sw	$a0, 0($a1)
+        82:	li	$a0, 10
+        83:	mov	$a1, $s2
+        84:	li	$a2, 10
+        85:	sub	$a1, $a1, $a2
+        86:	chrd	
+        87:	mov	$a0, $s0
+        88:	chrd	
+        89:	sw	$a0, 0($a1)
+        90:	li	$a0, 11
+        91:	mov	$a1, $s2
+        92:	li	$a2, 11
+        93:	sub	$a1, $a1, $a2
+        94:	chrd	
+        95:	mov	$a0, $s1
+        96:	chrd	
+        97:	sw	$a0, 0($a1)
+        98:	li	$a0, 12
+        99:	mov	$a1, $s2
+        100:	li	$a2, 12
+        101:	sub	$a1, $a1, $a2
+        102:	chrd	
+        103:	mov	$a0, $s2
+        104:	chrd	
+        105:	sw	$a0, 0($a1)
+        106:	li	$a0, 13
+        107:	mov	$a1, $s2
+        108:	li	$a2, 13
+        109:	sub	$a1, $a1, $a2
+        110:	chrd	
+        111:	mov	$a0, $s3
+        112:	chrd	
+        113:	sw	$a0, 0($a1)
+        114:	li	$a0, 14
+        115:	mov	$a1, $s2
+        116:	li	$a2, 14
+        117:	sub	$a1, $a1, $a2
+        118:	chrd	
+        119:	mov	$a0, $s4
+        120:	chrd	
+        121:	sw	$a0, 0($a1)
+        122:	li	$a0, 15
+        123:	mov	$a1, $s2
+        124:	li	$a2, 15
+        125:	sub	$a1, $a1, $a2
+        126:	chrd	
+        127:	mov	$a0, $s5
+        128:	chrd	
+        129:	sw	$a0, 0($a1)
+        130:	li	$a0, 16
+        131:	mov	$a1, $s2
+        132:	li	$a2, 16
+        133:	sub	$a1, $a1, $a2
+        134:	chrd	
+        135:	mov	$a0, $s6
+        136:	chrd	
+        137:	sw	$a0, 0($a1)
+        138:	li	$a0, 17
+        139:	mov	$a1, $s2
+        140:	li	$a2, 17
+        141:	sub	$a1, $a1, $a2
+        142:	chrd	
+        143:	mov	$a0, $s7
+        144:	chrd	
+        145:	sw	$a0, 0($a1)
+        146:	li	$a0, 18
+        147:	mov	$a1, $s2
+        148:	li	$a2, 18
+        149:	sub	$a1, $a1, $a2
+        150:	chrd	
+        151:	mov	$a0, $s8
+        152:	chrd	
+        153:	sw	$a0, 0($a1)
+        154:	li	$a0, 19
+        155:	mov	$a1, $s2
+        156:	li	$a2, 19
+        157:	sub	$a1, $a1, $a2
+        158:	chrd	
+        159:	mov	$a0, $s9
+        160:	chrd	
+        161:	sw	$a0, 0($a1)
+        162:	li	$a0, 20
+        163:	mov	$a1, $s2
+        164:	li	$a2, 20
+        165:	sub	$a1, $a1, $a2
+        166:	chrd	
+        167:	mov	$a0, $t0
+        168:	chrd	
+        169:	sw	$a0, 0($a1)
+        170:	li	$a0, 21
+        171:	mov	$a1, $s2
+        172:	li	$a2, 21
+        173:	sub	$a1, $a1, $a2
+        174:	chrd	
+        175:	mov	$a0, $t1
+        176:	chrd	
+        177:	sw	$a0, 0($a1)
+        178:	li	$a0, 22
+        179:	mov	$a1, $s2
+        180:	li	$a2, 22
+        181:	sub	$a1, $a1, $a2
+        182:	chrd	
+        183:	mov	$a0, $t2
+        184:	chrd	
+        185:	sw	$a0, 0($a1)
+        186:	li	$a0, 23
+        187:	mov	$a1, $s2
+        188:	li	$a2, 23
+        189:	sub	$a1, $a1, $a2
+        190:	chrd	
+        191:	mov	$a0, $t3
+        192:	chrd	
+        193:	sw	$a0, 0($a1)
+        194:	li	$a0, 24
+        195:	mov	$a1, $s2
+        196:	li	$a2, 24
+        197:	sub	$a1, $a1, $a2
+        198:	chrd	
+        199:	mov	$a0, $t4
+        200:	chrd	
+        201:	sw	$a0, 0($a1)
+        202:	li	$a0, 25
+        203:	mov	$a1, $s2
+        204:	li	$a2, 25
+        205:	sub	$a1, $a1, $a2
+        206:	chrd	
+        207:	mov	$a0, $t5
+        208:	chrd	
+        209:	sw	$a0, 0($a1)
+        210:	li	$a0, 26
+        211:	mov	$a1, $s2
+        212:	li	$a2, 26
+        213:	sub	$a1, $a1, $a2
+        214:	chrd	
+        215:	mov	$a0, $t6
+        216:	chrd	
+        217:	sw	$a0, 0($a1)
+        218:	li	$a0, 27
+        219:	mov	$a1, $s2
+        220:	li	$a2, 27
+        221:	sub	$a1, $a1, $a2
+        222:	chrd	
+        223:	mov	$a0, $t7
+        224:	chrd	
+        225:	sw	$a0, 0($a1)
+        226:	li	$a0, 28
+        227:	mov	$a1, $s2
+        228:	li	$a2, 28
+        229:	sub	$a1, $a1, $a2
+        230:	chrd	
+        231:	mov	$a0, $t8
+        232:	chrd	
+        233:	sw	$a0, 0($a1)
+        234:	li	$a0, 29
+        235:	mov	$a1, $s2
+        236:	li	$a2, 29
+        237:	sub	$a1, $a1, $a2
+        238:	chrd	
+        239:	mov	$a0, $t9
+        240:	chrd	
+        241:	sw	$a0, 0($a1)
+        242:	li	$a0, 30
+        243:	mov	$a1, $s2
+        244:	li	$a2, 30
+        245:	sub	$a1, $a1, $a2
+        246:	chrd	
+        247:	mov	$a0, $sp
+        248:	chrd	
+        249:	sw	$a0, 0($a1)
+        250:	li	$a0, 31
+        251:	mov	$a1, $s2
+        252:	li	$a2, 31
+        253:	sub	$a1, $a1, $a2
+        254:	chrd	
+        255:	mov	$a0, $ra
+        256:	chrd	
+        257:	sw	$a0, 0($a1)
+        258:	li	$a0, 69
+        259:	out	$a0
+        260:	jr	$ra
+    
 load_proc_context:
-    0:	addi	$sp, $sp, 7
-        1:	sw	$a0, -4($sp)
-        2:	li	$a0, 89
-        3:	nop	
-        4:	out	$a0
-        5:	la	$s0, 23($gp)
-        6:	lw	$s1, -4($sp)
-        7:	add	$t0, $s0, $s1
-        8:	lw	$t0, 0($t0)
-        9:	sw	$t0, -3($sp)
-        10:	li	$t1, 0
-        11:	sw	$t1, -2($sp)
-        12:	mov	$a0, $s1
-        13:	nop	
-        14:	out	$a0
-        15:	la	$s2, 13($gp)
-        16:	lw	$t2, 3($s2)
-        17:	mov	$a0, $t2
-        18:	nop	
-        19:	out	$a0
-        20:	lw	$t3, 4($s2)
-        21:	mov	$a0, $t3
-        22:	nop	
-        23:	out	$a0
-        24:	lw	$s3, 1($gp)
-        25:	mov	$a0, $s3
-        26:	nop	
-        27:	out	$a0
-        28:	mult	$t4, $s3, $s1
-        29:	sw	$t4, 0($sp)
-        30:	lw	$s4, 0($sp)
-        31:	mov	$a0, $s4
-        32:	nop	
-        33:	out	$a0
+    261:	addi	$sp, $sp, 7
+        262:	sw	$a0, -4($sp)
+        263:	li	$a0, 89
+        264:	out	$a0
+        265:	la	$s0, 23($gp)
+        266:	lw	$s1, -4($sp)
+        267:	add	$t0, $s0, $s1
+        268:	lw	$t0, 0($t0)
+        269:	sw	$t0, -3($sp)
+        270:	li	$t1, 0
+        271:	sw	$t1, -2($sp)
+        272:	lw	$s2, 1($gp)
+        273:	mult	$t2, $s2, $s1
+        274:	sw	$t2, 0($sp)
+        275:	lw	$s3, 0($sp)
+        276:	mov	$a0, $s3
+        277:	out	$a0
     .L1	
-    34:	lw	$s0, -2($sp)
-        35:	lw	$s1, -3($sp)
-        36:	lt	$t5, $s0, $s1
-        37:	beq	$t5, $rzero, L2
-        38:	lw	$s2, 0($sp)
-        39:	mov	$a0, $s2
-        40:	lhd	$t6, $a0
-        41:	sw	$t6, -1($sp)
-        42:	lw	$s3, -1($sp)
-        43:	mov	$a0, $s3
-        44:	mov	$a1, $s0
-        45:	smemproc	$a0, $a1
-        46:	addi	$t7, $s0, 1
-        47:	sw	$t7, -2($sp)
-        48:	lw	$s0, -2($sp)
-        49:	addi	$t8, $s2, 1
-        50:	sw	$t8, 0($sp)
-        51:	lw	$s2, 0($sp)
-        52:	j	L1
+    278:	lw	$s0, -2($sp)
+        279:	lw	$s1, -3($sp)
+        280:	lt	$t3, $s0, $s1
+        281:	beq	$t3, $rzero, L2
+        282:	lw	$s2, 0($sp)
+        283:	mov	$a0, $s2
+        284:	lhd	$t4, $a0
+        285:	sw	$t4, -1($sp)
+        286:	lw	$s3, -1($sp)
+        287:	mov	$a0, $s3
+        288:	mov	$a1, $s0
+        289:	smemproc	$a0, $a1
+        290:	addi	$t5, $s0, 1
+        291:	sw	$t5, -2($sp)
+        292:	lw	$s0, -2($sp)
+        293:	addi	$t6, $s2, 1
+        294:	sw	$t6, 0($sp)
+        295:	lw	$s2, 0($sp)
+        296:	j	L1
     .L2	
-    53:	lw	$s0, -2($sp)
-        54:	mov	$a0, $s0
-        55:	nop	
-        56:	out	$a0
-        57:	li	$a0, 99
-        58:	nop	
-        59:	out	$a0
-        60:	jr	$ra
+    297:	lw	$s0, -4($sp)
+        298:	addi	$t7, $s0, 1
+        299:	sw	$t7, -4($sp)
+        300:	lw	$s0, -4($sp)
+        301:	lw	$s1, 1($gp)
+        302:	mult	$t8, $s0, $s1
+        303:	sw	$t8, -2($sp)
+        304:	li	$a0, 1
+        305:	lw	$s2, -2($sp)
+        306:	mov	$a1, $s2
+        307:	li	$a2, 1
+        308:	sub	$a1, $a1, $a2
+        309:	chwrt	
+        310:	lw	$v0, 0($a1)
+        311:	chwrt	
+        312:	li	$a0, 2
+        313:	mov	$a1, $s2
+        314:	li	$a2, 2
+        315:	sub	$a1, $a1, $a2
+        316:	chwrt	
+        317:	lw	$v1, 0($a1)
+        318:	chwrt	
+        319:	li	$a0, 3
+        320:	mov	$a1, $s2
+        321:	li	$a2, 3
+        322:	sub	$a1, $a1, $a2
+        323:	chwrt	
+        324:	lw	$out1, 0($a1)
+        325:	chwrt	
+        326:	li	$a0, 4
+        327:	mov	$a1, $s2
+        328:	li	$a2, 4
+        329:	sub	$a1, $a1, $a2
+        330:	chwrt	
+        331:	lw	$out2, 0($a1)
+        332:	chwrt	
+        333:	li	$a0, 5
+        334:	mov	$a1, $s2
+        335:	li	$a2, 5
+        336:	sub	$a1, $a1, $a2
+        337:	chwrt	
+        338:	lw	$gp, 0($a1)
+        339:	chwrt	
+        340:	li	$a0, 6
+        341:	mov	$a1, $s2
+        342:	li	$a2, 6
+        343:	sub	$a1, $a1, $a2
+        344:	chwrt	
+        345:	lw	$a0, 0($a1)
+        346:	chwrt	
+        347:	li	$a0, 7
+        348:	mov	$a1, $s2
+        349:	li	$a2, 7
+        350:	sub	$a1, $a1, $a2
+        351:	chwrt	
+        352:	lw	$a1, 0($a1)
+        353:	chwrt	
+        354:	li	$a0, 8
+        355:	mov	$a1, $s2
+        356:	li	$a2, 8
+        357:	sub	$a1, $a1, $a2
+        358:	chwrt	
+        359:	lw	$a2, 0($a1)
+        360:	chwrt	
+        361:	li	$a0, 9
+        362:	mov	$a1, $s2
+        363:	li	$a2, 9
+        364:	sub	$a1, $a1, $a2
+        365:	chwrt	
+        366:	lw	$a3, 0($a1)
+        367:	chwrt	
+        368:	li	$a0, 10
+        369:	mov	$a1, $s2
+        370:	li	$a2, 10
+        371:	sub	$a1, $a1, $a2
+        372:	chwrt	
+        373:	lw	$s0, 0($a1)
+        374:	chwrt	
+        375:	li	$a0, 11
+        376:	mov	$a1, $s2
+        377:	li	$a2, 11
+        378:	sub	$a1, $a1, $a2
+        379:	chwrt	
+        380:	lw	$s1, 0($a1)
+        381:	chwrt	
+        382:	li	$a0, 12
+        383:	mov	$a1, $s2
+        384:	li	$a2, 12
+        385:	sub	$a1, $a1, $a2
+        386:	chwrt	
+        387:	lw	$s2, 0($a1)
+        388:	chwrt	
+        389:	li	$a0, 13
+        390:	mov	$a1, $s2
+        391:	li	$a2, 13
+        392:	sub	$a1, $a1, $a2
+        393:	chwrt	
+        394:	lw	$s3, 0($a1)
+        395:	chwrt	
+        396:	li	$a0, 14
+        397:	mov	$a1, $s2
+        398:	li	$a2, 14
+        399:	sub	$a1, $a1, $a2
+        400:	chwrt	
+        401:	lw	$s4, 0($a1)
+        402:	chwrt	
+        403:	li	$a0, 15
+        404:	mov	$a1, $s2
+        405:	li	$a2, 15
+        406:	sub	$a1, $a1, $a2
+        407:	chwrt	
+        408:	lw	$s5, 0($a1)
+        409:	chwrt	
+        410:	li	$a0, 16
+        411:	mov	$a1, $s2
+        412:	li	$a2, 16
+        413:	sub	$a1, $a1, $a2
+        414:	chwrt	
+        415:	lw	$s6, 0($a1)
+        416:	chwrt	
+        417:	li	$a0, 17
+        418:	mov	$a1, $s2
+        419:	li	$a2, 17
+        420:	sub	$a1, $a1, $a2
+        421:	chwrt	
+        422:	lw	$s7, 0($a1)
+        423:	chwrt	
+        424:	li	$a0, 18
+        425:	mov	$a1, $s2
+        426:	li	$a2, 18
+        427:	sub	$a1, $a1, $a2
+        428:	chwrt	
+        429:	lw	$s8, 0($a1)
+        430:	chwrt	
+        431:	li	$a0, 19
+        432:	mov	$a1, $s2
+        433:	li	$a2, 19
+        434:	sub	$a1, $a1, $a2
+        435:	chwrt	
+        436:	lw	$s9, 0($a1)
+        437:	chwrt	
+        438:	li	$a0, 20
+        439:	mov	$a1, $s2
+        440:	li	$a2, 20
+        441:	sub	$a1, $a1, $a2
+        442:	chwrt	
+        443:	lw	$t0, 0($a1)
+        444:	chwrt	
+        445:	li	$a0, 21
+        446:	mov	$a1, $s2
+        447:	li	$a2, 21
+        448:	sub	$a1, $a1, $a2
+        449:	chwrt	
+        450:	lw	$t1, 0($a1)
+        451:	chwrt	
+        452:	li	$a0, 22
+        453:	mov	$a1, $s2
+        454:	li	$a2, 22
+        455:	sub	$a1, $a1, $a2
+        456:	chwrt	
+        457:	lw	$t2, 0($a1)
+        458:	chwrt	
+        459:	li	$a0, 23
+        460:	mov	$a1, $s2
+        461:	li	$a2, 23
+        462:	sub	$a1, $a1, $a2
+        463:	chwrt	
+        464:	lw	$t3, 0($a1)
+        465:	chwrt	
+        466:	li	$a0, 24
+        467:	mov	$a1, $s2
+        468:	li	$a2, 24
+        469:	sub	$a1, $a1, $a2
+        470:	chwrt	
+        471:	lw	$t4, 0($a1)
+        472:	chwrt	
+        473:	li	$a0, 25
+        474:	mov	$a1, $s2
+        475:	li	$a2, 25
+        476:	sub	$a1, $a1, $a2
+        477:	chwrt	
+        478:	lw	$t5, 0($a1)
+        479:	chwrt	
+        480:	li	$a0, 26
+        481:	mov	$a1, $s2
+        482:	li	$a2, 26
+        483:	sub	$a1, $a1, $a2
+        484:	chwrt	
+        485:	lw	$t6, 0($a1)
+        486:	chwrt	
+        487:	li	$a0, 27
+        488:	mov	$a1, $s2
+        489:	li	$a2, 27
+        490:	sub	$a1, $a1, $a2
+        491:	chwrt	
+        492:	lw	$t7, 0($a1)
+        493:	chwrt	
+        494:	li	$a0, 28
+        495:	mov	$a1, $s2
+        496:	li	$a2, 28
+        497:	sub	$a1, $a1, $a2
+        498:	chwrt	
+        499:	lw	$t8, 0($a1)
+        500:	chwrt	
+        501:	li	$a0, 29
+        502:	mov	$a1, $s2
+        503:	li	$a2, 29
+        504:	sub	$a1, $a1, $a2
+        505:	chwrt	
+        506:	lw	$t9, 0($a1)
+        507:	chwrt	
+        508:	li	$a0, 30
+        509:	mov	$a1, $s2
+        510:	li	$a2, 30
+        511:	sub	$a1, $a1, $a2
+        512:	chwrt	
+        513:	lw	$sp, 0($a1)
+        514:	chwrt	
+        515:	li	$a0, 31
+        516:	mov	$a1, $s2
+        517:	li	$a2, 31
+        518:	sub	$a1, $a1, $a2
+        519:	chwrt	
+        520:	lw	$ra, 0($a1)
+        521:	chwrt	
+        522:	li	$a0, 99
+        523:	out	$a0
+        524:	li	$a0, 123
+        525:	out	$a0
+        526:	jr	$ra
     
 circular_queue:
-    61:	addi	$sp, $sp, 10
-        62:	sw	$a0, -7($sp)
-        63:	li	$t0, 0
-        64:	sw	$t0, -5($sp)
-        65:	li	$t1, 0
-        66:	sw	$t1, -4($sp)
-        67:	li	$t2, 0
-        68:	sw	$t2, -1($sp)
-        69:	li	$a0, 4
-        70:	lcd	$a0
-        71:	nop	
-        72:	in	$t3
-        73:	sw	$t3, 2($gp)
+    527:	addi	$sp, $sp, 10
+        528:	sw	$a0, -7($sp)
+        529:	li	$t0, 0
+        530:	sw	$t0, -5($sp)
+        531:	li	$t1, 0
+        532:	sw	$t1, -4($sp)
+        533:	li	$t2, 0
+        534:	sw	$t2, -1($sp)
+        535:	li	$a0, 4
+        536:	lcd	$a0
+        537:	nop	
+        538:	in	$t3
+        539:	sw	$t3, 2($gp)
     .L3	
-    74:	lw	$s0, -5($sp)
-        75:	lw	$s1, -7($sp)
-        76:	lt	$t4, $s0, $s1
-        77:	beq	$t4, $rzero, L10
-        78:	li	$a0, 12
-        79:	nop	
-        80:	out	$a0
-        81:	li	$a0, 13
-        82:	nop	
-        83:	out	$a0
-        84:	la	$s2, 3($gp)
-        85:	lw	$s3, -4($sp)
-        86:	add	$t5, $s2, $s3
-        87:	lw	$t5, 0($t5)
-        88:	sw	$t5, -6($sp)
-        89:	lw	$s4, -6($sp)
-        90:	sw	$s4, -3($sp)
-        91:	la	$s5, 43($gp)
-        92:	lw	$s6, -3($sp)
-        93:	add	$t6, $s5, $s6
-        94:	lw	$t6, 0($t6)
-        95:	li	$t7, 0
-        96:	eq	$t8, $t6, $t7
-        97:	beq	$t8, $rzero, L7
-        98:	mov	$a0, $s6
-        99:	nop	
-        100:	out	$a0
-        101:	la	$s7, 33($gp)
-        102:	add	$t9, $s7, $s6
-        103:	lw	$t9, 0($t9)
-        104:	sw	$t9, -1($sp)
-        105:	lw	$s8, -1($sp)
-        106:	mov	$a0, $s8
-        107:	setpc	$a0
-        108:	mov	$a0, $s6
-        109:	sw	$ra, -8($sp)
-        110:	jal	load_proc_context
-        111:	subi	$sp, $sp, 7
-        112:	lw	$ra, -8($sp)
-        113:	mov	$s0, $v0
-        114:	lw	$s1, -3($sp)
-        115:	mov	$a0, $s1
-        116:	nop	
-        117:	chwrt	
-        118:	mov	$a0, $a0
-        119:	chrd	
-        120:	mov	$s9, $a0
-        121:	sprc	$s9
-        122:	nop	
-        123:	chrd	
-        124:	chwrt	
-        125:	nop	
-        126:	li	$a0, 70
-        127:	nop	
-        128:	out	$a0
-        129:	mov	$s2, $v1
-        130:	sw	$s2, 0($sp)
-        131:	lw	$s3, 0($sp)
-        132:	mov	$a0, $s3
-        133:	nop	
-        134:	out	$a0
-        135:	getpc	
-        136:	mov	$s4, $v1
-        137:	la	$s5, 33($gp)
-        138:	add	$t0, $s5, $s1
-        139:	sw	$s4, 0($t0)
-        140:	li	$t1, 1
-        141:	eq	$t2, $s3, $t1
-        142:	beq	$t2, $rzero, L4
-        143:	mov	$a0, $s3
-        144:	nop	
-        145:	out	$a0
-        146:	nop	
-        147:	in	$t3
-        148:	sw	$t3, -2($sp)
-        149:	lw	$s6, -2($sp)
-        150:	mov	$a0, $s6
-        151:	nop	
-        152:	out	$a0
-        153:	mov	$a0, $s6
-        154:	chwrt	
-        155:	mov	$v1, $a0
-        156:	chwrt	
+    540:	lw	$s0, -5($sp)
+        541:	lw	$s1, -7($sp)
+        542:	lt	$t4, $s0, $s1
+        543:	beq	$t4, $rzero, L10
+        544:	li	$a0, 12
+        545:	out	$a0
+        546:	la	$s2, 3($gp)
+        547:	lw	$s3, -4($sp)
+        548:	add	$t5, $s2, $s3
+        549:	lw	$t5, 0($t5)
+        550:	sw	$t5, -6($sp)
+        551:	lw	$s4, -6($sp)
+        552:	sw	$s4, -3($sp)
+        553:	la	$s5, 43($gp)
+        554:	lw	$s6, -3($sp)
+        555:	add	$t6, $s5, $s6
+        556:	lw	$t6, 0($t6)
+        557:	li	$t7, 0
+        558:	eq	$t8, $t6, $t7
+        559:	beq	$t8, $rzero, L7
+        560:	mov	$a0, $s6
+        561:	out	$a0
+        562:	la	$s7, 33($gp)
+        563:	add	$t9, $s7, $s6
+        564:	lw	$t9, 0($t9)
+        565:	sw	$t9, -1($sp)
+        566:	lw	$s8, -1($sp)
+        567:	mov	$a0, $s8
+        568:	setpc	$a0
+        569:	mov	$a0, $s6
+        570:	sw	$ra, -8($sp)
+        571:	jal	load_proc_context
+        572:	subi	$sp, $sp, 7
+        573:	lw	$ra, -8($sp)
+        574:	mov	$s0, $v0
+        575:	lw	$s1, -3($sp)
+        576:	mov	$a0, $s1
+        577:	nop	
+        578:	chwrt	
+        579:	mov	$a0, $a0
+        580:	chrd	
+        581:	mov	$s9, $a0
+        582:	sprc	$s9
+        583:	nop	
+        584:	chrd	
+        585:	chwrt	
+        586:	nop	
+        587:	li	$a0, 70
+        588:	out	$a0
+        589:	mov	$s2, $v1
+        590:	sw	$s2, 0($sp)
+        591:	lw	$s3, 0($sp)
+        592:	mov	$a0, $s3
+        593:	out	$a0
+        594:	getpc	
+        595:	mov	$s4, $v1
+        596:	la	$s5, 33($gp)
+        597:	add	$t0, $s5, $s1
+        598:	sw	$s4, 0($t0)
+        599:	li	$t1, 1
+        600:	eq	$t2, $s3, $t1
+        601:	beq	$t2, $rzero, L4
+        602:	mov	$a0, $s3
+        603:	out	$a0
+        604:	nop	
+        605:	in	$t3
+        606:	sw	$t3, -2($sp)
+        607:	lw	$s6, -2($sp)
+        608:	mov	$a0, $s6
+        609:	out	$a0
+        610:	mov	$a0, $s6
+        611:	chwrt	
+        612:	mov	$v1, $a0
+        613:	chwrt	
     .L4	
-    157:	lw	$s0, 0($sp)
-        158:	li	$t4, 2
-        159:	eq	$t5, $s0, $t4
-        160:	beq	$t5, $rzero, L5
-        161:	mov	$a0, $s0
-        162:	nop	
-        163:	out	$a0
-        164:	chrd	
-        165:	mov	$s1, $v1
-        166:	chrd	
-        167:	sw	$s1, -2($sp)
-        168:	lw	$s2, -2($sp)
-        169:	mov	$a0, $s2
-        170:	nop	
-        171:	out	$a0
+    614:	lw	$s0, 0($sp)
+        615:	li	$t4, 2
+        616:	eq	$t5, $s0, $t4
+        617:	beq	$t5, $rzero, L5
+        618:	mov	$a0, $s0
+        619:	out	$a0
+        620:	chrd	
+        621:	mov	$s1, $v1
+        622:	chrd	
+        623:	sw	$s1, -2($sp)
+        624:	lw	$s2, -2($sp)
+        625:	mov	$a0, $s2
+        626:	out	$a0
     .L5	
-    172:	lw	$s0, 0($sp)
-        173:	li	$t6, 3
-        174:	eq	$t7, $s0, $t6
-        175:	beq	$t7, $rzero, L6
-        176:	mov	$a0, $s0
-        177:	nop	
-        178:	out	$a0
-        179:	lw	$s1, -3($sp)
-        180:	mov	$a0, $s1
-        181:	nop	
-        182:	out	$a0
-        183:	la	$s2, 43($gp)
-        184:	add	$t8, $s2, $s1
-        185:	li	$t9, 1
-        186:	sw	$t9, 0($t8)
-        187:	lw	$s3, -5($sp)
-        188:	addi	$t0, $s3, 1
-        189:	sw	$t0, -5($sp)
-        190:	lw	$s3, -5($sp)
+    627:	lw	$s0, 0($sp)
+        628:	li	$t6, 3
+        629:	eq	$t7, $s0, $t6
+        630:	beq	$t7, $rzero, L6
+        631:	mov	$a0, $s0
+        632:	out	$a0
+        633:	lw	$s1, -3($sp)
+        634:	mov	$a0, $s1
+        635:	out	$a0
+        636:	la	$s2, 43($gp)
+        637:	add	$t8, $s2, $s1
+        638:	li	$t9, 1
+        639:	sw	$t9, 0($t8)
+        640:	lw	$s3, -5($sp)
+        641:	addi	$t0, $s3, 1
+        642:	sw	$t0, -5($sp)
+        643:	lw	$s3, -5($sp)
     .L6	
-.L7	
-    191:	lw	$s0, -7($sp)
-        192:	subi	$t1, $s0, 1
-        193:	lw	$s1, -4($sp)
-        194:	lt	$t2, $s1, $t1
-        195:	beq	$t2, $rzero, L8
-        196:	addi	$t3, $s1, 1
-        197:	sw	$t3, -4($sp)
-        198:	lw	$s1, -4($sp)
-        199:	j	L9
+    644:	lw	$s0, -3($sp)
+        645:	mov	$a0, $s0
+        646:	sw	$ra, -8($sp)
+        647:	jal	store_proc_context
+        648:	subi	$sp, $sp, 4
+        649:	lw	$ra, -8($sp)
+        650:	mov	$s0, $v0
+    .L7	
+    651:	lw	$s0, -7($sp)
+        652:	subi	$t1, $s0, 1
+        653:	lw	$s1, -4($sp)
+        654:	lt	$t2, $s1, $t1
+        655:	beq	$t2, $rzero, L8
+        656:	addi	$t3, $s1, 1
+        657:	sw	$t3, -4($sp)
+        658:	lw	$s1, -4($sp)
+        659:	j	L9
     .L8	
-    200:	li	$t4, 0
-        201:	sw	$t4, -4($sp)
+    660:	li	$t4, 0
+        661:	sw	$t4, -4($sp)
     .L9	
-    202:	j	L3
+    662:	j	L3
     .L10	
-    203:	li	$a0, 5
-        204:	lcd	$a0
-        205:	nop	
-        206:	in	$t5
-        207:	sw	$t5, 2($gp)
-        208:	jr	$ra
+    663:	li	$a0, 5
+        664:	lcd	$a0
+        665:	nop	
+        666:	in	$t5
+        667:	sw	$t5, 2($gp)
+        668:	jr	$ra
     
 reset_queue:
-    209:	addi	$sp, $sp, 3
+    669:	addi	$sp, $sp, 3
     .L11	
-    210:	lw	$s0, 0($sp)
-        211:	li	$t0, 10
-        212:	lt	$t1, $s0, $t0
-        213:	beq	$t1, $rzero, L12
-        214:	la	$s1, 3($gp)
-        215:	add	$t2, $s1, $s0
-        216:	li	$t3, 0
-        217:	sw	$t3, 0($t2)
-        218:	addi	$t4, $s0, 1
-        219:	sw	$t4, 0($sp)
-        220:	lw	$s0, 0($sp)
-        221:	j	L11
+    670:	lw	$s0, 0($sp)
+        671:	li	$t0, 10
+        672:	lt	$t1, $s0, $t0
+        673:	beq	$t1, $rzero, L12
+        674:	la	$s1, 3($gp)
+        675:	add	$t2, $s1, $s0
+        676:	li	$t3, 0
+        677:	sw	$t3, 0($t2)
+        678:	addi	$t4, $s0, 1
+        679:	sw	$t4, 0($sp)
+        680:	lw	$s0, 0($sp)
+        681:	j	L11
     .L12	
-    222:	li	$a0, 87
-        223:	nop	
-        224:	out	$a0
-        225:	jr	$ra
+    682:	li	$a0, 87
+        683:	out	$a0
+        684:	jr	$ra
     
 reset_pcs:
-    226:	addi	$sp, $sp, 3
+    685:	addi	$sp, $sp, 3
     .L13	
-    227:	lw	$s0, 0($sp)
-        228:	li	$t0, 10
-        229:	lt	$t1, $s0, $t0
-        230:	beq	$t1, $rzero, L14
-        231:	la	$s1, 33($gp)
-        232:	add	$t2, $s1, $s0
-        233:	li	$t3, 0
-        234:	sw	$t3, 0($t2)
-        235:	addi	$t4, $s0, 1
-        236:	sw	$t4, 0($sp)
-        237:	lw	$s0, 0($sp)
-        238:	j	L13
+    686:	lw	$s0, 0($sp)
+        687:	li	$t0, 10
+        688:	lt	$t1, $s0, $t0
+        689:	beq	$t1, $rzero, L14
+        690:	la	$s1, 33($gp)
+        691:	add	$t2, $s1, $s0
+        692:	li	$t3, 0
+        693:	sw	$t3, 0($t2)
+        694:	addi	$t4, $s0, 1
+        695:	sw	$t4, 0($sp)
+        696:	lw	$s0, 0($sp)
+        697:	j	L13
     .L14	
-    239:	li	$a0, 47
-        240:	nop	
-        241:	out	$a0
-        242:	jr	$ra
+    698:	li	$a0, 47
+        699:	out	$a0
+        700:	jr	$ra
     
 process_handling:
-    243:	addi	$sp, $sp, 5
-        244:	li	$a0, 2
-        245:	lcd	$a0
-        246:	nop	
-        247:	in	$t0
-        248:	sw	$t0, -2($sp)
-        249:	lw	$s0, -2($sp)
-        250:	mov	$a0, $s0
-        251:	nop	
-        252:	out	$a0
-        253:	li	$t1, 0
-        254:	sw	$t1, -1($sp)
-        255:	li	$a0, 3
-        256:	lcd	$a0
+    701:	addi	$sp, $sp, 5
+        702:	li	$a0, 2
+        703:	lcd	$a0
+        704:	nop	
+        705:	in	$t0
+        706:	sw	$t0, -2($sp)
+        707:	lw	$s0, -2($sp)
+        708:	mov	$a0, $s0
+        709:	out	$a0
+        710:	li	$t1, 0
+        711:	sw	$t1, -1($sp)
+        712:	li	$a0, 3
+        713:	lcd	$a0
     .L15	
-    257:	lw	$s0, -1($sp)
-        258:	lw	$s1, -2($sp)
-        259:	lt	$t2, $s0, $s1
-        260:	beq	$t2, $rzero, L16
-        261:	nop	
-        262:	in	$t3
-        263:	sw	$t3, 0($sp)
-        264:	lw	$s2, 0($sp)
-        265:	mov	$a0, $s2
-        266:	nop	
-        267:	out	$a0
-        268:	la	$s3, 3($gp)
-        269:	add	$t4, $s3, $s0
-        270:	sw	$s2, 0($t4)
-        271:	la	$s4, 43($gp)
-        272:	add	$t5, $s4, $s0
-        273:	li	$t6, 0
-        274:	sw	$t6, 0($t5)
-        275:	addi	$t7, $s0, 1
-        276:	sw	$t7, -1($sp)
-        277:	lw	$s0, -1($sp)
-        278:	j	L15
+    714:	lw	$s0, -1($sp)
+        715:	lw	$s1, -2($sp)
+        716:	lt	$t2, $s0, $s1
+        717:	beq	$t2, $rzero, L16
+        718:	nop	
+        719:	in	$t3
+        720:	sw	$t3, 0($sp)
+        721:	lw	$s2, 0($sp)
+        722:	mov	$a0, $s2
+        723:	out	$a0
+        724:	la	$s3, 3($gp)
+        725:	add	$t4, $s3, $s0
+        726:	sw	$s2, 0($t4)
+        727:	la	$s4, 43($gp)
+        728:	add	$t5, $s4, $s0
+        729:	li	$t6, 0
+        730:	sw	$t6, 0($t5)
+        731:	addi	$t7, $s0, 1
+        732:	sw	$t7, -1($sp)
+        733:	lw	$s0, -1($sp)
+        734:	j	L15
     .L16	
-    279:	lw	$s0, -2($sp)
-        280:	mov	$a0, $s0
-        281:	sw	$ra, -3($sp)
-        282:	jal	circular_queue
-        283:	subi	$sp, $sp, 10
-        284:	lw	$ra, -3($sp)
-        285:	mov	$s0, $v0
-        286:	sw	$ra, -3($sp)
-        287:	jal	reset_queue
-        288:	subi	$sp, $sp, 3
-        289:	lw	$ra, -3($sp)
-        290:	mov	$s0, $v0
-        291:	sw	$ra, -3($sp)
-        292:	jal	reset_pcs
-        293:	subi	$sp, $sp, 3
-        294:	lw	$ra, -3($sp)
-        295:	mov	$s0, $v0
-        296:	jr	$ra
+    735:	lw	$s0, -2($sp)
+        736:	mov	$a0, $s0
+        737:	sw	$ra, -3($sp)
+        738:	jal	circular_queue
+        739:	subi	$sp, $sp, 10
+        740:	lw	$ra, -3($sp)
+        741:	mov	$s0, $v0
+        742:	sw	$ra, -3($sp)
+        743:	jal	reset_queue
+        744:	subi	$sp, $sp, 3
+        745:	lw	$ra, -3($sp)
+        746:	mov	$s0, $v0
+        747:	sw	$ra, -3($sp)
+        748:	jal	reset_pcs
+        749:	subi	$sp, $sp, 3
+        750:	lw	$ra, -3($sp)
+        751:	mov	$s0, $v0
+        752:	jr	$ra
     
 bash:
-    297:	addi	$sp, $sp, 3
-        298:	li	$a0, 1
-        299:	lcd	$a0
-        300:	nop	
-        301:	in	$t0
-        302:	sw	$t0, 0($sp)
-        303:	lw	$s0, 0($sp)
-        304:	mov	$a0, $s0
-        305:	nop	
-        306:	out	$a0
-        307:	li	$t1, 1
-        308:	eq	$t2, $s0, $t1
-        309:	beq	$t2, $rzero, L17
-        310:	sw	$ra, -1($sp)
-        311:	jal	process_handling
-        312:	subi	$sp, $sp, 5
-        313:	lw	$ra, -1($sp)
-        314:	mov	$s0, $v0
+    753:	addi	$sp, $sp, 3
+        754:	li	$a0, 1
+        755:	lcd	$a0
+        756:	nop	
+        757:	in	$t0
+        758:	sw	$t0, 0($sp)
+        759:	lw	$s0, 0($sp)
+        760:	mov	$a0, $s0
+        761:	out	$a0
+        762:	li	$t1, 1
+        763:	eq	$t2, $s0, $t1
+        764:	beq	$t2, $rzero, L17
+        765:	sw	$ra, -1($sp)
+        766:	jal	process_handling
+        767:	subi	$sp, $sp, 5
+        768:	lw	$ra, -1($sp)
+        769:	mov	$s0, $v0
     .L17	
-    315:	jr	$ra
+    770:	jr	$ra
     
 init_os:
-    316:	addi	$sp, $sp, 3
-        317:	li	$t0, 0
-        318:	sw	$t0, 0($sp)
-        319:	li	$t1, 10
-        320:	sw	$t1, 0($gp)
-        321:	li	$t2, 1024
-        322:	sw	$t2, 1($gp)
-        323:	la	$s0, 23($gp)
-        324:	li	$t3, 50
-        325:	sw	$t3, 1($s0)
-        326:	li	$t4, 0
-        327:	sw	$t4, 2($s0)
-        328:	li	$t5, 0
-        329:	sw	$t5, 3($s0)
+    771:	addi	$sp, $sp, 3
+        772:	li	$t0, 0
+        773:	sw	$t0, 0($sp)
+        774:	li	$t1, 10
+        775:	sw	$t1, 0($gp)
+        776:	li	$t2, 1024
+        777:	sw	$t2, 1($gp)
+        778:	la	$s0, 23($gp)
+        779:	li	$t3, 50
+        780:	sw	$t3, 1($s0)
+        781:	li	$t4, 50
+        782:	sw	$t4, 2($s0)
+        783:	li	$t5, 50
+        784:	sw	$t5, 3($s0)
     .L18	
-    330:	lw	$s0, 0($sp)
-        331:	li	$t6, 10
-        332:	lt	$t7, $s0, $t6
-        333:	beq	$t7, $rzero, L19
-        334:	la	$s1, 3($gp)
-        335:	add	$t8, $s1, $s0
-        336:	li	$t9, 0
-        337:	sw	$t9, 0($t8)
-        338:	la	$s2, 43($gp)
-        339:	add	$t0, $s2, $s0
-        340:	li	$t1, 0
-        341:	sw	$t1, 0($t0)
-        342:	la	$s3, 33($gp)
-        343:	add	$t2, $s3, $s0
-        344:	li	$t3, 0
-        345:	sw	$t3, 0($t2)
-        346:	la	$s4, 13($gp)
-        347:	add	$t4, $s4, $s0
-        348:	sw	$s0, 0($t4)
-        349:	addi	$t5, $s0, 1
-        350:	sw	$t5, 0($sp)
-        351:	lw	$s0, 0($sp)
-        352:	j	L18
+    785:	lw	$s0, 0($sp)
+        786:	li	$t6, 10
+        787:	lt	$t7, $s0, $t6
+        788:	beq	$t7, $rzero, L19
+        789:	la	$s1, 3($gp)
+        790:	add	$t8, $s1, $s0
+        791:	li	$t9, 0
+        792:	sw	$t9, 0($t8)
+        793:	la	$s2, 43($gp)
+        794:	add	$t0, $s2, $s0
+        795:	li	$t1, 0
+        796:	sw	$t1, 0($t0)
+        797:	la	$s3, 33($gp)
+        798:	add	$t2, $s3, $s0
+        799:	li	$t3, 0
+        800:	sw	$t3, 0($t2)
+        801:	la	$s4, 13($gp)
+        802:	add	$t4, $s4, $s0
+        803:	sw	$s0, 0($t4)
+        804:	addi	$t5, $s0, 1
+        805:	sw	$t5, 0($sp)
+        806:	lw	$s0, 0($sp)
+        807:	j	L18
     .L19	
-    353:	jr	$ra
+    808:	jr	$ra
     
 main:
-    354:	addi	$sp, $gp, 1
-        355:	addi	$sp, $sp, 54
-        356:	sw	$ra, 0($sp)
-        357:	jal	init_os
-        358:	subi	$sp, $sp, 3
-        359:	lw	$ra, 0($sp)
-        360:	mov	$s0, $v0
-        361:	li	$a0, 0
-        362:	lcd	$a0
-        363:	nop	
-        364:	in	$t0
-        365:	sw	$t0, 2($gp)
+    809:	addi	$sp, $gp, 1
+        810:	addi	$sp, $sp, 54
+        811:	sw	$ra, 0($sp)
+        812:	jal	init_os
+        813:	subi	$sp, $sp, 3
+        814:	lw	$ra, 0($sp)
+        815:	mov	$s0, $v0
+        816:	li	$a0, 0
+        817:	lcd	$a0
+        818:	nop	
+        819:	in	$t0
+        820:	sw	$t0, 2($gp)
     .L20	
-    366:	li	$t1, 1
-        367:	li	$t2, 2
-        368:	lt	$t3, $t1, $t2
-        369:	beq	$t3, $rzero, L21
-        370:	sw	$ra, 0($sp)
-        371:	jal	bash
-        372:	subi	$sp, $sp, 3
-        373:	lw	$ra, 0($sp)
-        374:	mov	$s0, $v0
-        375:	j	L20
+    821:	li	$t1, 1
+        822:	li	$t2, 2
+        823:	lt	$t3, $t1, $t2
+        824:	beq	$t3, $rzero, L21
+        825:	sw	$ra, 0($sp)
+        826:	jal	bash
+        827:	subi	$sp, $sp, 3
+        828:	lw	$ra, 0($sp)
+        829:	mov	$s0, $v0
+        830:	j	L20
     .L21	
-    376:	subi	$sp, $sp, 1
-        377:	hlt	
+    831:	subi	$sp, $sp, 1
+        832:	hlt	
     

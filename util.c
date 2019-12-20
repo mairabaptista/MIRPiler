@@ -260,6 +260,9 @@ char *copySysKind(SysKind sys){
         case StoreReg:
             return "store_reg";
         break;
+        case LoadReg:
+         return "load_reg";
+        break;
     }
 }
 

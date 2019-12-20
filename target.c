@@ -69,6 +69,41 @@ RegisterName regNames[REG_QTY] = {
 	$sp, $ra
 };
 
+int USED_REGS[32];
+
+int USADOS;
+
+int USADOSUM;
+
+ObjectiveOperand getREGISTERS(int i){
+	//we have four function parameter registers, $aX
+	ObjectiveOperand ops = (ObjectiveOperand) malloc(sizeof(struct objectiveOperand));
+	if(USADOS > 31){
+		USADOS = 0;
+	}
+	int pos;
+	pos = ++USADOS;
+	ops->addrKind = REGI;
+	ops->addressing.regis = regNames[pos];
+	Regis reg = registers[pos];
+	reg.objectiveOp = ops;
+	return reg.objectiveOp;
+}
+
+ObjectiveOperand getREGISTERSum(int i){
+	//we have four function parameter registers, $aX
+	ObjectiveOperand ops = (ObjectiveOperand) malloc(sizeof(struct objectiveOperand));
+	if(USADOSUM > 31){
+		USADOSUM = 0;
+	}
+	int pos;
+	pos = ++USADOSUM;
+	ops->addrKind = REGI;
+	ops->addressing.regis = regNames[pos];
+	Regis reg = registers[pos];
+	reg.objectiveOp = ops;
+	return reg.objectiveOp;
+}
 
 
 
@@ -168,6 +203,20 @@ ObjectiveOperand getArgumentReg(int i){
 		Regis reg = registers[pos];
 		reg.objectiveOp = ops;
 		return reg.objectiveOp;
+	}
+}
+
+Regis getArgumentRegister(int i){
+	//we have four function parameter registers, $aX
+	ObjectiveOperand ops = (ObjectiveOperand) malloc(sizeof(struct objectiveOperand));
+	int pos;
+	ops->addrKind = REGI;
+	if(i < PARAM_REG_QTY){
+		//get register position
+		pos = SHIFT_COUNTER_PARAM_REG + i;
+		ops->addressing.regis = regNames[pos];
+		Regis reg = registers[pos];
+		return reg;
 	}
 }
 
@@ -719,6 +768,20 @@ void generateTargetCall(Quadruple q, CodeType codeInfo){
 		printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, getSavedReg(q->op3), getSyscallReg(0), NULL)));
 		printCode(insertTargInstruction(createTargInstruction(_CH_RD, TYPE_I, NULL, NULL, NULL)));
 
+	}
+	else if(!strcmp(q->op1->contents.variable.name, "store_reg")) { //store register context
+		//getMemoLocation
+		printCode(insertTargInstruction(createTargInstruction(_SUB, TYPE_R, getArgumentReg(1), getArgumentReg(1), getArgumentReg(2))));
+		printCode(insertTargInstruction(createTargInstruction(_CH_RD, TYPE_I, NULL, NULL, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_MOV, TYPE_I, getArgumentReg(0), getREGISTERSum(0), NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_CH_RD, TYPE_I, NULL, NULL, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_SW, TYPE_I, getArgumentReg(0), getMemoLocation(getArgumentReg(1)->addressing.regis), NULL)));
+	}
+	else if(!strcmp(q->op1->contents.variable.name, "load_reg")) { //loads register context
+		printCode(insertTargInstruction(createTargInstruction(_SUB, TYPE_R, getArgumentReg(1), getArgumentReg(1), getArgumentReg(2))));
+		printCode(insertTargInstruction(createTargInstruction(_CH_WRT, TYPE_I, NULL, NULL, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_LW, TYPE_I, getREGISTERS(0), getMemoLocation(getArgumentReg(1)->addressing.regis), NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_CH_WRT, TYPE_I, NULL, NULL, NULL)));
 	}
 	else if(!strcmp(q->op1->contents.variable.name, "swap_process")) { //swaps process
 		ObjectiveOperand argument = getArgumentReg((scopezers->argumentRegCounter)-1);

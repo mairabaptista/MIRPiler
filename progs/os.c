@@ -11,6 +11,47 @@ int PROC_PCS[10]; /*store program counters for each proc */
 int STATE_PROC[10]; /*stores execution state - 1: finished, 0: ready to be executed*/
 
 
+void store_proc_context(int proc_index){
+    int transfer_index;   
+    proc_index = proc_index + 1;
+    transfer_index = proc_index * MEM_SIZE;
+    store_reg( 1, transfer_index, 1 ); 
+    store_reg( 2, transfer_index, 2 ); 
+    store_reg( 3, transfer_index, 3 ); 
+    store_reg( 4, transfer_index, 4 ); 
+    store_reg( 5, transfer_index, 5 ); 
+    store_reg( 6, transfer_index, 6 ); 
+    store_reg( 7, transfer_index, 7 ); 
+    store_reg( 8, transfer_index, 8 ); 
+    store_reg( 9, transfer_index, 9 ); 
+    store_reg( 10, transfer_index, 10 ); 
+    store_reg( 11, transfer_index, 11 ); 
+    store_reg( 12, transfer_index, 12 ); 
+    store_reg( 13, transfer_index, 13 ); 
+    store_reg( 14, transfer_index, 14 ); 
+    store_reg( 15, transfer_index, 15 ); 
+    store_reg( 16, transfer_index, 16 ); 
+    store_reg( 17, transfer_index, 17 ); 
+    store_reg( 18, transfer_index, 18 ); 
+    store_reg( 19, transfer_index, 19 ); 
+    store_reg( 20, transfer_index, 20 ); 
+    store_reg( 21, transfer_index, 21 );
+    store_reg( 22, transfer_index, 22 );
+    store_reg( 23, transfer_index, 23 );
+    store_reg( 24, transfer_index, 24 );
+    store_reg( 25, transfer_index, 25 );
+    store_reg( 26, transfer_index, 26 );
+    store_reg( 27, transfer_index, 27 );
+    store_reg( 28, transfer_index, 28 );
+    store_reg( 29, transfer_index, 29 );
+    store_reg( 30, transfer_index, 30 );
+    store_reg( 31, transfer_index, 31 );
+
+    output(69);
+
+    return;
+}
+
 
 void load_proc_context(int proc_index){
     int transfer_iterations;
@@ -22,10 +63,6 @@ void load_proc_context(int proc_index){
     output(89);
     transfer_iterations = FILE_MAX_SIZES[proc_index];
     transfer_index = 0;
-    output(proc_index);
-    output(FILE_ID[3]);
-    output(FILE_ID[4]);
-    output(MEM_SIZE);
     hd_address = MEM_SIZE * proc_index;
 
     output(hd_address);
@@ -37,10 +74,47 @@ void load_proc_context(int proc_index){
         transfer_index = transfer_index + 1;
         hd_address= hd_address + 1;     
     }
-    output(transfer_index);
+
+    proc_index = proc_index + 1;
+    transfer_index = proc_index * MEM_SIZE;
+    load_reg( 1, transfer_index, 1 ); 
+    load_reg( 2, transfer_index, 2 ); 
+    load_reg( 3, transfer_index, 3 ); 
+    load_reg( 4, transfer_index, 4 ); 
+    load_reg( 5, transfer_index, 5 ); 
+    load_reg( 6, transfer_index, 6 ); 
+    load_reg( 7, transfer_index, 7 ); 
+    load_reg( 8, transfer_index, 8 ); 
+    load_reg( 9, transfer_index, 9 ); 
+    load_reg( 10, transfer_index, 10 ); 
+    load_reg( 11, transfer_index, 11 ); 
+    load_reg( 12, transfer_index, 12 ); 
+    load_reg( 13, transfer_index, 13 ); 
+    load_reg( 14, transfer_index, 14 ); 
+    load_reg( 15, transfer_index, 15 ); 
+    load_reg( 16, transfer_index, 16 ); 
+    load_reg( 17, transfer_index, 17 ); 
+    load_reg( 18, transfer_index, 18 ); 
+    load_reg( 19, transfer_index, 19 ); 
+    load_reg( 20, transfer_index, 20 ); 
+    load_reg( 21, transfer_index, 21 );
+    load_reg( 22, transfer_index, 22 );
+    load_reg( 23, transfer_index, 23 );
+    load_reg( 24, transfer_index, 24 );
+    load_reg( 25, transfer_index, 25 );
+    load_reg( 26, transfer_index, 26 );
+    load_reg( 27, transfer_index, 27 );
+    load_reg( 28, transfer_index, 28 );
+    load_reg( 29, transfer_index, 29 );
+    load_reg( 30, transfer_index, 30 );
+    load_reg( 31, transfer_index, 31 );
+
+    
 
     output(99);
 
+    output(123);
+  
     return;
 }
 
@@ -65,7 +139,6 @@ void circular_queue(int amount){
 
     while (finished_procs < amount){
         output(12);
-        output(13);
         proc_ID = PROCESS_QUEUE[queue_index];
         proc_index = proc_ID; 
         if( STATE_PROC[proc_index] == 0 ) {
@@ -99,7 +172,7 @@ void circular_queue(int amount){
                 STATE_PROC[proc_index] = 1;
                 finished_procs = finished_procs + 1;
             }
-            
+            store_proc_context(proc_index);
         }
         
         if(queue_index < amount - 1) {             
@@ -182,8 +255,8 @@ void init_os(void){
     MEM_SIZE = 1024;
 
     FILE_MAX_SIZES[1] = 50;
-    FILE_MAX_SIZES[2] = 0;
-    FILE_MAX_SIZES[3] = 0;
+    FILE_MAX_SIZES[2] = 50;
+    FILE_MAX_SIZES[3] = 50;
 
     while (i < 10){
         PROCESS_QUEUE[i] = 0;

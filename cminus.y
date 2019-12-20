@@ -66,6 +66,8 @@ program         : declarationList {
                     insertNewNode(createSysCall(IntegerType, MoveOsToProc));   //moves data os to proc
                     insertNewNode(createSysCall(VoidType, MoveProctoOs));   //moves data proc to os
                     insertNewNode(createSysCall(VoidType, SwapProcess));   //swaps to process
+                    insertNewNode(createSysCall(VoidType, StoreReg));   //stores register context
+                    insertNewNode(createSysCall(VoidType, LoadReg));   //loads register context
 
                     TreeNode *node = savedTree;
                     while(node->sibling != NULL){
