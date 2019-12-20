@@ -47,7 +47,7 @@ void store_proc_context(int proc_index){
     store_reg( 30, transfer_index, 30 );
     store_reg( 31, transfer_index, 31 );
 
-    output(69);
+    /*output(69);*/
 
     return;
 }
@@ -139,6 +139,9 @@ void circular_queue(int amount){
 
     while (finished_procs < amount){
         /*output(12);*/
+        lcd(4); /*Running processes*/
+        BASH_STOP = input(); 
+        
         proc_ID = PROCESS_QUEUE[queue_index];
         proc_index = proc_ID; 
         if( STATE_PROC[proc_index] == 0 ) {
@@ -154,7 +157,7 @@ void circular_queue(int amount){
             PROC_PCS[proc_index] = get_proc_pc();
             
             if( INTERRUPTION == 1 ) {
-                lcd(7); /*Interruption caused by sysin*/
+                lcd(12); /*Interruption caused by sysin*/
                 output(INTERRUPTION);
                 io_aux = input();
                 output(io_aux);
@@ -162,14 +165,14 @@ void circular_queue(int amount){
             }
             
             if(INTERRUPTION == 2) {
-                lcd(8); /*interruption caused by sysout*/
+                lcd(8); /*Interruption caused by sysout*/
                 output(INTERRUPTION);
                 io_aux = move_proc_to_OS(); 
                 output(io_aux);
             }
             
             if(INTERRUPTION == 3) {
-                lcd(9); /*interruption caused by sysend*/
+                lcd(9); /*Interruption caused by sysend*/
                 output(INTERRUPTION);
                 output(proc_index);
                 STATE_PROC[proc_index] = 1;
@@ -193,7 +196,7 @@ void circular_queue(int amount){
 
 void reset_queue(void){
     int i;
-    lcd(6); /*Queue is being reseted*/
+    lcd(6); /*Queue is being reset*/
     BASH_STOP = input();
     while(i < 10){
         PROCESS_QUEUE[i] = 0;
@@ -205,7 +208,7 @@ void reset_queue(void){
 
 void reset_pcs(void){
     int i;
-    lcd(7); /*PCs are being reseted*/
+    lcd(7); /*PCs are being reset*/
     BASH_STOP = input();
     while(i < 10){
         PROC_PCS[i] = 0;
@@ -277,7 +280,7 @@ int main(void){
 
     init_os();
     
-    lcd(0); /*Welcome to mirOS*/
+    lcd(0); /***Welcome to mirOS***/
 
     BASH_STOP = input();
 

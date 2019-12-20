@@ -7,7 +7,7 @@ int main(void) {
 	int out_var;
 
     a = input();
-    b = a + 1;
-    c = b + 1;
+    b = a + 10;
+    c = b - 6; 
     output(c);
 }

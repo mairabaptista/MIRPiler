@@ -19,9 +19,12 @@ for idx in range(len(asm_file)):
 ##print(asm_file[idx_to_nop])
 #print(asm_file[idx_to_v1])
 #print(asm_file[out_idx_to_v1])
+if (idx_to_nop != None):
+    nop_num = asm_file[idx_to_nop].split()[0]
 
-nop_num = asm_file[idx_to_nop].split()[0]
-v1_num = asm_file[idx_to_v1].split()[0]
+if (idx_to_v1 != None):
+    v1_num = asm_file[idx_to_v1].split()[0]
+
 out_v1_num = asm_file[out_idx_to_v1].split()[0]
 
 with open(f"{file_name[:-4]}_processed.asm", "w") as file:
