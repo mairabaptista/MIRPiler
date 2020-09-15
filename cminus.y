@@ -46,6 +46,10 @@
 
 program         : declarationList {
                     //artficially insert input and output calls as system calls:
+		    /** Start of Changes for Communication Lab **/
+		    insertNewNode(createSysCall(IntegerType, Send)); //receive
+		    insertNewNode(createSysCall(VoidType, Receive));  //send
+	 	    /** End of Changes for Communication Lab **/
                     insertNewNode(createSysCall(IntegerType, Input));   //input
                     insertNewNode(createSysCall(VoidType, Output));     //output
                     insertNewNode(createSysCall(IntegerType, LoadDisk));     //load on disk

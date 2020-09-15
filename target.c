@@ -703,6 +703,17 @@ void generateTargetCall(Quadruple q, CodeType codeInfo){
 		printCode(insertTargInstruction(createTargInstruction(_SYS_OUT, TYPE_I, NULL, NULL, NULL)));
 		printCode(insertTargInstruction(createTargInstruction(_NOP, TYPE_I, NULL, NULL, NULL)));
 		}
+	/** start of changes for communications lab **/
+	// send and receive instructions will not receive context change treatemnet for this iteration of the communication module
+	// therefore, treat them as regular input/output syscalls from kernel
+	else if((strcmp(q->op1->contents.variable.name, "receive") == 0) && (codeInfo == KERNEL)){ //receive
+		printCode(insertTargInstruction(createTargInstruction(_RCV, TYPE_I, getArgumentReg(0), NULL, NULL)));
+	}
+	else if((strcmp(q->op1->contents.variable.name, "send") == 0) && (codeInfo == KERNEL)){ //send
+		printCode(insertTargInstruction(createTargInstruction(_NOP, TYPE_I, NULL, NULL, NULL)));
+		printCode(insertTargInstruction(createTargInstruction(_SND, TYPE_I, getTemporaryReg(q->op3), NULL, NULL)));		
+	}
+	/** end of changes for communications lab **/
 	else if(!strcmp(q->op1->contents.variable.name, "lhd")) { //load from disk
         printCode(insertTargInstruction(createTargInstruction(_LW_HD, TYPE_I, getTemporaryReg(q->op3), getArgumentReg(0), NULL)));
     } 

@@ -13,7 +13,9 @@ instruction_types = {
     # daqui pra baixo tudo eh do so
     'lhd': 'I', 'shd':'I', 'lmem': 'I', 'smem':'I', 'smemproc': 'I',
     'lcd': 'I', 'chwrt':'I', 'chrd':'I', 'setpc':'I', 'getpc':'I', 'sprc':'I',
-    'sysin': 'I', 'sysout': 'I', 'sysend':'I'
+    'sysin': 'I', 'sysout': 'I', 'sysend':'I',
+    # daqui pra baixo tudo eh lab com
+    'snd': 'I', 'rcv': 'I'
 }
 
 register_bank = {
@@ -387,6 +389,23 @@ def type_I_instruction(instruction):
         spare = '00000000000000000000000000'
         bin_inst = f'32\'b{opcode}_{spare};'
         comment = f' // sysend'
+        out = bin_inst + comment
+    ##### lab com additions ####
+    elif name == 'snd':  # snd    $t3
+        opcode = '101111'
+        rs = instruction[2]
+        sparereg = '00000'
+        spare = '0000000000000000'
+        bin_inst = f'32\'b{opcode}_{sparereg}_{register_bank[rs]}_{spare};'
+        comment = f' // snd {rs}'
+        out = bin_inst + comment
+    elif name == 'rcv': #rcv    $a0
+        opcode = '101110'
+        sparereg = '00000'
+        spare = '0000000000000000'
+        rs = instruction[2]
+        bin_inst = f'32\'b{opcode}_{sparereg}_{register_bank[rs]}_{spare};'
+        comment = f' // rcv {rs}'
         out = bin_inst + comment
     return out
 

@@ -197,6 +197,14 @@ char *copyExpType(ExpType exp){
 
 char *copySysKind(SysKind sys){
     switch(sys){
+	/** start ofchanges of communication Lab **/
+	case Receive:
+		return "receive";
+	break;
+	case Send:
+		return "send";
+	break;
+	/** end of change of communications lab **/
         case Input: 
             return "input";
         break;
@@ -586,6 +594,14 @@ const char * toOpcode(Opcode op){
         case _SPRC: //swap process
             return "sprc";
         break;
+	/** start of changes for communications lab **/
+	case _SND: //send
+	    return "snd";
+	break;
+	case _RCV: //receive
+	    return "rcv";
+	break;
+	/** end of changes for communications lab **/
     }
     
 }
@@ -822,6 +838,14 @@ const char * toBinaryOpcode(Opcode op){
         case _SPRC:
             return "100111";
         break;
+	/** start of changes for communications lab **/
+	case _SND: //send
+	    return "101111";
+	break;
+	case _RCV: //receive
+	    return "101110";
+	break;
+	/** end of changes for communications lab **/
 
     }
     

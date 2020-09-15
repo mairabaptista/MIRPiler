@@ -65,10 +65,11 @@ typedef enum {Stmt, Exp, Decl, Sys} NodeKind;
 typedef enum {Integer, Void, If, Iteration, Return, Compound} StmtKind;
 typedef enum {Assign, Relop, Arith} ExpKind;
 typedef enum {Id, Array, Const, Function, Call} DeclKind;
-typedef enum {Input, Output, LoadDisk, StoreDisk, LoadMem, StoreMem,
+typedef enum {Send, Receive, Input, Output, LoadDisk, StoreDisk, LoadMem, StoreMem,
               LCD, StoreMemProc, ChangeWrt, ChangeRd, Syscall, SysIn, SysOut,
               RecoverOs, GetInterruption, GetPC, SetProcPC, MoveOsToProc,
               MoveProctoOs, SwapProcess, StoreReg, LoadReg} SysKind; //reserved for syscalls
+		/** send and receive syscall added for communication lab **/
 typedef enum {Declaration, Access} AccessKind;
 typedef enum {Locals, Param, Globals, FunMem} MemKind;
 
